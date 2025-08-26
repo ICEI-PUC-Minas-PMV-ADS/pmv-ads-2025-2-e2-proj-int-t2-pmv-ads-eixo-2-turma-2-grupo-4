@@ -3,9 +3,7 @@
 Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto.
 
 ## Problema
-Nesse momento você deve apresentar o problema que a sua aplicação deve  resolver. No entanto, não é a hora de comentar sobre a aplicação.
-
-Descreva também o contexto em que essa aplicação será usada, se  houver: empresa, tecnologias, etc. Novamente, descreva apenas o que de  fato existir, pois ainda não é a hora de apresentar requisitos  detalhados ou projetos.
+Estudantes e aprendizes no Brasil enfrentam uma jornada de estudos fragmentada, solitária e muitas vezes excludente. A dificuldade em acessar conteúdos de qualidade e a ausência de comunidades de aprendizagem abertas limitam o potencial de desenvolvimento intelectual, aprofundam a desigualdade educacional e criam barreiras para a construção coletiva de conhecimento. 
 
 Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
 
