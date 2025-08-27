@@ -29,7 +29,7 @@ Objetivos Específicos
 4. Investigar e aplicar recursos de usabilidade e design centrados no usuário, de modo a tornar a experiência prática, inclusiva e atrativa para diferentes perfis de estudantes.
  
 > **Links Úteis**:
-O artigo “Colaboração Digital: Construindo Comunidades de Aprendizado com as TICs” discute como as tecnologias digitais podem potencializar a educação colaborativa, servindo de base teórica para a proposta da plataforma.(380776556_COLABORACAO_DIGITAL_CONSTRUINDO_COMUNIDADES_DE_APRENDIZADO_COM_AS_TICS_POTENCIALIZANDO_A_EDUCACAO_COLABORATIVA_ATRAVES_DAS_TECNOLOGIAS_DIGITAISDIGITAL_COLLABORATION_BUILDING_LEARNING_COMMUNITIES_WITH_)
+O artigo “Colaboração Digital: Construindo Comunidades de Aprendizado com as TICs” discute como as tecnologias digitais podem potencializar a educação colaborativa, servindo de base teórica para a proposta da plataforma.(https://bit.ly/colaboracao-digital-14203)
 
 ## Justificativa
 
