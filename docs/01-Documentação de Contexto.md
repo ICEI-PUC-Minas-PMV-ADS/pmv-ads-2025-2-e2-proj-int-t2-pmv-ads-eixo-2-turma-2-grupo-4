@@ -78,11 +78,12 @@ Referências Citadas:
 
 
 ## Público-Alvo
+A plataforma é voltada para estudantes universitários, professores, pesquisadores e entusiastas acadêmicos que buscam acesso a materiais de estudo de forma acessível e colaborativa. O público é composto por pessoas com diferentes níveis de conhecimento técnico, mas que compartilham o interesse em ampliar sua formação acadêmica e intelectual.
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações hierárquicas, etc.
+. Estudantes Universitários: jovens ou adultos em cursos de graduação ou pós-graduação, que muitas vezes não têm recursos financeiros para acessar materiais pagos.
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+. Professores e Pesquisadores: profissionais que podem contribuir com materiais, artigos e experiências, fortalecendo a comunidade acadêmica.
+
+. Entusiastas e Autodidatas: pessoas interessadas em aprender de forma independente, explorando conteúdos de diversas áreas.
+
+Em relação à tecnologia, os usuários possuem perfis variados: desde estudantes com familiaridade em plataformas digitais até aqueles com pouca experiência em ferramentas colaborativas, mas que buscam interfaces intuitivas e de fácil uso. A plataforma pretende atender a todos esses perfis, oferecendo um espaço inclusivo, democrático e acessível.
