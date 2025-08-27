@@ -45,6 +45,26 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 > - [Histórias de Usuários: mais exemplos](https://www.reqview.com/doc/user-stories-example.html)
 > - [9 Common User Story Mistakes](https://airfocus.com/blog/user-story-mistakes/)
 
+## Personas
+
+#### Nome: Carlos Pereira
+#### Idade: 55 anos
+#### Localização: Pernambuco, Brasil
+#### Formação: Direito
+#### Profissão: Professor Titular de Direito Constitucional.
+#### Objetivo: Conectar profissionais do direito para a troca de experiências.
+### Descrição 
+Carlos é um professor experiente que busca uma forma de modernizar o 		aprendizado de seus alunos. Ele quer encontrar uma plataforma para 		recomendar bibliografia, discutir casos de jurisprudência e até mesmo criar 	listas de leitura para suas turmas. Ele valoriza a credibilidade e a moderação do 	conteúdo. 
+### Dores
+Carlos identificou uma lacuna no ambiente acadêmico e jurídico: a falta de uma plataforma ideal para discussões sobre livros técnicos. Ferramentas como WhatsApp e e-mail se mostram ineficientes para engajar os alunos em debates. Ele percebeu que não há uma solução acessível, gratuita e com boa usabilidade que permita o acesso a profissionais e especialistas mais experientes, um tipo de interação que é muito difícil de ser obtido em ambientes tradicionais. 
+### Espectativas
+A principal expectativa de Carlos é encontrar uma plataforma para enriquecer o aprendizado de seus alunos. Ele busca um espaço onde os estudantes possam participar de debates aprofundados sobre textos jurídicos e, principalmente, ter acesso a uma comunidade de professores e juristas para obter insights valiosos e opiniões de especialistas. 
+### Histórias de Usuários
+| EU COMO... | QUERO/PRECISO... | PARA... |
+| :--- | :--- | :--- |
+| Carlos Pereira | Uma forma de ter acesso às opiniões e discussões de professores e juristas. | Ter acesso a intelectuais da área. |
+| Carlos Pereira | Uma plataforma para que os alunos possam discutir tanto entre si quanto com professores e juristas, facilitando a troca de ideias e o aprofundamento do conhecimento. | Engajar os alunos em discussões sobre as questões mais importantes do curso de direito. |
+
 ## Requisitos
 
 As tabelas que se seguem apresentam os requisitos funcionais e não funcionais que detalham o escopo do projeto.
