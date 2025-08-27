@@ -53,17 +53,35 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 #### Formação: Direito
 #### Profissão: Professor Titular de Direito Constitucional.
 #### Objetivo: Conectar profissionais do direito para a troca de experiências.
-### Descrição 
+#### Descrição 
 Carlos é um professor experiente que busca uma forma de modernizar o 		aprendizado de seus alunos. Ele quer encontrar uma plataforma para 		recomendar bibliografia, discutir casos de jurisprudência e até mesmo criar 	listas de leitura para suas turmas. Ele valoriza a credibilidade e a moderação do 	conteúdo. 
-### Dores
+#### Dores
 Carlos identificou uma lacuna no ambiente acadêmico e jurídico: a falta de uma plataforma ideal para discussões sobre livros técnicos. Ferramentas como WhatsApp e e-mail se mostram ineficientes para engajar os alunos em debates. Ele percebeu que não há uma solução acessível, gratuita e com boa usabilidade que permita o acesso a profissionais e especialistas mais experientes, um tipo de interação que é muito difícil de ser obtido em ambientes tradicionais. 
-### Espectativas
+#### Espectativas
 A principal expectativa de Carlos é encontrar uma plataforma para enriquecer o aprendizado de seus alunos. Ele busca um espaço onde os estudantes possam participar de debates aprofundados sobre textos jurídicos e, principalmente, ter acesso a uma comunidade de professores e juristas para obter insights valiosos e opiniões de especialistas. 
-### Histórias de Usuários
+#### Histórias de Usuários
 | EU COMO... | QUERO/PRECISO... | PARA... |
 | :--- | :--- | :--- |
 | Carlos Pereira | Uma forma de ter acesso às opiniões e discussões de professores e juristas. | Ter acesso a intelectuais da área. |
 | Carlos Pereira | Uma plataforma para que os alunos possam discutir tanto entre si quanto com professores e juristas, facilitando a troca de ideias e o aprofundamento do conhecimento. | Engajar os alunos em discussões sobre as questões mais importantes do curso de direito. |
+
+#### Nome: Lucas Martins
+#### Idade: 24 anos
+#### Localização: Minas Gerais, Brasil
+#### Formação: Ciência da Computação
+#### Profissão: Estudante de Mestrado em Inteligência Artificial. 
+#### Objetivo: Aprimorar seus conhecimentos em IA aplicados ao Direito, buscando participar de discussões acadêmicas e compartilhar experiências com outros estudantes e profissionais da área jurídica e tecnológica.
+#### Descrição 
+ Lucas está na sua primeira experiência de pós-graduação e se sente sobrecarregado com a imensidão de artigos e livros científicos. Ele precisa de uma forma de organizar suas leituras e, principalmente, de um espaço para discutir os conceitos complexos e estatísticos que encontra. Ele busca validação e aprofundamento do seu conhecimento. 
+#### Dores
+O usuário busca uma forma de validar a relevância de um livro antes de iniciar sua leitura, garantindo que o tempo investido será proveitoso. Além disso, ele anseia por encontrar um grupo de pesquisa dedicado à discussão de artigos e papers, promovendo um ambiente de troca e aprofundamento acadêmico. Por fim, existe a necessidade de ter um espaço digital centralizado para organizar suas anotações e referências bibliográficas de maneira eficiente e acessível.
+#### Espectativas
+Uma das principais frustrações do usuário é que as plataformas acadêmicas existentes são pouco interativas e carecem de um aspecto social, limitando a colaboração e o engajamento. Ele também sente que a maioria das discussões sobre papers e livros ocorre em fóruns genéricos e desorganizados, o que dificulta o acompanhamento e a troca de ideias qualificadas. Por fim, o usuário relata dificuldade em saber por onde começar a estudar um tema novo, sentindo falta de um direcionamento ou de um caminho claro para iniciar sua jornada de aprendizado.
+#### Histórias de Usuários
+| EU COMO... | QUERO/PRECISO... | PARA... |
+| :--- | :--- | :--- |
+| Lucas Martins | Criar uma postagem para resumir um artigo científico. | Que eu possa receber feedback e aprimorar minha compreensão com a ajuda da comunidade. |
+| Lucas Martins | Quero poder usar o sistema de busca por palavras-chave técnicas específicas | Que eu encontre rapidamente os materiais mais relevantes para minha tese. |
 
 ## Requisitos
 
