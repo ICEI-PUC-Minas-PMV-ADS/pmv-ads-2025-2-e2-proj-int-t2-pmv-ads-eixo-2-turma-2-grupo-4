@@ -80,10 +80,10 @@ Referências Citadas:
 ## Público-Alvo
 A plataforma é voltada para estudantes universitários, professores, pesquisadores e entusiastas acadêmicos que buscam acesso a materiais de estudo de forma acessível e colaborativa. O público é composto por pessoas com diferentes níveis de conhecimento técnico, mas que compartilham o interesse em ampliar sua formação acadêmica e intelectual.
 
-. Estudantes Universitários: jovens ou adultos em cursos de graduação ou pós-graduação, que muitas vezes não têm recursos financeiros para acessar materiais pagos.
+* Estudantes Universitários: jovens ou adultos em cursos de graduação ou pós-graduação, que muitas vezes não têm recursos financeiros para acessar materiais pagos.
 
-. Professores e Pesquisadores: profissionais que podem contribuir com materiais, artigos e experiências, fortalecendo a comunidade acadêmica.
+* Professores e Pesquisadores: profissionais que podem contribuir com materiais, artigos e experiências, fortalecendo a comunidade acadêmica.
 
-. Entusiastas e Autodidatas: pessoas interessadas em aprender de forma independente, explorando conteúdos de diversas áreas.
+* Entusiastas e Autodidatas: pessoas interessadas em aprender de forma independente, explorando conteúdos de diversas áreas.
 
 Em relação à tecnologia, os usuários possuem perfis variados: desde estudantes com familiaridade em plataformas digitais até aqueles com pouca experiência em ferramentas colaborativas, mas que buscam interfaces intuitivas e de fácil uso. A plataforma pretende atender a todos esses perfis, oferecendo um espaço inclusivo, democrático e acessível.
