@@ -14,16 +14,19 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 
 ## Objetivos
 Objetivo Geral
+
 Desenvolver uma plataforma digital colaborativa voltada para conteúdos acadêmicos, que promova o acesso democrático a livros, artigos e materiais de estudo, eliminando barreiras econômicas e geográficas, e estimulando a construção coletiva do conhecimento.
+
+
 Objetivos Específicos
 
-Criar um ambiente centralizado e intuitivo que reúna livros, artigos e materiais acadêmicos, facilitando a busca, organização e acesso aos conteúdos pelos estudantes.
+1. Criar um ambiente centralizado e intuitivo que reúna livros, artigos e materiais acadêmicos, facilitando a busca, organização e acesso aos conteúdos pelos estudantes.
 
-Implementar fóruns e espaços de interação que incentivem a troca de ideias, dúvidas e experiências entre estudantes, professores e profissionais.
+2. Implementar fóruns e espaços de interação que incentivem a troca de ideias, dúvidas e experiências entre estudantes, professores e profissionais.
 
-Garantir que a plataforma seja acessível de forma gratuita, reduzindo as desigualdades no acesso a materiais educacionais de qualidade.
+3. Garantir que a plataforma seja acessível de forma gratuita, reduzindo as desigualdades no acesso a materiais educacionais de qualidade.
 
-Investigar e aplicar recursos de usabilidade e design centrados no usuário, de modo a tornar a experiência prática, inclusiva e atrativa para diferentes perfis de estudantes.
+4. Investigar e aplicar recursos de usabilidade e design centrados no usuário, de modo a tornar a experiência prática, inclusiva e atrativa para diferentes perfis de estudantes.
  
 > **Links Úteis**:
 > - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
