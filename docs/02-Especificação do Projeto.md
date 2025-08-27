@@ -198,12 +198,19 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos não Funcionais
 
-|ID     | Descrição do Requisito  |Prioridade |
-|-------|-------------------------|----|
-|RNF-001| A aplicação deve ser responsiva | MÉDIA | 
-|RNF-002| A aplicação deve processar requisições do usuário em no máximo 3s |  BAIXA | 
-
+|ID     | Descrição do Requisito  |Categoria |Prioridade |
+|-------|-------------------------|----|----|
+|RNF-001| A interface da plataforma deve ser intuitiva e clara, permitindo que um novo usuário consiga realizar uma busca por um livro e participar de uma discussão em menos de 5 minutos, sem a necessidade de um tutorial.| USABILIDADE |  ALTA | 
+|RNF-002| O tempo de carregamento de qualquer página da plataforma não deve exceder 3 segundos em uma conexão de internet banda larga padrão (10 Mbps). As buscas no banco de dados devem retornar resultados em menos de 2 segundos.| Desempenho |  ALTA | 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
+|RNF-003| O sistema deve proteger os dados pessoais dos usuários, utilizando criptografia para senhas e garantindo conformidade com a Lei Geral de Proteção de Dados (LGPD).| Segurança |  ALTA | 
+|RNF-004| A plataforma deve estar disponível para os usuários 99.5% do tempo (uptime), minimizando períodos de inatividade para manutenção, que devem ser realizados preferencialmente em horários de baixa utilização.| Disponibilidade |  ALTA | 
+|RNF-005| A aplicação deve ser responsiva e totalmente funcional nas duas versões mais recentes dos principais navegadores web (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari) e em dispositivos móveis (smartphones e tablets).| Compatibilidade |  ALTA | 
+|RNF-006| A plataforma deve seguir as diretrizes do WCAG (Web Content Accessibility Guidelines) 2.1, nível AA, garantindo o acesso para pessoas com deficiência (ex: compatibilidade com leitores de tela, navegação por teclado e contraste de cores adequado).| Acessibilidade |  MÉDIA | 
+|RNF-007| A arquitetura do sistema deve ser capaz de suportar um crescimento de 50% no número de usuários e de conteúdo por ano, sem degradação significativa no desempenho.| Escalabilidade |  MÉDIA | 
+|RNF-008| O código-fonte e a arquitetura da plataforma devem ser bem documentados e modulares para facilitar futuras atualizações, correções de bugs e a implementação de novas funcionalidades.| Manutenibilidade |  MÉDIA | 
+|RNF-009| Todo o conteúdo da interface, incluindo menus, botões e mensagens de sistema, deve estar em Português do Brasil.| Localização |  ALTA | 
+|RNF-010| O sistema deve possuir logs de atividades de moderação para garantir a rastreabilidade e a transparência das ações tomadas contra conteúdos ou usuários inadequados, atendendo à necessidade de seriedade de professores.| Integridade |  MÉDIA | 
 
 - [Requisitos Funcionais
  (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
