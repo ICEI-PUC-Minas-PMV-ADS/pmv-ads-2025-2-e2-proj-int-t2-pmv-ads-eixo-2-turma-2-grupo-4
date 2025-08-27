@@ -70,7 +70,7 @@ A principal expectativa de Carlos é encontrar uma plataforma para enriquecer o 
 #### Localização: Minas Gerais, Brasil
 #### Formação: Ciência da Computação
 #### Profissão: Estudante de Mestrado em Inteligência Artificial. 
-#### Objetivo: Aprimorar seus conhecimentos em IA aplicados ao Direito, buscando participar de discussões acadêmicas e compartilhar experiências com outros estudantes e profissionais da área jurídica e tecnológica.
+#### Objetivo: Aprimorar seus conhecimentos em IA, buscando participar de discussões acadêmicas e compartilhar experiências com outros estudantes e profissionais da área de tecnológica.
 #### Descrição 
  Lucas está na sua primeira experiência de pós-graduação e se sente sobrecarregado com a imensidão de artigos e livros científicos. Ele precisa de uma forma de organizar suas leituras e, principalmente, de um espaço para discutir os conceitos complexos e estatísticos que encontra. Ele busca validação e aprofundamento do seu conhecimento. 
 #### Dores
@@ -82,6 +82,24 @@ Uma das principais frustrações do usuário é que as plataformas acadêmicas e
 | :--- | :--- | :--- |
 | Lucas Martins | Criar uma postagem para resumir um artigo científico. | Que eu possa receber feedback e aprimorar minha compreensão com a ajuda da comunidade. |
 | Lucas Martins | Quero poder usar o sistema de busca por palavras-chave técnicas específicas | Que eu encontre rapidamente os materiais mais relevantes para minha tese. |
+
+#### Nome: Ricardo Gomes
+#### Idade: 45 anos
+#### Localização: Minas Gerais, Brasil
+#### Formação: Letras
+#### Profissão: Bibliotecário em uma Universidade Pública 
+#### Objetivo: Busca uma forma de captar tendencias de livros, e aprimorar sua biblioteca de forma estratégica.
+#### Descrição 
+Ricardo é um bibliotecário que busca entender o que a comunidade acadêmica está lendo e discutindo para melhor organizar o acervo da biblioteca. Ele vê a plataforma como uma ferramenta estratégica para mapear tendências de leitura, recomendar títulos do acervo e se comunicar diretamente com os alunos e professores sobre novas aquisições e outras informações relevantes.
+#### Dores
+Ricardo enfrenta desafios significativos em seu trabalho diário. O processo de compra de novos livros é burocrático e lento, resultando em um acervo que nem sempre reflete as necessidades atuais dos alunos. Além disso, a comunicação com a comunidade acadêmica é fragmentada e ineficaz, e ele não possui uma ferramenta simples para coletar feedbacks, o que dificulta a tomada de decisões estratégicas para a biblioteca.
+#### Espectativas
+A principal expectativa de Ricardo é transformar a gestão do acervo em um processo mais dinâmico e alinhado com os interesses dos usuários. Ele busca um espaço onde possa identificar facilmente os livros e artigos mais populares e bem avaliados, interagir com a comunidade para entender suas necessidades e, assim, otimizar o processo de aquisição. Para ele, a plataforma ideal funcionaria como uma "sala de referência" virtual, conectando o leitor ao livro certo.
+#### Histórias de Usuários
+| EU COMO... | QUERO/PRECISO... | PARA... |
+| :--- | :--- | :--- |
+| Ricardo Gomes | Uma forma de visualizar os livros mais populares e bem avaliados pela comunidade. | Para guiar a compra de novos títulos e alinhar o acervo à demanda. |
+| Ricardo Gomes | Uma ferramenta para criar e divulgar listas de "novas aquisições". | Para manter a comunidade acadêmica informada sobre os novos livros. |
 
 ## Requisitos
 
