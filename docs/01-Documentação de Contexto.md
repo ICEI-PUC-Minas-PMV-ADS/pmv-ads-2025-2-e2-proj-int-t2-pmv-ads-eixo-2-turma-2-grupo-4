@@ -75,7 +75,6 @@ Referências Citadas:
 
 [3] BRASIL. Ministério da Educação. Relatório Anual de Análise dos Indicadores de Gestão das Instituições Federais de Educação Profissional, Científica e Tecnológica. Brasília: MEC, 2019. 
 
-Explique de forma clara a relevância da aplicação escolhida, justificando os objetivos específicos e os aspectos do software que serão aprofundados, e quantifique o impacto do problema com dados concretos (números, percentuais, indicadores) obtidos por bases oficiais ou outras fontes confiáveis, sempre citadas no padrão ABNT (no formato [Numérico] ou (AUTOR, ANO)).
 
 
 ## Público-Alvo
