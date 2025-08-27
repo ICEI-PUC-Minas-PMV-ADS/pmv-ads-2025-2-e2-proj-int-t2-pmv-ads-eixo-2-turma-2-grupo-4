@@ -1,16 +1,19 @@
 # Introdução
+Na busca por enfrentar as disparidades econômicas e geográficas existentes no país, surge a necessidade de uma plataforma digital colaborativa voltada para conteúdos acadêmicos. Muitas vezes, ambientes desse tipo funcionam sob regime de assinaturas, o que restringe o acesso de grande parte dos estudantes e interessados. Nossa proposta é romper essa barreira, criando um espaço acessível e inclusivo.
 
-Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto.
+A plataforma será um ambiente agregador e centralizador, com a finalidade de disponibilizar livros, artigos e materiais acadêmicos de forma acessível e democrática. Por meio dela, estudantes, professores, profissionais e entusiastas poderão não apenas acessar conteúdos de qualidade, mas também compartilhar experiências e construir conhecimento de maneira coletiva.
+
+Os fóruns e espaços interativos permitirão debates, aprofundamentos e discussões em torno de livros, tópicos ou temas específicos, favorecendo a interatividade entre os usuários. Esse modelo colaborativo amplia a compreensão dos assuntos e possibilita o contato com diferentes perspectivas, fortalecendo o processo de aprendizagem.
+
+Com isso, buscamos democratizar o conhecimento em língua portuguesa, antes restrito muitas vezes apenas às Universidades ou a quem podia pagar por plataformas privadas. Dessa forma, promovemos a eliminação de barreiras econômicas e incentivamos a colaboração entre estudantes e profissionais dispostos a compartilhar saberes e apoiar quem busca aprender.
+
+Assim, a plataforma se estabelece como uma ferramenta de democratização do conhecimento, capaz de aproximar pessoas de diferentes realidades e contribuir para a formação acadêmica e intelectual de uma comunidade ampla e diversificada.
 
 ## Problema
 Estudantes e aprendizes no Brasil enfrentam uma jornada de estudos fragmentada, solitária e muitas vezes excludente. A dificuldade em acessar conteúdos de qualidade e a ausência de comunidades de aprendizagem abertas limitam o potencial de desenvolvimento intelectual, aprofundam a desigualdade educacional e criam barreiras para a construção coletiva de conhecimento. 
 
 Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
 
-> **Links Úteis**:
-> - [Objetivos, Problema de pesquisa e Justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
-> - [Matriz Certezas, Suposições e Dúvidas](https://medium.com/educa%C3%A7%C3%A3o-fora-da-caixa/matriz-certezas-suposi%C3%A7%C3%B5es-e-d%C3%BAvidas-fa2263633655)
-> - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
 
 ## Objetivos
 Objetivo Geral
