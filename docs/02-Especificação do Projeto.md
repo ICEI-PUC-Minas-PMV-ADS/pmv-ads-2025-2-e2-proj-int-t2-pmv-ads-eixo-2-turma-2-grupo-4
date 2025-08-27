@@ -34,7 +34,7 @@ Com base na análise das personas forma identificadas as seguintes histórias de
 |EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
 |--------------------|------------------------------------|----------------------------------------|
 |Ana Clara  | Uma forma de identificar se uma agência é realmente confiável           | Me sentir mais segura ao contratar seus serviços               |
-|Ana Clara       | Ter um mecanismo eficiente e rápido de comunicação                 | Que eu possa sanar todas as minhas dúvidas rapidamente |
+|Ana Clara  | Ter um mecanismo eficiente e rápido de comunicação                      | Que eu possa sanar todas as minhas dúvidas rapidamente         |
 
 Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
 
@@ -54,16 +54,23 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 #### Profissão: Professor Titular de Direito Constitucional.
 #### Objetivo: Conectar profissionais do direito para a troca de experiências.
 #### Descrição 
-Carlos é um professor experiente que busca uma forma de modernizar o 		aprendizado de seus alunos. Ele quer encontrar uma plataforma para 		recomendar bibliografia, discutir casos de jurisprudência e até mesmo criar 	listas de leitura para suas turmas. Ele valoriza a credibilidade e a moderação do 	conteúdo. 
+Carlos é um professor experiente que busca uma forma de modernizar o aprendizado de seus alunos. Ele quer encontrar uma plataforma para recomendar bibliografia, discutir casos de jurisprudência e até mesmo criar listas de leitura para suas turmas. Ele valoriza a credibilidade e a moderação do conteúdo.
 #### Dores
-Carlos identificou uma lacuna no ambiente acadêmico e jurídico: a falta de uma plataforma ideal para discussões sobre livros técnicos. Ferramentas como WhatsApp e e-mail se mostram ineficientes para engajar os alunos em debates. Ele percebeu que não há uma solução acessível, gratuita e com boa usabilidade que permita o acesso a profissionais e especialistas mais experientes, um tipo de interação que é muito difícil de ser obtido em ambientes tradicionais. 
+- A comunicação com os alunos se dispersa em e-mails e grupos de WhatsApp.
+- É difícil encontrar um fórum dedicado para aprofundar o debate sobre um livro de direito.
+- Sente falta de um espaço com moderação que garanta a seriedade das discussões.
+### Citação
+"A leitura de um texto jurídico precisa de debate constante. Preciso de um ambiente que facilite isso, com seriedade."
 #### Espectativas
-A principal expectativa de Carlos é encontrar uma plataforma para enriquecer o aprendizado de seus alunos. Ele busca um espaço onde os estudantes possam participar de debates aprofundados sobre textos jurídicos e, principalmente, ter acesso a uma comunidade de professores e juristas para obter insights valiosos e opiniões de especialistas. 
+- Compartilhar sua lista de leituras recomendadas com seus alunos.
+- Engajar os alunos em discussões sobre textos jurídicos complexos.
+- Encontrar a opinião de outros professores e juristas sobre obras clássicas e contemporâneas.
 #### Histórias de Usuários
 | EU COMO... | QUERO/PRECISO... | PARA... |
 | :--- | :--- | :--- |
-| Carlos Pereira | Uma forma de ter acesso às opiniões e discussões de professores e juristas. | Ter acesso a intelectuais da área. |
-| Carlos Pereira | Uma plataforma para que os alunos possam discutir tanto entre si quanto com professores e juristas, facilitando a troca de ideias e o aprofundamento do conhecimento. | Engajar os alunos em discussões sobre as questões mais importantes do curso de direito. |
+| Professor | Criar uma postagem em comunidades ou foruns com uma pergunta provocadora sobre um livro de jurisprudência, para que eu possa estimular a participação dos meus alunos e de outros juristas. | Estimular o estudo academico |
+| Acadêmico | Uma forma de busca para encontrar livros por autor e ano de publicação, para que eu possa me manter atualizado sobre as obras mais recentes na minha área de pesquisa. | Manter-se atualizado em sua area de atuação |
+| Professor | Ter a certeza de que a plataforma tem uma boa moderação, para que eu possa recomendar o espaço aos meus alunos sem me preocupar com conteúdo inadequado. | Garantir segurança e foco para seus alunos |
 
 #### Nome: Lucas Martins
 #### Idade: 24 anos
@@ -74,14 +81,21 @@ A principal expectativa de Carlos é encontrar uma plataforma para enriquecer o 
 #### Descrição 
  Lucas está na sua primeira experiência de pós-graduação e se sente sobrecarregado com a imensidão de artigos e livros científicos. Ele precisa de uma forma de organizar suas leituras e, principalmente, de um espaço para discutir os conceitos complexos e estatísticos que encontra. Ele busca validação e aprofundamento do seu conhecimento. 
 #### Dores
-O usuário busca uma forma de validar a relevância de um livro antes de iniciar sua leitura, garantindo que o tempo investido será proveitoso. Além disso, ele anseia por encontrar um grupo de pesquisa dedicado à discussão de artigos e papers, promovendo um ambiente de troca e aprofundamento acadêmico. Por fim, existe a necessidade de ter um espaço digital centralizado para organizar suas anotações e referências bibliográficas de maneira eficiente e acessível.
+- As plataformas acadêmicas existentes são pouco interativas e sociais.
+- A maioria das discussões sobre papers e livros acontece em fóruns genéricos e desorganizados.
+- Tem dificuldade em saber por onde começar a estudar um tema novo.
+### Citação
+"Ler um livro acadêmico é só a metade do trabalho. A outra metade é ter com quem discutir e debater o que você aprendeu."
 #### Espectativas
-Uma das principais frustrações do usuário é que as plataformas acadêmicas existentes são pouco interativas e carecem de um aspecto social, limitando a colaboração e o engajamento. Ele também sente que a maioria das discussões sobre papers e livros ocorre em fóruns genéricos e desorganizados, o que dificulta o acompanhamento e a troca de ideias qualificadas. Por fim, o usuário relata dificuldade em saber por onde começar a estudar um tema novo, sentindo falta de um direcionamento ou de um caminho claro para iniciar sua jornada de aprendizado.
+- Validar a relevância de um livro antes de iniciar a leitura.
+- Encontrar um grupo de pesquisa para discutir artigos e papers.
+- Ter um espaço digital para organizar anotações e referências bibliográficas.
 #### Histórias de Usuários
 | EU COMO... | QUERO/PRECISO... | PARA... |
 | :--- | :--- | :--- |
-| Lucas Martins | Criar uma postagem para resumir um artigo científico. | Que eu possa receber feedback e aprimorar minha compreensão com a ajuda da comunidade. |
-| Lucas Martins | Quero poder usar o sistema de busca por palavras-chave técnicas específicas | Que eu encontre rapidamente os materiais mais relevantes para minha tese. |
+| Estudante | Criar uma postagem para resumir um artigo científico. | Que eu possa receber feedback e aprimorar minha compreensão com a ajuda da comunidade. |
+| Estudante | Quero poder usar o sistema de busca por palavras-chave técnicas específicas | Para que eu encontre rapidamente os materiais mais relevantes para minha tese |
+| Estudante | Quero ver as avaliações e comentários de outros pesquisadores sobre um livro | Para que ter certeza da sua relevância acadêmica |
 
 #### Nome: Ricardo Gomes
 #### Idade: 45 anos
@@ -92,14 +106,72 @@ Uma das principais frustrações do usuário é que as plataformas acadêmicas e
 #### Descrição 
 Ricardo é um bibliotecário que busca entender o que a comunidade acadêmica está lendo e discutindo para melhor organizar o acervo da biblioteca. Ele vê a plataforma como uma ferramenta estratégica para mapear tendências de leitura, recomendar títulos do acervo e se comunicar diretamente com os alunos e professores sobre novas aquisições e outras informações relevantes.
 #### Dores
-Ricardo enfrenta desafios significativos em seu trabalho diário. O processo de compra de novos livros é burocrático e lento, resultando em um acervo que nem sempre reflete as necessidades atuais dos alunos. Além disso, a comunicação com a comunidade acadêmica é fragmentada e ineficaz, e ele não possui uma ferramenta simples para coletar feedbacks, o que dificulta a tomada de decisões estratégicas para a biblioteca.
+- O processo de compra de novos livros é burocrático e muitas vezes não reflete o que os alunos realmente precisam.
+- A comunicação com a comunidade acadêmica é fragmentada.
+- Não tem uma forma fácil de coletar feedback sobre o acervo.
+### Citação
+"Minha função é conectar o leitor com o livro certo. Essa plataforma pode ser a minha nova sala de referência."
 #### Espectativas
-A principal expectativa de Ricardo é transformar a gestão do acervo em um processo mais dinâmico e alinhado com os interesses dos usuários. Ele busca um espaço onde possa identificar facilmente os livros e artigos mais populares e bem avaliados, interagir com a comunidade para entender suas necessidades e, assim, otimizar o processo de aquisição. Para ele, a plataforma ideal funcionaria como uma "sala de referência" virtual, conectando o leitor ao livro certo.
+- Mapear os livros e artigos mais populares entre o público acadêmico.
+- Recomendar livros do acervo da sua biblioteca para a comunidade online.
+- Interagir com os usuários para entender as necessidades de leitura.
 #### Histórias de Usuários
 | EU COMO... | QUERO/PRECISO... | PARA... |
 | :--- | :--- | :--- |
-| Ricardo Gomes | Uma forma de visualizar os livros mais populares e bem avaliados pela comunidade. | Para guiar a compra de novos títulos e alinhar o acervo à demanda. |
-| Ricardo Gomes | Uma ferramenta para criar e divulgar listas de "novas aquisições". | Para manter a comunidade acadêmica informada sobre os novos livros. |
+| Bibliotecário | Eu quero poder buscar por livros por categoria e ranking de avaliações | Para guiar a compra de novos títulos e alinhar o acervo à demanda. |
+| Profissional | Eu quero criar postagens com listas de "novas aquisições da biblioteca" para a comunidade | Para manter a comunidade acadêmica informada sobre os novos livros. |
+| Mediador de leitura | Eu quero usar o sistema de comentários para interagir com a comunidade e tirar dúvidas sobre onde encontrar um livro  | Para facilitar que leitores tenham acesso aos livros |
+
+#### Nome: Sofia Lima
+#### Idade: 26 anos
+#### Localização: São Paulo, Brasil
+#### Formação: Desenvolvedora 
+#### Profissão: Desenvolvedora Backend Autodidata
+#### Objetivo: Precisa de um espaço para ir além do básico, entender conceitos avançados e se conectar com outros desenvolvedores para validar seu conhecimento
+#### Descrição 
+Sofia sempre foi apaixonada por tecnologia, mas não teve a oportunidade de fazer uma graduação na área. Ela aprendeu a programar sozinha, com livros e tutoriais online.
+#### Dores
+- A maioria dos conteúdos online são para iniciantes.
+- Tem dificuldade em encontrar livros que aprofundem em temas complexos.
+- Sente que está em um vácuo sem uma rede de contatos na área.
+### Citação
+"Eu sou autodidata, mas não quero aprender sozinha para sempre. Preciso de um lugar para me conectar com outros que já trilharam esse caminho."
+#### Espectativas
+- Encontrar livros sobre arquitetura de software e design de sistemas.
+- Validar a relevância de um material antes de gastar dinheiro.
+- Encontrar um mentor ou um grupo de estudo para aprofundamento.
+#### Histórias de Usuários
+| EU COMO... | QUERO/PRECISO... | PARA... |
+| :--- | :--- | :--- |
+| Desenvolvedora| Eu quero usar o sistema de busca para encontrar livros sobre "design patterns" e "microsserviços" com base nas avaliações da comunidade | Para que eu possa escolher o melhor material.|
+| Leitora |Eu quero criar uma postagem em foruns ou comunidades com minhas anotações sobre um capítulo difícil | Para que outros desenvolvedores possam comentar e eu possa fixar o conhecimento. |
+| Alguém que busca validação | Eu quero poder personalizar meu perfil com minha trilha de estudos e projetos | Para que eu possa me conectar com mentores ou possíveis co-desenvolvedores. |
+
+
+#### Nome: Laura Castro
+#### Idade: 20 anos
+#### Localização: Santa Catarina, Brasil
+#### Formação: Fisioterapia
+#### Profissão: Estudante de Fisioterapia
+#### Objetivo: Busca uma forma de complementar os conteúdos da faculdade, que ela considera um pouco genéricos.
+#### Descrição 
+Laura busca uma forma de complementar os conteúdos da faculdade, que ela considera um pouco genéricos. Ela quer encontrar livros mais aprofundados sobre áreas específicas da Fisioterapia e, principalmente, um espaço para discutir casos clínicos e a aplicação prática do que lê.o.
+#### Dores
+- Os fóruns de saúde são muito amplos e as discussões são pouco focadas.
+- Tem dificuldade em saber quais livros são realmente recomendados na sua área.
+- O aprendizado da faculdade é muito teórico.
+### Citação
+"Eu leio sobre o corpo humano, mas quero conversar com outros sobre como tratar um paciente real. A teoria só me leva até certo ponto."
+#### Espectativas
+- Encontrar livros didáticos e artigos sobre novas técnicas de reabilitação.
+- Ter um espaço para pedir e dar conselhos sobre casos clínicos.
+- Encontrar colegas para estudar para as provas.
+#### Histórias de Usuários
+| EU COMO... | QUERO/PRECISO... | PARA... |
+| :--- | :--- | :--- |
+| Estudante | Quero poder criar uma postagem de um estudo de caso para discussão | Receber opiniões de outros estudantes e profissionais |
+| Estudante | Quero usar o sistema de avaliação para ver quais livros de anatomia são mais bem avaliados por outros estudantes da saúde| Para que eu não compre algo de má qualidade. |
+| Aluna | Quero usar o sistema de busca para encontrar um grupo de estudo sobre um tema específico | Para que possa me preparar para as provas |
 
 ## Requisitos
 
