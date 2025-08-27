@@ -200,7 +200,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID     | Descrição do Requisito  |Categoria |Prioridade |
 |-------|-------------------------|----|----|
-|RNF-001| A interface da plataforma deve ser intuitiva e clara, permitindo que um novo usuário consiga realizar uma busca por um livro e participar de uma discussão em menos de 5 minutos, sem a necessidade de um tutorial.| USABILIDADE |  ALTA | 
+|RNF-001| A interface da plataforma deve ser intuitiva e clara, permitindo que um novo usuário consiga realizar uma busca por um livro e participar de uma discussão em menos de 5 minutos, sem a necessidade de um tutorial.| Usabilidade |  ALTA | 
 |RNF-002| O tempo de carregamento de qualquer página da plataforma não deve exceder 3 segundos em uma conexão de internet banda larga padrão (10 Mbps). As buscas no banco de dados devem retornar resultados em menos de 2 segundos.| Desempenho |  ALTA | 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 |RNF-003| O sistema deve proteger os dados pessoais dos usuários, utilizando criptografia para senhas e garantindo conformidade com a Lei Geral de Proteção de Dados (LGPD).| Segurança |  ALTA | 
