@@ -181,9 +181,20 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| A aplicação deve permitir que o usuário avalie uma agência de intercâmbio com base na sua experiência| ALTA | 
-|RF-002| A aplicação deve permitir que o usuário inclua comentários ao fazer uma avaliação de uma agência de intercâmbio    | ALTA |
-|RF-003| A aplicação deve permitir que o usuário consulte todas as agências de intercâmbio cadastradas ordenando-as com base em suas notas | ALTA |
+|RF-001| O sistema deve permitir que o usuário realize um cadastro pessoal e efetue login na plataforma.| ALTA | 
+|RF-002| O sistema deve possuir uma ferramenta de busca avançada que permita ao usuário encontrar materiais por palavra-chave, autor, ano de publicação, categoria e/ou termos técnicos específicos.| ALTA |
+|RF-003|O sistema deve permitir que os usuários avaliem os materiais acadêmicos (livros, artigos, etc.) por meio de um sistema de notas (ex: 1 a 5 estrelas) e deixem comentários ou resenhas. | ALTA |
+|RF-004| O sistema deve permitir a criação de comunidades ou fóruns de discussão temáticos (ex: "Direito Constitucional", "Inteligência Artificial", "Anatomia Humana").| ALTA | 
+|RF-005| O sistema deve permitir que o usuário crie postagens dentro das comunidades/fóruns para iniciar discussões, fazer perguntas, compartilhar resumos ou apresentar estudos de caso.| ALTA |
+|RF-006|O sistema deve permitir que os usuários comentem e respondam às postagens de outros membros para promover o debate e a troca de conhecimento.| ALTA |
+|RF-007| O sistema deve possuir ferramentas de moderação para que administradores ou moderadores possam revisar e remover conteúdos inadequados, garantindo um ambiente seguro e focado.| ALTA | 
+|RF-008|O sistema deve permitir que o usuário visualize os materiais com base em rankings de popularidade ou pelas melhores avaliações da comunidade.| ALTA |
+|RF-009| O sistema deve permitir que o usuário crie e compartilhe publicamente listas de leitura personalizadas (ex: "Bibliografia Essencial de Direito", "Novas Aquisições da Biblioteca").| MEDIA |
+|RF-010| O sistema deve permitir que o usuário personalize seu perfil, adicionando informações como área de estudo, trilha de conhecimento e projetos para facilitar conexões com outros usuários.| MEDIA | 
+|RF-011| O sistema deve permitir a criação e a busca por grupos de estudo sobre tópicos específicos, facilitando a conexão entre alunos com os mesmos interesses.| MEDIA |
+|RF-012| O sistema deve permitir que os usuários adicionem e cataloguem novos materiais (livros, artigos) à base de dados da plataforma, para que outros possam encontrá-los e discuti-los.| MEDIA|
+|RF-013| O sistema deve enviar notificações aos usuários sobre novas respostas em suas postagens, menções ou atividades relevantes nos grupos que participam.| ALTA | 
+|RF-014| O sistema deve permitir que os usuários sigam comunidades específicas ou outros usuários para acompanhar suas publicações e atividades.| BAIXA |
 
 ### Requisitos não Funcionais
 
