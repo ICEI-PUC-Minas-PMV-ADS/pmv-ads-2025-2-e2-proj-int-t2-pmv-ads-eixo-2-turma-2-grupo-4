@@ -13,10 +13,17 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 > - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
 
 ## Objetivos
+Objetivo Geral
+Desenvolver uma plataforma digital colaborativa voltada para conteúdos acadêmicos, que promova o acesso democrático a livros, artigos e materiais de estudo, eliminando barreiras econômicas e geográficas, e estimulando a construção coletiva do conhecimento.
+Objetivos Específicos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+Criar um ambiente centralizado e intuitivo que reúna livros, artigos e materiais acadêmicos, facilitando a busca, organização e acesso aos conteúdos pelos estudantes.
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
+Implementar fóruns e espaços de interação que incentivem a troca de ideias, dúvidas e experiências entre estudantes, professores e profissionais.
+
+Garantir que a plataforma seja acessível de forma gratuita, reduzindo as desigualdades no acesso a materiais educacionais de qualidade.
+
+Investigar e aplicar recursos de usabilidade e design centrados no usuário, de modo a tornar a experiência prática, inclusiva e atrativa para diferentes perfis de estudantes.
  
 > **Links Úteis**:
 > - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
