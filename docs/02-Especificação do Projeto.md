@@ -196,5 +196,5 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 
 ## Diagrama de Casos de Uso
 
-<img width="498" height="763" alt="UML" src="https://github.com/user-attachments/assets/e80c1ee5-8153-4c81-ad5a-dc52d4cd3fe8" />
+<img width="498" height="763" alt="UML" src="docs/img/CasosDeUso.png" />
 
