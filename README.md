@@ -2,11 +2,11 @@
 
 `Análise de Desenvolvimento de Sistemas`
 
-`DISCIPLINA`
+`Projeto: Desenvolvimento de uma Aplicação Interativa`
 
 `2 Semestre`
+Este projeto é uma plataforma digital colaborativa e gratuita, projetada para combater a desigualdade na educação, oferecendo um espaço exclusivo para a discussão de livros e conteúdos acadêmicos. O objetivo é criar uma comunidade de leitores onde estudantes e profissionais possam aprofundar seus conhecimentos, compartilhar ideias e participar de debates significativos, eliminando a fragmentação de discussões superficiais em outras redes.
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
 
 ## Integrantes
 
