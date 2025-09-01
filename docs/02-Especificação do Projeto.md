@@ -25,6 +25,8 @@ Carlos é um professor experiente que busca uma forma de modernizar o aprendizad
 | Acadêmico | Uma forma de busca para encontrar livros por autor e ano de publicação, para que eu possa me manter atualizado sobre as obras mais recentes na minha área de pesquisa. | Manter-se atualizado em sua area de atuação |
 | Professor | Ter a certeza de que a plataforma tem uma boa moderação, para que eu possa recomendar o espaço aos meus alunos sem me preocupar com conteúdo inadequado. | Garantir segurança e foco para seus alunos |
 
+<hr>
+
 #### Nome: Lucas Martins
 #### Idade: 24 anos
 #### Localização: Minas Gerais, Brasil
@@ -49,6 +51,8 @@ Carlos é um professor experiente que busca uma forma de modernizar o aprendizad
 | Estudante | Criar uma postagem para resumir um artigo científico. | Que eu possa receber feedback e aprimorar minha compreensão com a ajuda da comunidade. |
 | Estudante | Quero poder usar o sistema de busca por palavras-chave técnicas específicas | Para que eu encontre rapidamente os materiais mais relevantes para minha tese |
 | Estudante | Quero ver as avaliações e comentários de outros pesquisadores sobre um livro | Para que ter certeza da sua relevância acadêmica |
+
+<hr>
 
 #### Nome: Ricardo Gomes
 #### Idade: 45 anos
@@ -75,6 +79,8 @@ Ricardo é um bibliotecário que busca entender o que a comunidade acadêmica es
 | Profissional | Eu quero criar postagens com listas de "novas aquisições da biblioteca" para a comunidade | Para manter a comunidade acadêmica informada sobre os novos livros. |
 | Mediador de leitura | Eu quero usar o sistema de comentários para interagir com a comunidade e tirar dúvidas sobre onde encontrar um livro  | Para facilitar que leitores tenham acesso aos livros |
 
+<hr>
+
 #### Nome: Sofia Lima
 #### Idade: 26 anos
 #### Localização: São Paulo, Brasil
@@ -100,6 +106,7 @@ Sofia sempre foi apaixonada por tecnologia, mas não teve a oportunidade de faze
 | Leitora |Eu quero criar uma postagem em foruns ou comunidades com minhas anotações sobre um capítulo difícil | Para que outros desenvolvedores possam comentar e eu possa fixar o conhecimento. |
 | Alguém que busca validação | Eu quero poder personalizar meu perfil com minha trilha de estudos e projetos | Para que eu possa me conectar com mentores ou possíveis co-desenvolvedores. |
 
+<hr>
 
 #### Nome: Laura Castro
 #### Idade: 20 anos
@@ -125,6 +132,8 @@ Laura busca uma forma de complementar os conteúdos da faculdade, que ela consid
 | Estudante | Quero poder criar uma postagem de um estudo de caso para discussão | Receber opiniões de outros estudantes e profissionais |
 | Estudante | Quero usar o sistema de avaliação para ver quais livros de anatomia são mais bem avaliados por outros estudantes da saúde| Para que eu não compre algo de má qualidade. |
 | Aluna | Quero usar o sistema de busca para encontrar um grupo de estudo sobre um tema específico | Para que possa me preparar para as provas |
+
+<hr>
 
 ## Requisitos
 
@@ -165,7 +174,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RNF-009| Todo o conteúdo da interface, incluindo menus, botões e mensagens de sistema, deve estar em Português do Brasil.| Localização |  ALTA | 
 |RNF-010| O sistema deve possuir logs de atividades de moderação para garantir a rastreabilidade e a transparência das ações tomadas contra conteúdos ou usuários inadequados, atendendo à necessidade de seriedade de professores.| Integridade |  MÉDIA | 
 
-
+<hr>
 
 ## Restrições
 
