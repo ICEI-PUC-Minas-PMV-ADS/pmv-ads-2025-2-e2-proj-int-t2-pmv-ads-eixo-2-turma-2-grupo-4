@@ -1,3 +1,4 @@
+
 # Introdução
 Na busca por enfrentar as disparidades econômicas e geográficas existentes no país, surge a necessidade de uma plataforma digital colaborativa voltada para conteúdos acadêmicos. Muitas vezes, ambientes desse tipo funcionam sob regime de assinaturas, o que restringe o acesso de grande parte dos estudantes e interessados. Nossa proposta é romper essa barreira, criando um espaço acessível e inclusivo.
 
@@ -8,6 +9,15 @@ Os fóruns e espaços interativos permitirão debates, aprofundamentos e discuss
 Com isso, buscamos democratizar o conhecimento em língua portuguesa, antes restrito muitas vezes apenas às Universidades ou a quem podia pagar por plataformas privadas. Dessa forma, promovemos a eliminação de barreiras econômicas e incentivamos a colaboração entre estudantes e profissionais dispostos a compartilhar saberes e apoiar quem busca aprender.
 
 Assim, a plataforma se estabelece como uma ferramenta de democratização do conhecimento, capaz de aproximar pessoas de diferentes realidades e contribuir para a formação acadêmica e intelectual de uma comunidade ampla e diversificada.
+
+Vídeo introdutório sobre o projeto:
+
+
+
+https://github.com/user-attachments/assets/f9a4de13-feae-46b7-9ac2-570705bc4ce8
+
+
+
 
 ## Problema
 Estudantes e aprendizes no Brasil enfrentam uma jornada de estudos fragmentada, solitária e muitas vezes excludente. A dificuldade em acessar conteúdos de qualidade e a ausência de comunidades de aprendizagem abertas limitam o potencial de desenvolvimento intelectual, aprofundam a desigualdade educacional e criam barreiras para a construção coletiva de conhecimento. 
