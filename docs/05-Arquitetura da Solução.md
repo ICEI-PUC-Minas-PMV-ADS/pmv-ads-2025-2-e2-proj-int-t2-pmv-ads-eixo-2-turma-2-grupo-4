@@ -5,13 +5,9 @@
 Definição de como o software é estruturado em termos dos componentes que fazem parte da solução e do ambiente de hospedagem da aplicação.
 
 ## Diagrama de Classes
+A seguir, apresentamos o Diagrama de Classes UML do projeto. Ele representa a estrutura central do nosso backend, detalhando as principais entidades, seus atributos, métodos e os relacionamentos que governam a lógica de negócio. Este modelo serve como o blueprint para a construção do banco de dados e o desenvolvimento das classes em C#.
 
-O diagrama de classes ilustra graficamente como será a estrutura do software, e como cada uma das classes da sua estrutura estarão interligadas. Essas classes servem de modelo para materializar os objetos que executarão na memória.
-
-As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de Classes”.
-
-> - [Diagramas de Classes - Documentação da IBM](https://www.ibm.com/docs/pt-br/rational-soft-arch/9.6.1?topic=diagrams-class)
-> - [O que é um diagrama de classe UML? | Lucidchart](https://www.lucidchart.com/pages/pt/o-que-e-diagrama-de-classe-uml)
+<img width="1080" height="720" alt="UML" src="img/DiagramaDeClasses.png" />
 
 ## Modelo ER (Projeto Conceitual)
 
