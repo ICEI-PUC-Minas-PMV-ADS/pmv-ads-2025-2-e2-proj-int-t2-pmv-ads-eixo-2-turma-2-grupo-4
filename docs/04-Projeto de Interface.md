@@ -12,9 +12,6 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 ![diagrama de fluxo](https://github.com/user-attachments/assets/5660a2a0-5bfd-4f0a-afb9-8bbab17e5dd0)
 
 
-> **Links Úteis**:
-> - [Fluxograma online: seis sites para fazer gráfico sem instalar nada | Produtividade | TechTudo](https://www.techtudo.com.br/listas/2019/03/fluxograma-online-seis-sites-para-fazer-grafico-sem-instalar-nada.ghtml)
-
 ## Wireframes
 
 ![Exemplo de Wireframe](img/wireframe-example.png)
