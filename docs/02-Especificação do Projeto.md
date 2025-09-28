@@ -146,18 +146,19 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-001| O sistema deve permitir que um novo usuário realize um cadastro pessoal na plataforma.| ALTA | 
 |RF-002| O sistema deve permitir que um usuário já cadastrado efetue login na plataforma.| ALTA |
 |RF-003| O sistema deve possuir uma ferramenta de busca avançada que permita ao usuário encontrar materiais por palavra-chave, autor, ano de publicação, categoria e/ou termos técnicos específicos.| ALTA |
-|RF-004|O sistema deve permitir que os usuários avaliem os materiais acadêmicos (livros, artigos, etc.) por meio de um sistema de notas (ex: 1 a 5 estrelas) e deixem comentários ou resenhas. | ALTA |
-|RF-005| O sistema deve permitir a criação de comunidades ou fóruns de discussão temáticos (ex: "Direito Constitucional", "Inteligência Artificial", "Anatomia Humana").| ALTA | 
-|RF-006| O sistema deve permitir que o usuário crie postagens dentro das comunidades/fóruns para iniciar discussões, fazer perguntas, compartilhar resumos ou apresentar estudos de caso.| ALTA |
-|RF-007|O sistema deve permitir que os usuários comentem e respondam às postagens de outros membros para promover o debate e a troca de conhecimento.| ALTA |
+|RF-004|O sistema deve permitir que usuários e professores avaliem os materiais. A avaliação de um professor será especial, funcionando como uma "crítica de especialista", enquanto a dos outros usuários será a "avaliação do público". | ALTA |
+|RF-005| O sistema deve permitir a criação de comunidades de discussão temáticos (ex: "Direito Constitucional", "Inteligência Artificial", "Anatomia Humana").| ALTA | 
+|RF-006| O sistema deve permitir que o usuário crie postagens dentro das comunidades para iniciar discussões, fazer perguntas, compartilhar resumos ou apresentar estudos de caso.| ALTA |
+|RF-007| O sistema deve permitir que os usuários comentem nas postagens para promover o debate e a troca de conhecimento, tanto no Fórum geral quanto nas comunidades. | ALTA |
 |RF-008| O sistema deve possuir ferramentas de moderação para que administradores ou moderadores possam revisar e remover conteúdos inadequados, garantindo um ambiente seguro e focado.| ALTA | 
 |RF-009|O sistema deve permitir que o usuário visualize os materiais com base em rankings de popularidade ou pelas melhores avaliações da comunidade.| ALTA |
 |RF-010| O sistema deve permitir que o usuário crie e compartilhe publicamente listas de leitura personalizadas (ex: "Bibliografia Essencial de Direito", "Novas Aquisições da Biblioteca").| MEDIA |
 |RF-011| O sistema deve permitir que o usuário personalize seu perfil, adicionando informações como área de estudo, trilha de conhecimento e projetos para facilitar conexões com outros usuários.| MEDIA | 
-|RF-012| O sistema deve permitir a criação e a busca por grupos de estudo sobre tópicos específicos, facilitando a conexão entre alunos com os mesmos interesses.| MEDIA |
-|RF-013| O sistema deve permitir que os usuários adicionem e cataloguem novos materiais (livros, artigos) à base de dados da plataforma, para que outros possam encontrá-los e discuti-los.| MEDIA|
+|RF-012| O sistema deve permitir a criação e a busca por grupos de estudo sobre tópicos específicos, facilitando a conexão entre alunos com os mesmos interesses dentro das comunidades.| MEDIA |
+|RF-013| O sistema deve permitir que usuários adicionem novos materiais (livros, artigos), que passarão por uma revisão e aprovação de moderadores antes de serem publicados na plataforma.| MEDIA|
 |RF-014| O sistema deve enviar notificações aos usuários sobre novas respostas em suas postagens, menções ou atividades relevantes nos grupos que participam.| ALTA | 
 |RF-015| O sistema deve permitir que os usuários sigam comunidades específicas ou outros usuários para acompanhar suas publicações e atividades.| BAIXA |
+|RF-016| O sistema terá um Fórum geral para as postagens abertas feitas pelos usuários, que não pertencem a nenhuma comunidade específica.| BAIXA |
 
 ### Requisitos não Funcionais
 
