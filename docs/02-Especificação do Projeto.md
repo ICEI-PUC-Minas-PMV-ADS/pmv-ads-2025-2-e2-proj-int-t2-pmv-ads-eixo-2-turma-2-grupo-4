@@ -195,5 +195,5 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 
 ## Diagrama de Casos de Uso
 
-<img width="1080" height="720" alt="UML" src="img/CasosDeUso.png" />
+<img width="1080" height="720" alt="UML" src="img/Diagrama de caso de uso(Revisado 2).png" />
 
