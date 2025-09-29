@@ -24,7 +24,9 @@ Link do wireframe: https://www.figma.com/proto/1pKglCPNoUg7BC2DBvNsl4/Sem-t%C3%A
 Tela de apresentação inicial da aplicação
 
 <hr>
+
 ![Tela de Login](img/login.png)
+
 Permite a realização de Login na plataforma(RF-002)
 <hr>
 
@@ -34,6 +36,7 @@ Essa tela permite a realização de um cadastro de usuário (RF-001)
 <hr>
 
 ![Tela Inicial](img/tela-Feed.png)
+Após a realização do login, o usário será direcionado para esta tela
 
 
 <hr>
