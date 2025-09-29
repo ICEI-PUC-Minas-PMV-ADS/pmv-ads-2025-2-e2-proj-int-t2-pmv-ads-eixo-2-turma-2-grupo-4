@@ -47,6 +47,7 @@ Permite que o usuário personalize o seu perfil (RF-011), criando Trilhas de Con
 <hr>
 
 ![Exemplo de Post em Fórum geral](img/tela-exibicao-forum.png)
+Tela de demostração de exibição do Fórum Geral do site
 
 <hr>
 
@@ -58,6 +59,8 @@ Permite que o usuário personalize o seu perfil (RF-011), criando Trilhas de Con
 <hr>
 
 ![Página de comunidade](img/Tela-Comunidade.png)
+
+Tela que permite visualização e, nós ícones no canto direito, criação de comunidade e juntar-se à comunidade (RF-005) (RF-012) .
 <hr>
 
 ![Página para realizar post em comunidade](img/Tela-Post.png)
