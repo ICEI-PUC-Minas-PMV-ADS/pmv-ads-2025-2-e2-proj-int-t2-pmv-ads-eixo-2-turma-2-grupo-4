@@ -19,16 +19,60 @@ A referência abaixo irá auxiliá-lo na geração do artefato “Modelo ER”.
 
 > - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
 
-## Projeto da Base de Dados
+# Projeto de Base de Dados - [Nome do Projeto]
 
-O projeto da base de dados corresponde à representação das entidades e relacionamentos identificadas no Modelo ER, no formato de tabelas, com colunas e chaves primárias/estrangeiras necessárias para representar corretamente as restrições de integridade.
- 
-Para mais informações, consulte o microfundamento "Modelagem de Dados".
+Este repositório contém o **Projeto da Base de Dados (Nível Físico)** para a aplicação [Seu Projeto/Sistema]. O projeto traduz o Modelo ER e o Diagrama de Classes UML em uma estrutura de base de dados relacional, incluindo tabelas, colunas, tipos de dados e restrições de integridade.
 
-## ATENÇÃO!!!
+O código DDL (Data Definition Language) para a criação do esquema está disponível na pasta `ddl/`.
 
-Os três artefatos — **Diagrama de Classes, Modelo ER e Projeto da Base de Dados** — devem ser desenvolvidos de forma sequencial e integrada, garantindo total coerência e compatibilidade entre eles. O diagrama de classes orienta a estrutura e o comportamento do software; o modelo ER traduz essa estrutura para o nível conceitual dos dados; e o projeto da base de dados materializa essas definições no formato físico (tabelas, colunas, chaves e restrições). A construção isolada ou desconexa desses elementos pode gerar inconsistências, dificultar a implementação e comprometer a qualidade do sistema.
+## 1. Convenções Adotadas
 
+| Elemento | Definição | Exemplo |
+| :--- | :--- | :--- |
+| **Nomes** | Tabelas em `TB_` e colunas em **CAIXA ALTA**. | `TB_USUARIO`, `NOME` |
+| **PK** | Chave Primária (Identificador único de cada registro). | `ID_USUARIO` |
+| **FK** | Chave Estrangeira (Referência a uma PK de outra tabela). | `FK_APROVADOR` |
+| **Tipos** | Padrões SQL comuns (`VARCHAR`, `INT`, `DATETIME`, `TEXT`, `BOOLEAN`). | `VARCHAR(100)` |
+| **Integridade** | Aplicação de `UNIQUE` e `NOT NULL` onde necessário. | `EMAIL VARCHAR(150) UNIQUE NOT NULL` |
+
+## 2. Resumo das Tabelas Principais
+
+| Tabela | Chave Primária (PK) | Descrição |
+| :--- | :--- | :--- |
+| `TB_USUARIO` | `ID_USUARIO` | Armazena dados de cadastro, autenticação e perfil do usuário. |
+| `TB_MATERIAL` | `ID_MATERIAL` | Documentos, artigos ou conteúdos de estudo. |
+| `TB_AVALIACAO` | `ID_AVALIACAO` | Notas e tipos de avaliação para um material específico. |
+| `TB_COMUNIDADE` | `ID_COMUNIDADE` | Fóruns ou grupos temáticos. |
+| `TB_POSTAGEM` | `ID_POSTAGEM` | Posts criados pelos usuários (em fóruns ou postagens abertas). |
+| `TB_GRUPO_ESTUDO` | `ID_GRUPO` | Grupos menores dentro de uma comunidade (ou gerais). |
+| `TB_LISTA_LEITURA`| `ID_LISTA` | Listas de materiais criadas pelos usuários. |
+
+## 3. Resumo das Tabelas de Relacionamento (N:M)
+
+| Tabela | Chave Composta (PK) | Relacionamento Resolvido |
+| :--- | :--- | :--- |
+| `TB_USUARIO_COMUNIDADE` | `FK_USUARIO`, `FK_COMUNIDADE` | Usuário **participa/segue** Comunidade |
+| `TB_LISTA_TEM_MATERIAL` | `FK_LISTA`, `FK_MATERIAL` | Material **fazParte** ListaLeitura |
+| `TB_USUARIO_GRUPO` | `FK_USUARIO`, `FK_GRUPO` | Usuário **pertence** a GrupoEstudo |
+
+## 4. Restrições Chave de Integridade
+
+As seguintes regras de negócio são aplicadas no nível do banco de dados:
+
+1.  **Avaliação Única por Usuário**: A combinação de (`FK_USUARIO`, `FK_MATERIAL`) na `TB_AVALIACAO` é definida como `UNIQUE`.
+2.  **Identidade Única**: A coluna `EMAIL` na `TB_USUARIO` possui uma restrição `UNIQUE` e `NOT NULL`.
+3.  **Postagens em Fóruns**: A coluna `FK_COMUNIDADE` na `TB_POSTAGEM` é `NULLABLE`. Se nula, o campo `NOFORUMGERAL` deve ser `TRUE` (permitindo postagens abertas).
+
+## 5. Script de Criação
+
+Para criar o esquema da base de dados, execute os scripts na ordem:
+
+```bash
+# Navegue até a pasta de scripts
+cd ddl/
+
+# Execute o script principal de criação de tabelas
+# (O comando exato depende do seu SGBD, ex: psql -f 01_schema.sql)
 ## Tecnologias Utilizadas
 
 Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
