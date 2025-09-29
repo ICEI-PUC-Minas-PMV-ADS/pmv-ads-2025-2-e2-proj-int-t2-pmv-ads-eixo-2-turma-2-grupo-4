@@ -68,7 +68,7 @@ Permite o usuário realize buscas avançadas (RF-003) e materias de mais bem ava
 
 ![Página de comunidade](img/Tela-Comunidade.png)
 
-Tela que permite visualização e, nós ícones no canto direito, criação de comunidade e juntar-se à comunidade (RF-005) (RF-012) .
+Tela que permite visualização e, nós ícones no canto direito, criação de comunidade e juntar-se à comunidade (RF-005) (RF-012) (RF-015) .
 <hr>
 
 ![Página para realizar post em comunidade](img/Tela-Post.png)
