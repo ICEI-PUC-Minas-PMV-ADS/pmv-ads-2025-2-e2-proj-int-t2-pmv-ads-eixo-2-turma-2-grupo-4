@@ -72,6 +72,8 @@ Tela que permite visualização e, nós ícones no canto direito, criação de c
 <hr>
 
 ![Página para realizar post em comunidade](img/Tela-Post.png)
+Tela padrão para realização de um post (RF-007)
+
 <hr>
 
 
