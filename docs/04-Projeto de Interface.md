@@ -36,13 +36,13 @@ Essa tela permite a realização de um cadastro de usuário (RF-001)
 <hr>
 
 ![Tela Inicial](img/tela-Feed.png)
-Após a realização do login, o usário será direcionado para esta tela
+Após a realização do login, o usário será direcionado para esta tela. Tela, temos uma amostra das opções existentes no site
 
 
 <hr>
 
 ![Tela de perfil](img/Perfil.png)
-Permite que o usuário edite o seu perfil (RF-011), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe (RF-010)
+Após clicar no ícone de perfil, o usuário será direcionado para esta tela, onde será possível a edição do perfil (RF-011), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe (RF-010)
 
 <hr>
 
@@ -56,10 +56,10 @@ Tela que permitirá a visualização das discussões no Fórum Geral e criação
 
 <hr>
 
-![Exemplo de exibicão em Fórum geral](img/tela-exibicao-forum.png)
+
 
 ![Exemplo de exibicão em Fórum geral](img/tela-post-forum.png)
-Exemplo de post em fórum. Posts em outras categorias seguirão o mesmo modelo.
+Exemplo de post em fórum, com interações entre dois usuários diferentes (RF-007). Posts em outras categorias seguirão o mesmo modelo.
 
 
 ![Página de Busca](img/Tela-Busca.png)
