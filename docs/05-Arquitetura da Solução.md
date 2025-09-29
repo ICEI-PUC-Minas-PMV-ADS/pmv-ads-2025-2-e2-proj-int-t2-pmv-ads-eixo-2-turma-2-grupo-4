@@ -7,7 +7,7 @@ Definição de como o software é estruturado em termos dos componentes que faze
 ## Diagrama de Classes
 A seguir, apresentamos o Diagrama de Classes UML do projeto. Ele representa a estrutura central do nosso backend, detalhando as principais entidades, seus atributos, métodos e os relacionamentos que governam a lógica de negócio. Este modelo serve como o blueprint para a construção do banco de dados e o desenvolvimento das classes em C#.
 
-<img width="1080" height="1440" alt="UML" src="img/DiagramaDeClasses(Revisdado_01).png" />
+[<img width="1440" height="1080" alt="UML" src="img/classe_UML.png" />](img/classe_UML.png)
 
 ## Modelo ER (Projeto Conceitual)
 
