@@ -62,6 +62,8 @@ Tela que permitirá a visualização das discussões no Fórum Geral e criação
 ![Exemplo de exibicão em Fórum geral](img/tela-post-forum.png)
 Após clicar na primeira pção da tela anterior, Exemplo de post em fórum, com interações entre dois usuários diferentes (RF-007). Posts em outras categorias seguirão o mesmo modelo.
 
+<hr>
+
 
 ![Página de Busca](img/Tela-Busca.png)
 Permite o usuário realize buscas avançadas (RF-003) e materias de mais bem avaliados (RF-018) e mais populares (RF-009)
