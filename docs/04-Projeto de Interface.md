@@ -47,7 +47,7 @@ Após clicar no ícone de perfil, o usuário será direcionado para esta tela, o
 <hr>
 
 ![Tela De Fórum Geral](img/tela-exibicao-geral.png)
-Tela de demostração de exibição do Fórum Geral do site
+Após escolher a opção "Fóruns" à esquerda, o suário será direcionado para a Tela de demostração de exibição do Fórum Geral, Comunidades e Livros do site
 
 <hr>
 
@@ -72,7 +72,7 @@ Tela que permite visualização e, nós ícones no canto direito, criação de c
 <hr>
 
 ![Página para realizar post em comunidade](img/Tela-Post.png)
-Tela padrão para realização de um post (RF-007)
+Tela padrão para realização de um post (RF-006)
 
 <hr>
 
