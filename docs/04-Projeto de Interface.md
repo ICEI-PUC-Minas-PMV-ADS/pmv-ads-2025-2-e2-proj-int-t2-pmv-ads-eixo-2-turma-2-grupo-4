@@ -35,7 +35,7 @@ Essa tela permite a realização de um cadastro de usuário (RF-001)
 
 <hr>
 
-![Tela de perfil](img/tela-Feed.png)
+![Tela de perfil](img/tela-Perfil.png)
 Permite que o usuário personalize o seu perfil (RF-011), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe(RF-010)
 
 <hr>
