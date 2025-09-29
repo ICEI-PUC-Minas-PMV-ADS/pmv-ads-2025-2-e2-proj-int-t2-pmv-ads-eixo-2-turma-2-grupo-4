@@ -42,7 +42,7 @@ Após a realização do login, o usário será direcionado para esta tela. Tela,
 <hr>
 
 ![Tela de perfil](img/Perfil.png)
-Após clicar no ícone de perfil, o usuário será direcionado para esta tela, onde será possível a edição do perfil (RF-011), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe (RF-010)
+Após clicar no ícone de perfil, o usuário será direcionado para esta tela, onde será possível a edição do perfil (RF-011), além de compartilhar informações sobre projetos pessoas (RF-020), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe (RF-010)
 
 <hr>
 
