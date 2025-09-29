@@ -14,6 +14,8 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 ## Wireframes
 
+Link do wireframe: https://www.figma.com/proto/1pKglCPNoUg7BC2DBvNsl4/Sem-t%C3%ADtulo?node-id=36-6&p=f&t=pcS5S6RAzpvOvXZW-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1
+
 
 
 
