@@ -20,8 +20,13 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 
 ![Tela de Login](img/Login.png)
+Permite a realização de Login na plataforma(RF-002)
+<hr>
 
 ![Tela de Cadastro de Usuário](img/Tela-Cadastro.png)
+Essa tela permite a realização de um cadastro de usuário (RF-001)
+
+<hr>
 
 ![Tela Inicial](img/tela-Feed.png)
 
@@ -29,6 +34,7 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 <hr>
 
 ![Tela de perfil](img/tela-Feed.png)
+Permite que o usuário personalize o seu perfil (RF-011), criando Trilhas de Conhecimento(RF-019) e listas de Leitura (RF-017) e compartilhe(RF-010)
 
 <hr>
 
