@@ -21,7 +21,7 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 
 
-![Tela de Login](img/Login.png)
+![Tela de Login](img/login.png)
 Permite a realização de Login na plataforma(RF-002)
 <hr>
 
