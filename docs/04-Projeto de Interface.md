@@ -61,7 +61,7 @@ Após clicar na primeira pção da tela anterior, Exemplo de post em fórum, com
 
 
 ![Página de Busca](img/Tela-Busca.png)
-Permite o usuário realize buscas avançadas (RF-003) e materias de mais bem avaliados (RF-018) e mais populares (RF-009)
+Após clicar na barra de busca, o usário é direcionado para essa tela que permite a realização de buscas avançadas (RF-003) e materias de mais bem avaliados (RF-018) e mais populares (RF-009)
 <hr>
 
 ![Página de comunidade](img/Tela-Comunidade.png)
