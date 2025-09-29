@@ -19,7 +19,7 @@ A referência abaixo irá auxiliá-lo na geração do artefato “Modelo ER”.
 
 > - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
 
-# Projeto de Base de Dados - [Nome do Projeto]
+# Projeto de Base de Dados 
 
 Este repositório contém o **Projeto da Base de Dados (Nível Físico)** para a aplicação [Seu Projeto/Sistema]. O projeto traduz o Modelo ER e o Diagrama de Classes UML em uma estrutura de base de dados relacional, incluindo tabelas, colunas, tipos de dados e restrições de integridade.
 
