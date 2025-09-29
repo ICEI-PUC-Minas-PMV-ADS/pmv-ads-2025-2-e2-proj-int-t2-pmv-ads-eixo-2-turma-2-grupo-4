@@ -63,29 +63,3 @@ As seguintes regras de negócio são aplicadas no nível do banco de dados:
 2.  **Identidade Única**: A coluna `EMAIL` na `TB_USUARIO` possui uma restrição `UNIQUE` e `NOT NULL`.
 3.  **Postagens em Fóruns**: A coluna `FK_COMUNIDADE` na `TB_POSTAGEM` é `NULLABLE`. Se nula, o campo `NOFORUMGERAL` deve ser `TRUE` (permitindo postagens abertas).
 
-## 5. Script de Criação
-
-Para criar o esquema da base de dados, execute os scripts na ordem:
-
-```bash
-# Navegue até a pasta de scripts
-cd ddl/
-
-# Execute o script principal de criação de tabelas
-# (O comando exato depende do seu SGBD, ex: psql -f 01_schema.sql)
-## Tecnologias Utilizadas
-
-Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
-
-Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
-
-## Hospedagem
-
-Explique como a hospedagem e o lançamento da plataforma foi feita.
-
-> **Links Úteis**:
->
-> - [Website com GitHub Pages](https://pages.github.com/)
-> - [Programação colaborativa com Repl.it](https://repl.it/)
-> - [Getting Started with Heroku](https://devcenter.heroku.com/start)
-> - [Publicando Seu Site No Heroku](http://pythonclub.com.br/publicando-seu-hello-world-no-heroku.html)
