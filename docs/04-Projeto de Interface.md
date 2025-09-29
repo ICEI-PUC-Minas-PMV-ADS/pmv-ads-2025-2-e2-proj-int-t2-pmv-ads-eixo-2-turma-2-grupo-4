@@ -18,3 +18,41 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 ![Exemplo de Wireframe](img/homepage.png)
 
+
+![Tela de Login](img/Login.png)
+
+![Tela de Cadastro de Usuário](img/Tela-Cadastro.png)
+
+![Tela Inicial](img/tela-Feed.png)
+
+
+<hr>
+
+Perfil aqui
+
+<hr>
+
+![Tela De Fórum Geral](img/tela-exibicao-geral.png)
+
+<hr>
+
+![Exemplo de Post em Fórum geral](img/tela-exibicao-forum.png)
+
+<hr>
+
+
+
+
+![Página de Busca](img/Tela-Busca.png)
+
+<hr>
+
+![Página de comunidade](img/Tela-Comunidade.png)
+<hr>
+
+![Página para realizar post em comunidade](img/Tela-Post.png)
+<hr>
+
+
+![Página de Livro](img/Tela-Livro.png)
+<hr>
