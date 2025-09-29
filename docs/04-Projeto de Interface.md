@@ -11,6 +11,7 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 ![diagrama de fluxo](https://github.com/user-attachments/assets/5660a2a0-5bfd-4f0a-afb9-8bbab17e5dd0)
 
+<hr>
 
 ## Wireframes
 
@@ -20,9 +21,9 @@ Link do wireframe: https://www.figma.com/proto/1pKglCPNoUg7BC2DBvNsl4/Sem-t%C3%A
 
 
 ![Exemplo de Wireframe](img/homepage.png)
+Tela de apresentação inicial da aplicação
 
-
-
+<hr>
 ![Tela de Login](img/login.png)
 Permite a realização de Login na plataforma(RF-002)
 <hr>
@@ -43,11 +44,12 @@ Permite que o usuário personalize o seu perfil (RF-011), criando Trilhas de Con
 <hr>
 
 ![Tela De Fórum Geral](img/tela-exibicao-geral.png)
+Tela de demostração de exibição do Fórum Geral do site
 
 <hr>
 
 ![Exemplo de Post em Fórum geral](img/tela-exibicao-forum.png)
-Tela de demostração de exibição do Fórum Geral do site
+Tela que permitirá a visualização das discussões no Fórum Geral e criação de tópicos no fórum (RF-016)
 
 <hr>
 
@@ -55,7 +57,7 @@ Tela de demostração de exibição do Fórum Geral do site
 
 
 ![Página de Busca](img/Tela-Busca.png)
-
+Permite o usuário realize buscas avançadas (RF-003) e materias de mais bem avaliados (RF-018) e mais populares (RF-009)
 <hr>
 
 ![Página de comunidade](img/Tela-Comunidade.png)
@@ -68,4 +70,5 @@ Tela que permite visualização e, nós ícones no canto direito, criação de c
 
 
 ![Página de Livro](img/Tela-Livro.png)
+Após clicar em uma das opções de busca do livro, o usuário será direcionado para esta tela
 <hr>
