@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "LH1qg2IjoHU=",
+  "dgSpecHash": "N7I+98HzHkw=",
   "success": true,
-  "projectFilePath": "D:\\Atria\\src\\4. Api\\Atria.Api.csproj",
+  "projectFilePath": "E:\\ProjectAtria\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\Atria\\src\\4. Api\\Atria.Api.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ThiagoBorges-SpaceIn\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
-    "C:\\Users\\ThiagoBorges-SpaceIn\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+    "C:\\Users\\Borge\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
+    "C:\\Users\\Borge\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
   ],
   "logs": []
 }
