@@ -1,0 +1,13 @@
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.AssemblyInfoInputs.cache
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.AssemblyInfo.cs
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.csproj.CoreCompileInputs.cache
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.sourcelink.json
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\bin\Debug\net9.0\Atria.Domain.deps.json
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\bin\Debug\net9.0\Atria.Domain.dll
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\bin\Debug\net9.0\Atria.Domain.pdb
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.dll
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\refint\Atria.Domain.dll
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.pdb
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\ref\Atria.Domain.dll
+E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\1. Domain\obj\Debug\net9.0\Atria.Domain.csproj.AssemblyReference.cache

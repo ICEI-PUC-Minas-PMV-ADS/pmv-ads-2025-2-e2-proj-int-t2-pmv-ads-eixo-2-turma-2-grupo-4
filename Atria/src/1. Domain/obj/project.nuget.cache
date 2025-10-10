@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "rc4oh5w5gH8=",
+  "dgSpecHash": "a2cDE1qpnPo=",
   "success": true,
   "projectFilePath": "E:\\ProjectAtria\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\Atria\\src\\1. Domain\\Atria.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Borge\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
