@@ -112,10 +112,16 @@ namespace Atria.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("InvitedBy")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsModAdmin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsPending")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("JoinedAt")
@@ -381,6 +387,12 @@ namespace Atria.Infrastructure.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("AUTOR");
 
+                    b.Property<int?>("ComunidadeIdComunidade")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FkComunidade")
+                        .HasColumnType("int");
+
                     b.Property<string>("FkProfessorCadastro")
                         .HasMaxLength(36)
                         .HasColumnType("varchar(255)")
@@ -405,6 +417,8 @@ namespace Atria.Infrastructure.Migrations
                         .HasColumnName("TITULO");
 
                     b.HasKey("IdMaterial");
+
+                    b.HasIndex("ComunidadeIdComunidade");
 
                     b.HasIndex("FkProfessorCadastro");
 
@@ -662,10 +676,16 @@ namespace Atria.Infrastructure.Migrations
 
             modelBuilder.Entity("Atria.Domain.Entities.MaterialContext.Material", b =>
                 {
+                    b.HasOne("Atria.Domain.Entities.CommunityContext.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeIdComunidade");
+
                     b.HasOne("Atria.Domain.Entities.UserContext.Usuario", "ProfessorCadastro")
                         .WithMany("MateriaisCadastrados")
                         .HasForeignKey("FkProfessorCadastro")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Comunidade");
 
                     b.Navigation("ProfessorCadastro");
                 });

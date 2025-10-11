@@ -13,4 +13,7 @@ public class CreateMaterialCommand : IRequest<int>
     public string? ISBN { get; init; }
     public string? DOI { get; init; }
     public string? Editora { get; init; }
+
+    // Optional: associate material with a community
+    public int? CommunityId { get; init; }
 }

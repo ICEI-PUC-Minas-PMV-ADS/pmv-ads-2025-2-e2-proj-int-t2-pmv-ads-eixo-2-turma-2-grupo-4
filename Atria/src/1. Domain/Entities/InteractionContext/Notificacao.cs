@@ -15,8 +15,12 @@ public class Notificacao
     // Navigation property
     public virtual Usuario Usuario { get; set; } = null!;
 
+    // Read flag
+    public bool Lida { get; set; }
+
     public Notificacao()
     {
         DataCriacao = DateTime.UtcNow;
+        Lida = false;
     }
 }

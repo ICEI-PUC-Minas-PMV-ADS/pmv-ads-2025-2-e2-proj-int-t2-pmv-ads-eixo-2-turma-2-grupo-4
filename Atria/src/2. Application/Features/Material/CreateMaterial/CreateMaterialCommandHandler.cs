@@ -24,6 +24,22 @@ public class CreateMaterialCommandHandler : IRequestHandler<CreateMaterialComman
         if (requester.TipoUsuario != Atria.Domain.Enums.TipoUsuario.Professor)
             throw new ArgumentException("Only professors can create materials");
 
+        // If CommunityId provided, validate community and membership/creator
+        if (request.CommunityId.HasValue)
+        {
+            var community = await _context.Comunidades.FirstOrDefaultAsync(c => c.IdComunidade == request.CommunityId.Value, cancellationToken);
+            if (community == null) throw new ArgumentException("Community not found", nameof(request.CommunityId));
+
+            // Check membership or creator
+            var isCreator = community.FkCriador == requester.IdUsuario;
+            var membership = await _context.ComunidadeMembros
+                .FirstOrDefaultAsync(cm => cm.ComunidadeId == request.CommunityId.Value && cm.UsuarioId == requester.IdUsuario, cancellationToken);
+
+            var isMember = membership != null;
+            if (!isCreator && !isMember)
+                throw new ArgumentException("Requester must be a member or the creator of the community to add material to it");
+        }
+
         global::Atria.Domain.Entities.MaterialContext.Material material;
         if (string.Equals(request.TipoMaterial, "Livro", StringComparison.OrdinalIgnoreCase))
         {
@@ -35,7 +51,8 @@ public class CreateMaterialCommandHandler : IRequestHandler<CreateMaterialComman
                 Status = request.Status,
                 FkProfessorCadastro = requester.IdUsuario,
                 ISBN = request.ISBN ?? string.Empty,
-                Editora = request.Editora ?? string.Empty
+                Editora = request.Editora ?? string.Empty,
+                FkComunidade = request.CommunityId
             };
         }
         else
@@ -47,7 +64,8 @@ public class CreateMaterialCommandHandler : IRequestHandler<CreateMaterialComman
                 AnoPublicacao = request.Year,
                 Status = request.Status,
                 FkProfessorCadastro = requester.IdUsuario,
-                DOI = request.DOI ?? string.Empty
+                DOI = request.DOI ?? string.Empty,
+                FkComunidade = request.CommunityId
             };
         }
 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Atria.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f76997092bbc869a1a573e40932c22880782b3a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4de2259a932cb2f2b2556ab1e63dd6983adeea6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Atria.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Atria.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,5 +13,8 @@ public interface IApplicationDbContext
     DbSet<Comunidade> Comunidades { get; }
     DbSet<ComunidadeMembro> ComunidadeMembros { get; }
     DbSet<Material> Materiais { get; }
+    DbSet<Postagem> Postagens { get; }
+    DbSet<Comentario> Comentarios { get; }
+    DbSet<Notificacao> Notificacoes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

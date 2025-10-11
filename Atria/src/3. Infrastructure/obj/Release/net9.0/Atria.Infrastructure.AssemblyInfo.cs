@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Atria.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9c88b99009eba94ab6e6bbd6efd3eb4cbb3b27c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4de2259a932cb2f2b2556ab1e63dd6983adeea6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Atria.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Atria.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

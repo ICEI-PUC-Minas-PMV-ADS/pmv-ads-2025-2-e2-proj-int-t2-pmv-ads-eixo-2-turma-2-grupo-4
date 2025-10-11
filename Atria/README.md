@@ -1,59 +1,55 @@
-# Atria - Como rodar com Docker
+Atria
+=====
 
-Instruções rápidas para rodar o projeto com Docker Compose, acessar a API e o Adminer (interface web do MySQL).
+Resumo
+------
+Repositório da aplicação Atria — plataforma de comunidade/compartilhamento acadêmico.
+Arquitetura em camadas: `Domain`, `Application`, `Infrastructure`, `Api`.
+Para documentação detalhada veja `docs/ARCHITECTURE.md` e `docs/DEVELOPMENT-SETUP.md`.
 
-Pré-requisitos
-- Docker (Docker Desktop ou engine) instalado e rodando
-- (Opcional) dotnet 9 SDK para executar localmente sem containers
+Links rápidos
+-------------
+- Arquitetura e fluxo: `docs/ARCHITECTURE.md`
+- Setup e execução: `docs/DEVELOPMENT-SETUP.md`
 
-Rodando os containers
-1. Na raiz do repositório execute:
-   `docker compose up --build -d`
+Quick start (Docker)
+--------------------
+1. Subir containers:
 
-2. Verifique logs/saúde:
-   - Logs da API: `docker compose logs -f api`
-   - Logs do DB: `docker compose logs -f db`
-   - Status dos containers: `docker compose ps`
+   docker compose up --build
 
-Mapeamentos e endpoints
-- API: http://localhost:5000 (Swagger disponível em `/swagger` no ambiente Development)
-- Adminer (UI do banco): http://localhost:8080
-- MySQL no host (mapeado): porta `3307` -> container `3306` (use quando conectar externamente)
+2. A API ficará disponível em `http://localhost:5000`.
+3. Acesse Adminer em `http://localhost:8080` (usuário `root`, senha conforme `docker-compose.yml`).
 
-Credenciais do MySQL (apenas para desenvolvimento)
-- Host (dentro do container): `db`
-- Port (dentro do container): `3306`
-- Host (externo / no seu host): `localhost` e porta `3307`
-- User: `root`
-- Password: `example`
-- Database padrão criado: `atria`
+Executar localmente (sem Docker)
+--------------------------------
+1. Configure `src/4. Api/appsettings.Development.json` com sua connection string MySQL.
+2. Restaurar pacotes:
 
-Acessando Adminer
-- Abra http://localhost:8080
-- Em "System" selecione `MySQL` (ou deixe em branco)
-- Host: `db` (ou `localhost`+porta `3307` se conectar externamente)
-- Username: `root`
-- Password: `example`
-- Database: `atria`
+   dotnet restore
 
-Migrações
-- O projeto aplica migrações automaticamente na inicialização da API (ver `Program.cs`).
-- Para aplicar migrações manualmente (local):
-  - No projeto raiz: `dotnet ef database update --project src/3. Infrastructure --startup-project src/4. Api`
-  - Criar migração: `dotnet ef migrations add NomeDaMigration --project src/3. Infrastructure --startup-project src/4. Api`
+3. Aplicar migrations:
 
-Executando localmente sem Docker
-- Configure a string de conexão em `src/4. Api/appsettings.Development.json` ou use variável de ambiente `ConnectionStrings__DefaultConnection`.
-- Rode: `dotnet run --project src/4. Api`
+   dotnet ef database update --project src/3. Infrastructure/Atria.Infrastructure.csproj --startup-project src/4. Api/Atria.Api.csproj --context AppDbContext
 
-Parar e remover containers
-- Parar: `docker compose down`
-- Parar e remover volumes (dados do DB): `docker compose down -v` (ATENÇÃO: remove dados do banco)
+4. Executar API:
 
-Dicas de segurança
-- Não comitar segredos (senhas, chaves). Use variáveis de ambiente ou `dotnet user-secrets` em dev.
-- Em produção, não persista as chaves de DataProtection dentro do container sem um repositório persistente.
+   dotnet run --project src/4. Api/Atria.Api.csproj
 
-Suporte
-- Se houver erro ao criar a imagem, verifique se o Docker daemon está ativo e se o contexto de build inclui os projetos referenciados (o `docker-compose.yml` do repositório já está configurado para buildar a solução).
+Testes
+------
+- Projeto de testes: `tests/Atria.Application.Tests`
+- Executar:
+
+  dotnet test tests/Atria.Application.Tests/Atria.Application.Tests.csproj
+
+Contribuição
+------------
+- Branches: use `feature/<nome>` ou `fix/<nome>` para PRs.
+- Inclua testes para alterações de comportamento e atualize migrations quando necessário.
+
+Observações
+-----------
+- Moderadores do sistema não podem ser criados via endpoint público — use seed/migration ou criação manual em ambiente controlado.
+- Para dúvidas sobre fluxo ou regras de negócio, consulte `docs/ARCHITECTURE.md`.
 

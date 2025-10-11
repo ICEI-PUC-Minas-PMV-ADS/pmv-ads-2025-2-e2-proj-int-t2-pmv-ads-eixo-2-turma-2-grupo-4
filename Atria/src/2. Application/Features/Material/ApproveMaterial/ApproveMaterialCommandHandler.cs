@@ -24,16 +24,29 @@ public class ApproveMaterialCommandHandler : IRequestHandler<ApproveMaterialComm
         var requester = await _context.Usuarios.FirstOrDefaultAsync(u => u.IdUsuario == request.RequesterId, cancellationToken);
         if (requester == null) throw new ArgumentException("Requester not found", nameof(request.RequesterId));
 
+        // System moderator can approve
         var isSystemModerator = requester.TipoUsuario == Atria.Domain.Enums.TipoUsuario.Moderador;
-        if (!isSystemModerator)
+        if (isSystemModerator)
         {
-            // check if requester is modadmin of the professor's community or something similar (skip advanced logic for now)
-            throw new ArgumentException("Only system moderators can approve materials currently");
+            material.Status = request.Approve ? "Aprovado" : "Rejeitado";
+            await _context.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
 
-        material.Status = request.Approve ? "Aprovado" : "Rejeitado";
-        await _context.SaveChangesAsync(cancellationToken);
+        // If material is linked to a community, allow community ModAdmin or Admin to approve
+        if (material.FkComunidade.HasValue)
+        {
+            var membership = await _context.ComunidadeMembros
+                .FirstOrDefaultAsync(cm => cm.ComunidadeId == material.FkComunidade.Value && cm.UsuarioId == requester.IdUsuario, cancellationToken);
 
-        return Unit.Value;
+            if (membership != null && (membership.IsModAdmin || membership.IsAdmin))
+            {
+                material.Status = request.Approve ? "Aprovado" : "Rejeitado";
+                await _context.SaveChangesAsync(cancellationToken);
+                return Unit.Value;
+            }
+        }
+
+        throw new ArgumentException("Only system moderators or community mod-admins/admins can approve this material");
     }
 }

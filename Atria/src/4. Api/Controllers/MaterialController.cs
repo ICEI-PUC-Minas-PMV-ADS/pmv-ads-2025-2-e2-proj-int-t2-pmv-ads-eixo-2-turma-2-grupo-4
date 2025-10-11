@@ -38,7 +38,8 @@ public class MaterialController : ControllerBase
             ISBN = command.ISBN,
             DOI = command.DOI,
             Editora = command.Editora,
-            RequesterId = requesterId
+            RequesterId = requesterId,
+            CommunityId = command.CommunityId
         };
 
         var id = await _mediator.Send(cmd);
