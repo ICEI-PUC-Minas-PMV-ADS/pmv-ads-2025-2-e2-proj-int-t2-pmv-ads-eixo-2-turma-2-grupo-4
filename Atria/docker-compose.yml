@@ -1,0 +1,44 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: atria
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: .
+      dockerfile: "src/4. Api/Dockerfile"
+    image: atria-api:local
+    restart: unless-stopped
+    environment:
+      # Connection string will point to the `db` service inside the network
+      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=atria;User=root;Password=example;CharSet=utf8;SslMode=none;AllowPublicKeyRetrieval=true"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5000:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
