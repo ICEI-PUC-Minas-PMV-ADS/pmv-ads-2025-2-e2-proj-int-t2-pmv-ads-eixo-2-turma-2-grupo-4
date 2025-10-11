@@ -31,6 +31,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
     {
         try
         {
+            // Prevent public creation of system moderator
+            if (request.TipoUsuario == TipoUsuario.Moderador)
+            {
+                throw new ValidationException("Cannot register as Moderador. Moderador role is reserved.");
+            }
+
             // Verificar se o email já existe
             var existingUser = await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);

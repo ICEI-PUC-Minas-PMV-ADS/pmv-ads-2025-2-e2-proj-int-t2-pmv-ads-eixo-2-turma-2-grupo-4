@@ -25,6 +25,8 @@ public class AppDbContext : DbContext, IApplicationDbContext
     public DbSet<ListaDeLeitura> ListasDeLeitura => Set<ListaDeLeitura>();
     public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
     public DbSet<Notificacao> Notificacoes => Set<Notificacao>();
+    public DbSet<MensagemPrivada> MensagensPrivadas => Set<MensagemPrivada>();
+    public DbSet<ComunidadeMembro> ComunidadeMembros => Set<ComunidadeMembro>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,6 +51,22 @@ public class AppDbContext : DbContext, IApplicationDbContext
             .HasDiscriminator(m => m.TipoMaterial)
             .HasValue<Livro>(TipoMaterial.Livro)
             .HasValue<Artigo>(TipoMaterial.Artigo);
+
+        // Configura as relações entre Comunidade e ComunidadeMembro
+        modelBuilder.Entity<ComunidadeMembro>()
+            .HasKey(cm => new { cm.ComunidadeId, cm.UsuarioId });
+
+        modelBuilder.Entity<ComunidadeMembro>()
+            .HasOne(cm => cm.Comunidade)
+            .WithMany(c => c.Membros)
+            .HasForeignKey(cm => cm.ComunidadeId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ComunidadeMembro>()
+            .HasOne(cm => cm.Usuario)
+            .WithMany(u => u.ComunidadeMembros)
+            .HasForeignKey(cm => cm.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

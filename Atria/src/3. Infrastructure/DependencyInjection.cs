@@ -42,6 +42,7 @@ public static class DependencyInjection
             provider.GetRequiredService<AppDbContext>());
 
         services.AddTransient<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<IJwtService, JwtService>();
 
         return services;
     }

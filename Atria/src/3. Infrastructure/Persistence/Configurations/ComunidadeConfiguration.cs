@@ -44,5 +44,11 @@ public class ComunidadeConfiguration : IEntityTypeConfiguration<Comunidade>
             .WithMany(u => u.ComunidadesCriadas)
             .HasForeignKey(c => c.FkCriador)
             .OnDelete(DeleteBehavior.SetNull);
+
+        // Relacionamento para membro
+        builder.HasMany(c => c.Membros)
+            .WithOne(cm => cm.Comunidade)
+            .HasForeignKey(cm => cm.ComunidadeId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

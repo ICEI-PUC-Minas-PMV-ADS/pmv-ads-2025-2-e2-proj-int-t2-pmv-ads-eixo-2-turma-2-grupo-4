@@ -19,11 +19,29 @@ public class Comunidade
     public virtual Usuario? Criador { get; set; }
     public virtual ICollection<GrupoDeEstudo> GruposDeEstudo { get; private set; }
     public virtual ICollection<Postagem> Postagens { get; private set; }
+    public virtual ICollection<ComunidadeMembro> Membros { get; private set; }
     
     public Comunidade()
     {
         DataCriacao = DateTime.UtcNow;
         GruposDeEstudo = new List<GrupoDeEstudo>();
         Postagens = new List<Postagem>();
+        Membros = new List<ComunidadeMembro>();
+    }
+
+    public ComunidadeMembro AddMember(Usuario usuario, bool isAdmin = false, bool isModAdmin = false)
+    {
+        var member = new ComunidadeMembro
+        {
+            UsuarioId = usuario.IdUsuario,
+            ComunidadeId = this.IdComunidade,
+            Usuario = usuario,
+            Comunidade = this,
+            IsAdmin = isAdmin,
+            IsModAdmin = isModAdmin
+        };
+
+        Membros.Add(member);
+        return member;
     }
 }

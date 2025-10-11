@@ -1,10 +1,13 @@
 using System.Threading.Tasks;
 using Atria.Application.Features.Users;
 using Atria.Application.Features.Users.Register;
+using Atria.Application.Features.Users.UpdateUser;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Atria.Api.Controllers;
 
@@ -22,6 +25,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<string>> Register([FromBody] RegisterUserCommand command)
@@ -57,5 +61,52 @@ public class UsersController : ControllerBase
         }
 
         return Ok(user);
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> GetMe()
+    {
+        var userId = User.FindFirst("id")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+        var query = new GetUserByIdQuery { Id = userId };
+        var user = await _mediator.Send(query);
+        if (user == null) return NotFound();
+        return Ok(user);
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<IActionResult> Update(string id, [FromBody] UpdateUserCommand command)
+    {
+        var requesterId = User.FindFirst("id")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var requesterRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        var cmd = new UpdateUserCommand
+        {
+            Id = id,
+            Nome = command.Nome,
+            Matricula = command.Matricula,
+            AreaAtuacao = command.AreaAtuacao,
+            RequesterId = requesterId ?? string.Empty,
+            RequesterRole = requesterRole
+        };
+
+        try
+        {
+            var updated = await _mediator.Send(cmd);
+            return Ok(updated);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            _logger.LogWarning(ex, "Validation failed during user update: {Message}", ex.Message);
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (System.ArgumentException ex)
+        {
+            _logger.LogWarning(ex, "Failed to update user");
+            return BadRequest(new { error = ex.Message });
+        }
     }
 }

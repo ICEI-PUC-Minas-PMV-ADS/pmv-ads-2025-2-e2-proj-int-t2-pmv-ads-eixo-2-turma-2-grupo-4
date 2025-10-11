@@ -101,6 +101,33 @@ namespace Atria.Infrastructure.Migrations
                     b.ToTable("TB_COMUNIDADE", (string)null);
                 });
 
+            modelBuilder.Entity("Atria.Domain.Entities.CommunityContext.ComunidadeMembro", b =>
+                {
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsModAdmin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("ComunidadeId", "UsuarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("ComunidadeMembros");
+                });
+
             modelBuilder.Entity("Atria.Domain.Entities.CommunityContext.GrupoDeEstudo", b =>
                 {
                     b.Property<int>("IdGrupoEstudo")
@@ -232,6 +259,47 @@ namespace Atria.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("TB_AVALIACAO", (string)null);
+                });
+
+            modelBuilder.Entity("Atria.Domain.Entities.InteractionContext.MensagemPrivada", b =>
+                {
+                    b.Property<string>("IdMensagem")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("ID_MENSAGEM");
+
+                    b.Property<string>("Conteudo")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("CONTEUDO");
+
+                    b.Property<DateTime>("DataEnvio")
+                        .HasColumnType("datetime")
+                        .HasColumnName("DATA_ENVIO");
+
+                    b.Property<string>("FkDestinatario")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("FK_DESTINATARIO");
+
+                    b.Property<string>("FkRemetente")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("FK_REMETENTE");
+
+                    b.Property<bool>("Lida")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("LIDA");
+
+                    b.HasKey("IdMensagem");
+
+                    b.HasIndex("FkDestinatario");
+
+                    b.HasIndex("FkRemetente");
+
+                    b.ToTable("TB_MENSAGEM_PRIVADA", (string)null);
                 });
 
             modelBuilder.Entity("Atria.Domain.Entities.InteractionContext.Notificacao", b =>
@@ -484,6 +552,25 @@ namespace Atria.Infrastructure.Migrations
                     b.Navigation("Criador");
                 });
 
+            modelBuilder.Entity("Atria.Domain.Entities.CommunityContext.ComunidadeMembro", b =>
+                {
+                    b.HasOne("Atria.Domain.Entities.CommunityContext.Comunidade", "Comunidade")
+                        .WithMany("Membros")
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Atria.Domain.Entities.UserContext.Usuario", "Usuario")
+                        .WithMany("ComunidadeMembros")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Atria.Domain.Entities.CommunityContext.GrupoDeEstudo", b =>
                 {
                     b.HasOne("Atria.Domain.Entities.CommunityContext.Comunidade", "Comunidade")
@@ -530,6 +617,25 @@ namespace Atria.Infrastructure.Migrations
                     b.Navigation("Autor");
 
                     b.Navigation("Material");
+                });
+
+            modelBuilder.Entity("Atria.Domain.Entities.InteractionContext.MensagemPrivada", b =>
+                {
+                    b.HasOne("Atria.Domain.Entities.UserContext.Usuario", "Destinatario")
+                        .WithMany("MensagensRecebidas")
+                        .HasForeignKey("FkDestinatario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Atria.Domain.Entities.UserContext.Usuario", "Remetente")
+                        .WithMany("MensagensEnviadas")
+                        .HasForeignKey("FkRemetente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Destinatario");
+
+                    b.Navigation("Remetente");
                 });
 
             modelBuilder.Entity("Atria.Domain.Entities.InteractionContext.Notificacao", b =>
@@ -583,6 +689,8 @@ namespace Atria.Infrastructure.Migrations
                 {
                     b.Navigation("GruposDeEstudo");
 
+                    b.Navigation("Membros");
+
                     b.Navigation("Postagens");
                 });
 
@@ -602,11 +710,17 @@ namespace Atria.Infrastructure.Migrations
 
                     b.Navigation("Comentarios");
 
+                    b.Navigation("ComunidadeMembros");
+
                     b.Navigation("ComunidadesCriadas");
 
                     b.Navigation("ListasDeLeitura");
 
                     b.Navigation("MateriaisCadastrados");
+
+                    b.Navigation("MensagensEnviadas");
+
+                    b.Navigation("MensagensRecebidas");
 
                     b.Navigation("Notificacoes");
 
