@@ -151,4 +151,3 @@ E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atr
 E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\4. Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\4. Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\4. Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-E:\ProjectAtria\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\Atria\src\4. Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

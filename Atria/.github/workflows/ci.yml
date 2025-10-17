@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: example
+          MYSQL_DATABASE: atria
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-packages-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-packages-
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build -c Release --no-restore
+
+      - name: Install MySQL client
+        run: sudo apt-get update && sudo apt-get install -y default-mysql-client
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL service to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping -h mysql -u root -pexample --silent; then
+              echo "MySQL is up"
+              break
+            fi
+            echo "Waiting... ($i)"
+            sleep 2
+          done
+
+      - name: Apply EF migrations
+        env:
+          ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=atria;User=root;Password=example;CharSet=utf8mb4;SslMode=none;AllowPublicKeyRetrieval=true;ConnectionTimeout=300"
+        run: |
+          dotnet ef database update --project "src/3. Infrastructure/Atria.Infrastructure.csproj" --startup-project "src/4. Api/Atria.Api.csproj" --context AppDbContext
+
+      - name: Run unit and integration tests
+        env:
+          ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=atria;User=root;Password=example;CharSet=utf8mb4;SslMode=none;AllowPublicKeyRetrieval=true;ConnectionTimeout=300"
+        run: dotnet test --verbosity normal

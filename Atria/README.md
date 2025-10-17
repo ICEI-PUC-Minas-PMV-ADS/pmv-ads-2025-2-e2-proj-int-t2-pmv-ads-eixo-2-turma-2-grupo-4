@@ -1,6 +1,8 @@
 Atria
 =====
 
+[![CI](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4/actions/workflows/ci.yml/badge.svg)](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4/actions)
+
 Resumo
 ------
 Repositório da aplicação Atria — plataforma de comunidade/compartilhamento acadêmico.

@@ -2,15 +2,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Atria.Application;
 using Atria.Infrastructure;
-using Atria.Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Atria.Api.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
@@ -90,28 +87,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Apply EF migrations automatically on startup
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-    var logger = loggerFactory.CreateLogger("DatabaseMigrations");
-
-    try
-    {
-        var db = services.GetRequiredService<AppDbContext>();
-        logger.LogInformation("Applying database migrations...");
-        db.Database.Migrate();
-        logger.LogInformation("Database migrations applied successfully.");
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred while applying database migrations.");
-        // rethrow to fail fast so container/host can detect failure
-        throw;
-    }
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -127,3 +102,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Expose Program class for integration tests
+public partial class Program { }
