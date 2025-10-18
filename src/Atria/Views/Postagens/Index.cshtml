@@ -1,0 +1,24 @@
+@model IEnumerable<Atria.Models.Postagem>
+@{
+    ViewData["Title"] = "Postagens";
+}
+<h1>Postagens</h1>
+<p><a class="btn btn-primary" href="/Postagens/Create">Nova Postagem</a></p>
+<table class="table">
+    <thead><tr><th>Conteúdo</th><th>Usuário</th><th>Comunidade</th><th>Data</th><th></th></tr></thead>
+    <tbody>
+@foreach(var p in Model){
+    <tr>
+        <td>@p.Conteudo</td>
+        <td>@p.Usuario?.Nome</td>
+        <td>@p.Comunidade?.Nome</td>
+        <td>@p.DataPostagem.ToString("yyyy-MM-dd")</td>
+        <td>
+            <a class="btn btn-sm btn-info" href="/Postagens/Details/@p.Id">Detalhes</a>
+            <a class="btn btn-sm btn-warning" href="/Postagens/Edit/@p.Id">Editar</a>
+            <a class="btn btn-sm btn-danger" href="/Postagens/Delete/@p.Id">Excluir</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

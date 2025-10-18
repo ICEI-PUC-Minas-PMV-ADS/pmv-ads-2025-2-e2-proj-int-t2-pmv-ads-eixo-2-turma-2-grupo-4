@@ -1,0 +1,8 @@
+@model Atria.Models.GrupoEstudo
+@{
+    ViewData["Title"] = "Detalhes do Grupo";
+}
+<h1>@Model.Nome</h1>
+<p>@Model.Descricao</p>
+<p>Data: @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
+<p><a class="btn btn-secondary" href="/GruposEstudo">Voltar</a></p>

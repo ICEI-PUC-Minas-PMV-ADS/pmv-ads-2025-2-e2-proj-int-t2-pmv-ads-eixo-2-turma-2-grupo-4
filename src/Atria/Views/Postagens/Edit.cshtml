@@ -1,0 +1,22 @@
+@model Atria.Models.Postagem
+@{
+    ViewData["Title"] = "Editar Postagem";
+}
+<h1>Editar Postagem</h1>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label">Conteúdo</label>
+        <textarea class="form-control" asp-for="Conteudo"></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Comunidade (opcional)</label>
+        <input class="form-control" asp-for="FKComunidade" />
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" asp-for="NoForumGeral" />
+        <label class="form-check-label">Postagem no fórum geral</label>
+    </div>
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
+</form>

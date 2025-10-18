@@ -1,0 +1,25 @@
+@model Atria.Models.Material
+@{
+    ViewData["Title"] = "Criar Material";
+}
+<h1>Criar Material</h1>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input class="form-control" asp-for="Titulo" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" asp-for="Descricao"></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tipo</label>
+        <input class="form-control" asp-for="Tipo" />
+    </div>
+    <button class="btn btn-primary" type="submit">Criar</button>
+    <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+</form>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,22 @@
+@model Atria.Models.Avaliacao
+@{
+    ViewData["Title"] = "Editar Avaliação";
+}
+<h1>Editar Avaliação</h1>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label>Nota</label>
+        <input asp-for="Nota" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Tipo</label>
+        <input asp-for="TipoAvaliacao" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Resenha</label>
+        <textarea asp-for="Resenha" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+</form>

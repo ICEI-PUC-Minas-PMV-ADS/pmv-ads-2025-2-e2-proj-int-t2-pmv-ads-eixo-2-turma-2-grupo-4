@@ -1,0 +1,10 @@
+@model Atria.Models.Postagem
+@{
+    ViewData["Title"] = "Detalhes da Postagem";
+}
+<h1>Postagem</h1>
+<p>@Model.Conteudo</p>
+<p>Usuário: @Model.Usuario?.Nome</p>
+<p>Comunidade: @Model.Comunidade?.Nome</p>
+<p>Data: @Model.DataPostagem.ToString("yyyy-MM-dd")</p>
+<p><a class="btn btn-secondary" href="/Postagens">Voltar</a></p>

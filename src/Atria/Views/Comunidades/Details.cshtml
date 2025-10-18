@@ -1,0 +1,8 @@
+@model Atria.Models.Comunidade
+@{
+    ViewData["Title"] = "Detalhes da Comunidade";
+}
+<h1>@Model.Nome</h1>
+<p>@Model.Descricao</p>
+<p>Data: @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
+<p><a class="btn btn-secondary" href="/Comunidades">Voltar</a></p>

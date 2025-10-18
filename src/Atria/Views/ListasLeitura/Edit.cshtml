@@ -1,0 +1,18 @@
+@model Atria.Models.ListaLeitura
+@{
+    ViewData["Title"] = "Editar Lista";
+}
+<h1>Editar Lista</h1>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input class="form-control" asp-for="Nome" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" asp-for="Descricao"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-secondary" href="/ListasLeitura">Cancelar</a>
+</form>

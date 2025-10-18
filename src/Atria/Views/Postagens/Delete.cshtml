@@ -1,0 +1,11 @@
+@model Atria.Models.Postagem
+@{
+    ViewData["Title"] = "Excluir Postagem";
+}
+<h1>Excluir Postagem</h1>
+<p>Tem certeza que deseja excluir esta postagem?</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Excluir</button>
+    <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
+</form>

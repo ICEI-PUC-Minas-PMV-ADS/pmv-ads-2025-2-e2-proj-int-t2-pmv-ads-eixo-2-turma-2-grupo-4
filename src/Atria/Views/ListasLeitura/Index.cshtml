@@ -1,0 +1,22 @@
+@model IEnumerable<Atria.Models.ListaLeitura>
+@{
+    ViewData["Title"] = "Listas de Leitura";
+}
+<h1>Listas de Leitura</h1>
+<p><a class="btn btn-primary" href="/ListasLeitura/Create">Nova Lista</a></p>
+<table class="table">
+    <thead><tr><th>Nome</th><th>Descrição</th><th></th></tr></thead>
+    <tbody>
+@foreach(var l in Model){
+    <tr>
+        <td>@l.Nome</td>
+        <td>@l.Descricao</td>
+        <td>
+            <a class="btn btn-sm btn-info" href="/ListasLeitura/Details/@l.Id">Detalhes</a>
+            <a class="btn btn-sm btn-warning" href="/ListasLeitura/Edit/@l.Id">Editar</a>
+            <a class="btn btn-sm btn-danger" href="/ListasLeitura/Delete/@l.Id">Excluir</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

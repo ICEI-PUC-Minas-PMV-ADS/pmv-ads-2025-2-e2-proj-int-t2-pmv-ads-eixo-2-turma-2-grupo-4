@@ -1,0 +1,27 @@
+@model IEnumerable<Atria.Models.Avaliacao>
+@{
+    ViewData["Title"] = "Avaliações";
+}
+
+<h1>Avaliações</h1>
+<p><a class="btn btn-primary" asp-action="Create">Nova Avaliação</a></p>
+<table class="table">
+    <thead>
+        <tr><th>Nota</th><th>Tipo</th><th>Usuário</th><th>Material</th><th></th></tr>
+    </thead>
+    <tbody>
+@foreach(var a in Model) {
+    <tr>
+        <td>@a.Nota</td>
+        <td>@a.TipoAvaliacao</td>
+        <td>@a.Usuario?.Nome</td>
+        <td>@a.Material?.Titulo</td>
+        <td>
+            <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@a.Id">Detalhes</a>
+            <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@a.Id">Editar</a>
+            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@a.Id">Excluir</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

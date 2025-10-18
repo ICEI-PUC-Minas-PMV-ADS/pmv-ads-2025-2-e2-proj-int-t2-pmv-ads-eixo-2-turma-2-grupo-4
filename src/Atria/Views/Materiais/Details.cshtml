@@ -1,0 +1,10 @@
+@model Atria.Models.Material
+@{
+    ViewData["Title"] = "Detalhes do Material";
+}
+<h1>@Model.Titulo</h1>
+<p>@Model.Descricao</p>
+<p>Tipo: @Model.Tipo</p>
+<p>Criador: @Model.Criador?.Nome</p>
+<p>Data: @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
+<p><a class="btn btn-secondary" href="/Materiais">Voltar</a></p>

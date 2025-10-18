@@ -1,0 +1,17 @@
+@model Atria.Models.Comunidade
+@{
+    ViewData["Title"] = "Criar Comunidade";
+}
+<h1>Criar Comunidade</h1>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input class="form-control" asp-for="Nome" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" asp-for="Descricao"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Criar</button>
+    <a class="btn btn-secondary" href="/Comunidades">Cancelar</a>
+</form>

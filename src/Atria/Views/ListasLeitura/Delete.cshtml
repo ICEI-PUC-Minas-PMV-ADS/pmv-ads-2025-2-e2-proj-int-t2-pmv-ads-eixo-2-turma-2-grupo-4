@@ -1,0 +1,11 @@
+@model Atria.Models.ListaLeitura
+@{
+    ViewData["Title"] = "Excluir Lista";
+}
+<h1>Excluir Lista</h1>
+<p>Tem certeza que deseja excluir <strong>@Model.Nome</strong> ?</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Excluir</button>
+    <a class="btn btn-secondary" href="/ListasLeitura">Cancelar</a>
+</form>

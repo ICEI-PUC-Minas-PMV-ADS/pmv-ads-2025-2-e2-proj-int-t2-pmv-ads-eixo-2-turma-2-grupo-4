@@ -1,0 +1,11 @@
+@model Atria.Models.Material
+@{
+    ViewData["Title"] = "Excluir Material";
+}
+<h1>Excluir Material</h1>
+<p>Tem certeza que deseja excluir <strong>@Model.Titulo</strong> ?</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Excluir</button>
+    <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+</form>

@@ -1,0 +1,12 @@
+@model Atria.Models.ListaLeitura
+@{
+    ViewData["Title"] = "Detalhes da Lista";
+}
+<h1>@Model.Nome</h1>
+<p>@Model.Descricao</p>
+<ul>
+@foreach(var item in Model.ListaTemMateriais ?? Enumerable.Empty<Atria.Models.ListaTemMaterial>()) {
+    <li>@item.Material?.Titulo</li>
+}
+</ul>
+<p><a class="btn btn-secondary" href="/ListasLeitura">Voltar</a></p>

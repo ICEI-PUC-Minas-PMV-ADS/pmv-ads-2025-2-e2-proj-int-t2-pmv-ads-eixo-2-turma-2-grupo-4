@@ -1,0 +1,11 @@
+@model Atria.Models.Avaliacao
+@{
+    ViewData["Title"] = "Excluir Avaliação";
+}
+<h1>Excluir</h1>
+<p>Tem certeza que deseja excluir esta avaliação?</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+</form>
