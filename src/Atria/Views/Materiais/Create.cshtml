@@ -14,8 +14,13 @@
         <textarea class="form-control" asp-for="Descricao"></textarea>
     </div>
     <div class="mb-3">
-        <label class="form-label">Tipo</label>
-        <input class="form-control" asp-for="Tipo" />
+        <div class="form-group">
+            <label asp-for="Tipo"></label>
+            <select asp-for="Tipo" class="form-control">
+                <option value="Livro">Livro</option>
+                <option value="Artigo">Artigo</option>
+            </select>
+        </div>
     </div>
     <button class="btn btn-primary" type="submit">Criar</button>
     <a class="btn btn-secondary" href="/Materiais">Cancelar</a>

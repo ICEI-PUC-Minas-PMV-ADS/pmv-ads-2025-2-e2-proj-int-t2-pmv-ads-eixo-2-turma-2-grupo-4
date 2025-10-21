@@ -2,16 +2,35 @@
 @{
     ViewData["Title"] = "Criar Lista";
 }
-<h1>Criar Lista de Leitura</h1>
+<h1>Criar Listas de Leitura</h1>
 <form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="mb-3">
-        <label class="form-label">Nome</label>
+        <label asp-for="Nome" class="form-label"></label>
         <input class="form-control" asp-for="Nome" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Descrição</label>
+        <label asp-for="Descricao" class="form-label"></label>
         <textarea class="form-control" asp-for="Descricao"></textarea>
+        <span asp-validation-for="Descricao" class="text-danger"></span>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">Materiais</label>
+
+        <select class="form-control" name="materialIds" asp-items="@ViewBag.Materiais" multiple>
+        </select>
+
+        <div class="form-text">Segure "Ctrl" (ou "Command" no Mac) para selecionar mais de um material.</div>
+    </div>
+
     <button class="btn btn-primary" type="submit">Criar</button>
-    <a class="btn btn-secondary" href="/ListasLeitura">Cancelar</a>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

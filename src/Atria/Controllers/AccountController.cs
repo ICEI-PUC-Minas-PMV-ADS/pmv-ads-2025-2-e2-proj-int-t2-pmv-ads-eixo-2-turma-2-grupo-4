@@ -35,7 +35,7 @@ namespace Atria.Controllers
             // UserName deve ser igual ao Email
             var user = new ApplicationUser 
             { 
-                UserName = model.Email, 
+                UserName = model.Nome, 
                 Email = model.Email, 
                 Nome = model.Nome, 
                 EmailConfirmed = true,

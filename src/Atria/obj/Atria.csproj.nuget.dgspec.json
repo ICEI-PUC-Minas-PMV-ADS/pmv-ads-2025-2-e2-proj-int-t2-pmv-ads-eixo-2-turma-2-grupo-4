@@ -1,28 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ProjetoAtria-PUC\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj": {}
+    "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj": {}
   },
   "projects": {
-    "E:\\ProjetoAtria-PUC\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj": {
+    "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ProjetoAtria-PUC\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj",
+        "projectUniqueName": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj",
         "projectName": "Atria",
-        "projectPath": "E:\\ProjetoAtria-PUC\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj",
-        "packagesPath": "C:\\Users\\Borge\\.nuget\\packages\\",
-        "outputPath": "E:\\ProjetoAtria-PUC\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\obj\\",
+        "projectPath": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj",
+        "packagesPath": "C:\\Users\\sendr\\.nuget\\packages\\",
+        "outputPath": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Borge\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sendr\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net9.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -48,24 +48,24 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.0, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.0, )"
             }
           },
           "imports": [
@@ -87,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
