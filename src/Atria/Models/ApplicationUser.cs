@@ -30,6 +30,19 @@ namespace Atria.Models
         [MaxLength(50)]
         public string? TipoUsuario { get; set; }
 
-        // Outros campos podem ser adicionados conforme necessidade
+        // RF-011: Área de Estudo
+        [Column("AREA_ESTUDO")]
+        [MaxLength(200)]
+        public string? AreaEstudo { get; set; }
+
+        // RF-019: Trilha de Conhecimento
+        [Column("TRILHA_CONHECIMENTO")]
+        [MaxLength(500)]
+        public string? TrilhaConhecimento { get; set; }
+
+        // RF-020: Projetos
+        [Column("PROJETOS")]
+        [MaxLength(1000)]
+        public string? Projetos { get; set; }
     }
 }

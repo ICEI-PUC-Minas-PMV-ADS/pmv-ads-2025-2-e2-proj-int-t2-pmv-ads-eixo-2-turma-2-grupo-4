@@ -49,6 +49,9 @@ namespace Atria.Data
                 b.Property(u => u.Nome).HasColumnName("NOME").HasMaxLength(150).IsRequired();
                 b.Property(u => u.DataCadastro).HasColumnName("DATA_CADASTRO");
                 b.Property(u => u.TipoUsuario).HasColumnName("TIPO_USUARIO").HasMaxLength(50);
+                b.Property(u => u.AreaEstudo).HasColumnName("AREA_ESTUDO").HasMaxLength(200);
+                b.Property(u => u.TrilhaConhecimento).HasColumnName("TRILHA_CONHECIMENTO").HasMaxLength(500);
+                b.Property(u => u.Projetos).HasColumnName("PROJETOS").HasMaxLength(1000);
 
                 // Email unique
                 b.HasIndex(u => u.Email).IsUnique().HasDatabaseName("UX_TB_USUARIO_EMAIL");

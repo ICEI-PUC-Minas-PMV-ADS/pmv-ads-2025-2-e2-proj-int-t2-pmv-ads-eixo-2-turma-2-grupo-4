@@ -3003,23 +3003,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sendr\\.nuget\\packages\\": {},
+    "C:\\Users\\HigorZanhe\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj",
+      "projectUniqueName": "C:\\Users\\HigorZanhe\\Source\\Repos\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj",
       "projectName": "Atria",
-      "projectPath": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\Atria.csproj",
-      "packagesPath": "C:\\Users\\sendr\\.nuget\\packages\\",
-      "outputPath": "C:\\DEV\\ProjetoAtria_01\\src\\Atria\\obj\\",
+      "projectPath": "C:\\Users\\HigorZanhe\\Source\\Repos\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\Atria.csproj",
+      "packagesPath": "C:\\Users\\HigorZanhe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\HigorZanhe\\Source\\Repos\\pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4\\src\\Atria\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\sendr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HigorZanhe\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3089,7 +3089,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

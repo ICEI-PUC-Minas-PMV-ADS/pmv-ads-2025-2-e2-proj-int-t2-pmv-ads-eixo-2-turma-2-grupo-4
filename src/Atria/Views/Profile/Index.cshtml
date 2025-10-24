@@ -1,0 +1,106 @@
+@model Atria.Models.ViewProfileViewModel
+@{
+    ViewData["Title"] = "Meu Perfil";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+   <div class="card">
+   <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="bi bi-person-circle"></i> Meu Perfil</h4>
+     <a asp-action="Edit" class="btn btn-light btn-sm"><i class="bi bi-pencil"></i> Editar Perfil</a>
+     </div>
+      <div class="card-body">
+   @if (TempData["SuccessMessage"] != null)
+        {
+     <div class="alert alert-success alert-dismissible fade show" role="alert">
+   <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+   }
+
+   <div class="row mb-3">
+      <div class="col-md-4"><strong>Nome:</strong></div>
+        <div class="col-md-8">@Model.Nome</div>
+    </div>
+
+        <div class="row mb-3">
+       <div class="col-md-4"><strong>Email:</strong></div>
+       <div class="col-md-8">@Model.Email</div>
+        </div>
+
+ <div class="row mb-3">
+     <div class="col-md-4"><strong>Tipo de Usuário:</strong></div>
+   <div class="col-md-8">
+    @if (Model.TipoUsuario == "Professor")
+      {
+          <span class="badge bg-success"><i class="bi bi-mortarboard"></i> Professor</span>
+       }
+    else
+          {
+  <span class="badge bg-info"><i class="bi bi-person"></i> Usuário Comum</span>
+   }
+  </div>
+     </div>
+
+          <div class="row mb-3">
+    <div class="col-md-4"><strong>Data de Cadastro:</strong></div>
+          <div class="col-md-8">@Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")</div>
+     </div>
+
+       <hr />
+
+   <h5 class="mb-3"><i class="bi bi-book"></i> Informações Acadêmicas</h5>
+
+     <div class="row mb-3">
+          <div class="col-md-4"><strong>Área de Estudo:</strong></div>
+     <div class="col-md-8">
+          @if (!string.IsNullOrWhiteSpace(Model.AreaEstudo))
+       {
+           @Model.AreaEstudo
+   }
+         else
+       {
+   <em class="text-muted">Não informado</em>
+        }
+      </div>
+     </div>
+
+        <div class="row mb-3">
+         <div class="col-md-4"><strong>Trilha de Conhecimento:</strong></div>
+      <div class="col-md-8">
+          @if (!string.IsNullOrWhiteSpace(Model.TrilhaConhecimento))
+        {
+           @Model.TrilhaConhecimento
+    }
+     else
+       {
+        <em class="text-muted">Não informado</em>
+   }
+    </div>
+    </div>
+
+            <div class="row mb-3">
+      <div class="col-md-4"><strong>Projetos:</strong></div>
+     <div class="col-md-8">
+    @if (!string.IsNullOrWhiteSpace(Model.Projetos))
+         {
+      <div style="white-space: pre-wrap;">@Model.Projetos</div>
+    }
+    else
+  {
+       <em class="text-muted">Nenhum projeto informado</em>
+   }
+          </div>
+      </div>
+        </div>
+     <div class="card-footer">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+   <i class="bi bi-house"></i> Voltar ao Início
+   </a>
+          </div>
+   </div>
+</div>
+    </div>
+</div>
