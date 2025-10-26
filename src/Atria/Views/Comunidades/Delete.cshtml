@@ -2,10 +2,19 @@
 @{
     ViewData["Title"] = "Excluir Comunidade";
 }
-<h1>Excluir Comunidade</h1>
-<p>Tem certeza que deseja excluir <strong>@Model.Nome</strong> ?</p>
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button class="btn btn-danger" type="submit">Excluir</button>
-    <a class="btn btn-secondary" href="/Comunidades">Cancelar</a>
-</form>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <p>Tem certeza que deseja excluir <strong>@Model.Nome</strong> ?</p>
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button class="btn btn-danger" type="submit">Excluir</button>
+                <a class="btn btn-secondary" href="/Comunidades">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

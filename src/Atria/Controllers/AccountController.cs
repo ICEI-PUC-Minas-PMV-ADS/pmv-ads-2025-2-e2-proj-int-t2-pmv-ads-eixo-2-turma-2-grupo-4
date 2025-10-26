@@ -80,38 +80,43 @@ namespace Atria.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // Login usando Email como UserName
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email, 
-                model.Password, 
-                model.RememberMe, 
-                lockoutOnFailure: false);
+            // --- ESTA É A LÓGICA CORRIGIDA ---
 
-            if (result.Succeeded)
+            // 1. Primeiro, encontramos o usuário pelo EMAIL.
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            // 2. Se o usuário existir (e-mail correto), tentamos o login
+            //    usando o USERNAME verdadeiro dele e a SENHA fornecida.
+            if (user != null && !string.IsNullOrEmpty(user.UserName))
             {
-                _logger.LogInformation("Usuário logado com sucesso: {Email}", model.Email);
-                
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                // user.UserName aqui será o 'Nome' (ex: "Kksensen")
+                var result = await _signInManager.PasswordSignInAsync(
+                    user.UserName,    // Usamos o UserName que encontramos
+                    model.Password,
+                    model.RememberMe,
+                    lockoutOnFailure: false);
+
+                if (result.Succeeded)
                 {
-                    return Redirect(returnUrl);
+                    _logger.LogInformation("Usuário logado com sucesso: {Email}", model.Email);
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
-                
-                return RedirectToAction("Index", "Home");
             }
 
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("Conta bloqueada: {Email}", model.Email);
-                ModelState.AddModelError(string.Empty, "Conta bloqueada. Tente novamente mais tarde.");
-                return View(model);
-            }
-
+            // Se o usuário for nulo (e-mail não existe) OU a senha falhar,
+            // retornamos o mesmo erro genérico.
             _logger.LogWarning("Tentativa de login falhou para: {Email}", model.Email);
             ModelState.AddModelError(string.Empty, "Email ou senha inválidos.");
             return View(model);

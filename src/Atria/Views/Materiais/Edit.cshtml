@@ -2,21 +2,33 @@
 @{
     ViewData["Title"] = "Editar Material";
 }
-<h1>Editar Material</h1>
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label class="form-label">Título</label>
-        <input class="form-control" asp-for="Titulo" />
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label class="form-label">Título</label>
+                    <input class="form-control" asp-for="Titulo" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-control" asp-for="Descricao"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <select asp-for="Tipo" class="form-select">
+                        <option value="Livro">Livro</option>
+                        <option value="Artigo">Artigo</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+                <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Descrição</label>
-        <textarea class="form-control" asp-for="Descricao"></textarea>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Tipo</label>
-        <input class="form-control" asp-for="Tipo" />
-    </div>
-    <button class="btn btn-primary" type="submit">Salvar</button>
-    <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
-</form>
+</div>

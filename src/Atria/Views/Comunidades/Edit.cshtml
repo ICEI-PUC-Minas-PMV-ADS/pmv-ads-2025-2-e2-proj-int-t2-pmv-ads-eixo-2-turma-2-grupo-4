@@ -2,17 +2,30 @@
 @{
     ViewData["Title"] = "Editar Comunidade";
 }
-<h1>Editar Comunidade</h1>
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label class="form-label">Nome</label>
-        <input class="form-control" asp-for="Nome" />
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label class="form-label">Nome</label>
+                    <input class="form-control" asp-for="Nome" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-control" asp-for="Descricao"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+                <a class="btn btn-secondary" href="/Comunidades">Cancelar</a>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Descrição</label>
-        <textarea class="form-control" asp-for="Descricao"></textarea>
-    </div>
-    <button class="btn btn-primary" type="submit">Salvar</button>
-    <a class="btn btn-secondary" href="/Comunidades">Cancelar</a>
-</form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

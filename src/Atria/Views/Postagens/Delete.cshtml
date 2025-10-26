@@ -2,10 +2,26 @@
 @{
     ViewData["Title"] = "Excluir Postagem";
 }
-<h1>Excluir Postagem</h1>
-<p>Tem certeza que deseja excluir esta postagem?</p>
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button class="btn btn-danger" type="submit">Excluir</button>
-    <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
-</form>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <p>Tem certeza que deseja excluir esta postagem?</p>
+
+            <blockquote class="blockquote bg-light p-3 rounded">
+                <p class="mb-0">@Model.Conteudo</p>
+                <footer class="blockquote-footer">@Model.Usuario?.Nome em @Model.DataPostagem.ToString("yyyy-MM-dd")</footer>
+            </blockquote>
+            <br />
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button class="btn btn-danger" type="submit">Excluir</button>
+                <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -2,11 +2,30 @@
 @{
     ViewData["Title"] = "Detalhes da Lista";
 }
-<h1>@Model.Nome</h1>
-<p>@Model.Descricao</p>
-<ul>
-@foreach(var item in Model.ListaTemMateriais ?? Enumerable.Empty<Atria.Models.ListaTemMaterial>()) {
-    <li>@item.Material?.Titulo</li>
-}
-</ul>
-<p><a class="btn btn-secondary" href="/ListasLeitura">Voltar</a></p>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@Model.Nome</h1>
+        </div>
+        <div class="page-card-body">
+            <p><strong>Descrição:</strong> @Model.Descricao</p>
+            <hr />
+            <h5>Materiais nesta lista:</h5>
+            @if (Model.ListaTemMateriais == null || !Model.ListaTemMateriais.Any())
+            {
+            <p class="text-muted">Nenhum material foi adicionado a esta lista ainda.</p>
+            }
+            else
+            {
+            <ul class="list-group">
+                @foreach(var item in Model.ListaTemMateriais) {
+                <li class="list-group-item">@item.Material?.Titulo</li>
+                }
+            </ul>
+            }
+            <br />
+            <p><a class="btn btn-secondary" href="/ListasLeitura">Voltar</a></p>
+        </div>
+    </div>
+</div>
