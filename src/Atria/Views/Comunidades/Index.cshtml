@@ -1,23 +1,39 @@
 @model IEnumerable<Atria.Models.Comunidade>
-@{
+    @{
     ViewData["Title"] = "Comunidades";
-}
-<h1>Comunidades</h1>
-<p><a class="btn btn-primary" href="/Comunidades/Create">Nova Comunidade</a></p>
-<table class="table">
-    <thead><tr><th>Nome</th><th>Descrição</th><th>Data</th><th></th></tr></thead>
-    <tbody>
-@foreach(var c in Model){
-    <tr>
-        <td>@c.Nome</td>
-        <td>@c.Descricao</td>
-        <td>@c.DataCriacao.ToString("yyyy-MM-dd")</td>
-        <td>
-            <a class="btn btn-sm btn-info" href="/Comunidades/Details/@c.Id">Detalhes</a>
-            <a class="btn btn-sm btn-warning" href="/Comunidades/Edit/@c.Id">Editar</a>
-            <a class="btn btn-sm btn-danger" href="/Comunidades/Delete/@c.Id">Excluir</a>
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
+    }
+
+    <div class="page-container">
+        <div class="page-card">
+            <div class="page-card-header">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="page-card-body">
+
+                <p><a class="btn btn-primary" href="/Comunidades/Create">Nova Comunidade</a></p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead><tr><th>Nome</th><th>Descrição</th><th>Data</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach(var c in Model){
+                            <tr>
+                                <td>@c.Nome</td>
+                                <td>@c.Descricao</td>
+                                <td>@c.DataCriacao.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <div class="text-nowrap">
+                                        <a class="btn btn-sm btn-info" href="/Comunidades/Details/@c.Id">Detalhes</a>
+                                        <a class="btn btn-sm btn-warning" href="/Comunidades/Edit/@c.Id">Editar</a>
+                                        <a class="btn btn-sm btn-danger" href="/Comunidades/Delete/@c.Id">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>

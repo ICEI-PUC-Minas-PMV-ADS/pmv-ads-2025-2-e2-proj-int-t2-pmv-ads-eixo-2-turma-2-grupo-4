@@ -1,67 +1,174 @@
-/* 1. Definição da Paleta de Cores e Fontes */
-:root {
-    /* Substitua estes valores pelas cores do seu "Projeto de Interface" */
-    --atria-primary: #0d6efd; /* Azul primário (do Bootstrap) */
-    --atria-secondary: #6c757d; /* Cinza secundário (do Bootstrap) */
-    --atria-dark: #343a40; /* Cor escura para texto/navbars */
-    --atria-light: #f8f9fa; /* Fundo claro / cor de "papel" */
-    --atria-text: #212529; /* Cor principal do texto */
-    --atria-white: #ffffff;
-    /* Definição da Fonte Principal */
-    /* (Veremos como importar no Passo 2) */
-    --font-primary: 'Roboto', sans-serif;
+/* --- 1. Fundo (Background) --- */
+body, html {
+    height: 100%;
+    font-family: Roboto, sans-serif; /* Fonte definida no _Layout */
 }
 
-/* 2. Estilos Globais (Body) */
-body {
-    font-family: var(--font-primary);
-    background-color: var(--atria-light); /* Fundo cinza claro */
-    color: var(--atria-text);
-}
-/* 3. Estilização de Componentes Globais */
-
-/* --- Navbar --- */
-/* Queremos que o "brand" (nome Atria) tenha a cor primária */
-.navbar-brand {
-    color: var(--atria-primary) !important; /* !important força a sobrescrita */
-    font-weight: 700; /* Deixa o logo mais forte */
-}
-
-/* --- Botões --- */
-/* Vamos fazer TODOS os botões primários usarem nossa cor */
-.btn-primary {
-    background-color: var(--atria-primary);
-    border-color: var(--atria-primary);
-}
-
-    .btn-primary:hover {
-        /* Um pouco mais escuro no hover */
-        background-color: #0b5ed7;
-        border-color: #0a58ca;
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        /* Imagem de fundo com blur */
+        background-image: url('../images/library-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: blur(5px) brightness(0.7);
     }
+/* --- 2. A Barra de Navegação (BRANCA) --- */
 
-/* --- Links --- */
-/* Faz todos os links usarem a cor primária */
-a {
-    color: var(--atria-primary);
-    text-decoration: none; /* Remove o sublinhado padrão */
-}
-
-    a:hover {
-        color: #0b5ed7;
-        text-decoration: underline;
-    }
-/* Define o fundo da página inteira */
-body {
-    background-color: #f8f9fa; /* Este é o cinza-claro padrão do Bootstrap (bg-light) */
-}
-
-/* Garante que os cards não tenham borda 
-  e tenham uma sombra sutil, como na imagem.
-  Vamos usar classes para isso no HTML, mas é bom ter
-  uma regra geral.
+/* MUDANÇA: Resetamos o estilo do link da marca para que o texto
+  "Início" não fique azul por padrão.
 */
-.card {
-    border: none;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+.navbar-brand {
+    color: inherit;
+    font-weight: normal;
+}
+
+    .navbar-brand:hover, .navbar-brand:focus {
+        color: inherit;
+    }
+
+/* MUDANÇA: Logo maior, quase ocupando a altura da navbar.
+  A altura padrão da navbar do Bootstrap com padding é ~56px, 
+  então 40px fica perfeito.
+*/
+#navbar-logo {
+    height: 40px; /* Aumentado de 35px */
+    width: auto;
+}
+
+/* NOVO: Estiliza o texto "Início"
+*/
+#brand-text {
+    font-weight: 700; /* Negrito */
+    font-size: 1.1rem;
+    color: #343a40; /* Cor de texto escura */
+}
+/* MUDANÇA: Aplica o mesmo estilo do "Início" 
+  aos outros links principais da navbar.
+*/
+.navbar-nav.me-auto .nav-link {
+    font-weight: 700; /* Negrito */
+    font-size: 1.1rem; /* Fonte maior */
+    color: #343a40; /* Cor escura */
+    padding-left: 0.75rem; /* Um pouco de espaço */
+    padding-right: 0.75rem;
+}
+
+    /* MUDANÇA: Corrige o hover cinza 
+  para o hover azul que você quer.
+*/
+    .navbar-nav.me-auto .nav-link:hover,
+    .navbar-nav.me-auto .nav-link.active {
+        color: #0d6efd !important; /* Azul primário */
+    }
+/* Faz o "Início" ganhar destaque no hover, como os outros links */
+.navbar-brand:hover #brand-text {
+    color: #0d6efd; /* Azul primário */
+}
+
+/* --- 3. Os "Balões" (Cards de Conteúdo) --- */
+.content-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    /* CORREÇÃO DA FONTE: Definindo para branco, como pedido */
+    color: #ffffff;
+    margin: 2rem auto; /* Centraliza e adiciona espaço */
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+    .content-card h2 {
+        font-weight: 700;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .content-card p {
+        font-size: 1.1rem;
+        font-weight: 300;
+    }
+
+/* Texto de "lead" (usado no "Bem-vindo" e "Notícias") */
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9); /* Branco suave */
+}
+
+.content-card .lead {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+/* --- 4. O Rodapé --- */
+/* Estilo para o rodapé transparente */
+.footer {
+    color: rgba(255, 255, 255, 0.7);
+}
+/* --- 5. Cartão de Página Padronizado --- */
+
+/* Este contêiner centraliza o cartão na página e
+  controla sua largura máxima e responsividade.
+*/
+.page-container {
+    width: 90%;
+    max-width: 960px; /* Largura boa para tabelas e formulários */
+    margin: 2.5rem auto; /* 2.5rem de espaço em cima/baixo, e 'auto' para centralizar */
+}
+
+/* O cartão em si: define as bordas arredondadas, 
+  a sombra e o fundo branco do corpo.
+*/
+.page-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Força os filhos a respeitarem as bordas arredondadas */
+    background-color: #ffffff;
+}
+
+/* O cabeçalho azul-escuro, como nas suas imagens.
+*/
+.page-card-header {
+    /* Usei um azul-escuro mais moderno */
+    background-color: #0d2c4b;
+    padding: 1.5rem 2rem;
+    color: #ffffff; /* Título em branco */
+}
+
+    .page-card-header h1 {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 700;
+    }
+
+/* O corpo branco onde seu conteúdo (tabela, form) vai.
+*/
+.page-card-body {
+    padding: 2rem;
+    color: #212529; /* Texto escuro normal */
+}
+
+    /* Ajuste para tabelas (como na Index) */
+    .page-card-body .table {
+        margin-bottom: 0;
+    }
+/* --- 6. Modificador para Cartões de Autenticação --- */
+
+/* Esta classe usa o 'page-container' como base,
+  mas define uma largura máxima menor, ideal para formulários.
+*/
+.page-container-auth {
+    width: 90%;
+    max-width: 500px; /* Mais estreito que os 960px normais */
+    margin: 2.5rem auto; /* Mesmo espaçamento */
 }

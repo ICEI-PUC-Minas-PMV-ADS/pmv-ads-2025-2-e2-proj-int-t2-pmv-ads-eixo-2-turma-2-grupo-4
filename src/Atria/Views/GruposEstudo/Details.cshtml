@@ -2,7 +2,17 @@
 @{
     ViewData["Title"] = "Detalhes do Grupo";
 }
-<h1>@Model.Nome</h1>
-<p>@Model.Descricao</p>
-<p>Data: @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
-<p><a class="btn btn-secondary" href="/GruposEstudo">Voltar</a></p>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@Model.Nome</h1>
+        </div>
+        <div class="page-card-body">
+            <p><strong>Descrição:</strong> @Model.Descricao</p>
+            <p><strong>Data:</strong> @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
+            <hr />
+            <p><a class="btn btn-secondary" href="/GruposEstudo">Voltar</a></p>
+        </div>
+    </div>
+</div>

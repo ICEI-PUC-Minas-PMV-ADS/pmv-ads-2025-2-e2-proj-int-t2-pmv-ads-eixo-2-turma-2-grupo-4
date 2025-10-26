@@ -1,86 +1,34 @@
-@model Atria.Models.EditProfileViewModel
+@model Atria.Models.Material
 @{
-    ViewData["Title"] = "Editar Perfil";
+    ViewData["Title"] = "Editar Material";
 }
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-    <div class="card-header bg-primary text-white">
-         <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Editar Perfil</h4>
-   </div>
-      <div class="card-body">
-      <form asp-action="Edit" method="post">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-
-     <h5 class="mb-3"><i class="bi bi-person"></i> Informações Pessoais</h5>
-
-<div class="mb-3">
-     <label asp-for="Nome" class="form-label"></label>
-         <input asp-for="Nome" class="form-control" placeholder="Digite seu nome completo" />
-      <span asp-validation-for="Nome" class="text-danger"></span>
-</div>
-
-   <div class="mb-3">
-    <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" placeholder="Digite seu email" />
-         <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-      <div class="mb-3">
-        <label asp-for="TipoUsuario" class="form-label"></label>
-      <input asp-for="TipoUsuario" class="form-control" readonly disabled />
-       <small class="form-text text-muted">O tipo de usuário não pode ser alterado.</small>
-       </div>
-
-          <hr />
-
-    <h5 class="mb-3"><i class="bi bi-book"></i> Informações Acadêmicas</h5>
-    <p class="text-muted">Preencha as informações abaixo para conectar-se com outros usuários com interesses similares.</p>
-
-        <div class="mb-3">
-     <label asp-for="AreaEstudo" class="form-label"></label>
-     <input asp-for="AreaEstudo" class="form-control" placeholder="Ex: Ciência da Computação, Direito, Medicina..." />
-       <span asp-validation-for="AreaEstudo" class="text-danger"></span>
-<small class="form-text text-muted">Informe sua principal área de estudo ou atuação profissional.</small>
- </div>
-
-             <div class="mb-3">
-         <label asp-for="TrilhaConhecimento" class="form-label"></label>
-         <textarea asp-for="TrilhaConhecimento" class="form-control" rows="3" 
-              placeholder="Ex: Desenvolvimento Web, Inteligência Artificial, Direito Constitucional, Anatomia Humana..."></textarea>
-        <span asp-validation-for="TrilhaConhecimento" class="text-danger"></span>
-       <small class="form-text text-muted">
-             Descreva suas áreas de interesse e conhecimento. Separe por vírgula ou use quebras de linha.
-         </small>
-    </div>
-
-       <div class="mb-3">
-         <label asp-for="Projetos" class="form-label"></label>
-            <textarea asp-for="Projetos" class="form-control" rows="4" 
-   placeholder="Descreva os projetos nos quais você participa ou já participou..."></textarea>
-         <span asp-validation-for="Projetos" class="text-danger"></span>
-         <small class="form-text text-muted">
-          Liste projetos acadêmicos, profissionais ou pessoais relevantes. Isso ajuda outros usuários a conhecerem seu trabalho.
-  </small>
- </div>
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-           <a asp-action="Index" class="btn btn-secondary">
-        <i class="bi bi-x-circle"></i> Cancelar
-     </a>
-      <button type="submit" class="btn btn-primary">
-       <i class="bi bi-check-circle"></i> Salvar Alterações
- </button>
-    </div>
-        </form>
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label class="form-label">Título</label>
+                    <input class="form-control" asp-for="Titulo" />
                 </div>
-         </div>
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-control" asp-for="Descricao"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <select asp-for="Tipo" class="form-select">
+                        <option value="Livro">Livro</option>
+                        <option value="Artigo">Artigo</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+                <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+            </form>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

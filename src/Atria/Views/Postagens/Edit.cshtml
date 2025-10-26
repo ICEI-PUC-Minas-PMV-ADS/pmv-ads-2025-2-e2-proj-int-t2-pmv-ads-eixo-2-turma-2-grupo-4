@@ -2,21 +2,36 @@
 @{
     ViewData["Title"] = "Editar Postagem";
 }
-<h1>Editar Postagem</h1>
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label class="form-label">Conteúdo</label>
-        <textarea class="form-control" asp-for="Conteudo"></textarea>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label class="form-label">Conteúdo</label>
+                    <textarea class="form-control" asp-for="Conteudo"></textarea>
+                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Comunidade (opcional)</label>
+                    <input class="form-control" asp-for="FKComunidade" />
+                    <span asp-validation-for="FKComunidade" class="text-danger"></span>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="NoForumGeral" />
+                    <label class="form-check-label" asp-for="NoForumGeral">Postagem no fórum geral</label>
+                </div>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+                <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Comunidade (opcional)</label>
-        <input class="form-control" asp-for="FKComunidade" />
-    </div>
-    <div class="form-check mb-3">
-        <input class="form-check-input" asp-for="NoForumGeral" />
-        <label class="form-check-label">Postagem no fórum geral</label>
-    </div>
-    <button class="btn btn-primary" type="submit">Salvar</button>
-    <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
-</form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
