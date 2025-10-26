@@ -1,0 +1,67 @@
+/* 1. Definição da Paleta de Cores e Fontes */
+:root {
+    /* Substitua estes valores pelas cores do seu "Projeto de Interface" */
+    --atria-primary: #0d6efd; /* Azul primário (do Bootstrap) */
+    --atria-secondary: #6c757d; /* Cinza secundário (do Bootstrap) */
+    --atria-dark: #343a40; /* Cor escura para texto/navbars */
+    --atria-light: #f8f9fa; /* Fundo claro / cor de "papel" */
+    --atria-text: #212529; /* Cor principal do texto */
+    --atria-white: #ffffff;
+    /* Definição da Fonte Principal */
+    /* (Veremos como importar no Passo 2) */
+    --font-primary: 'Roboto', sans-serif;
+}
+
+/* 2. Estilos Globais (Body) */
+body {
+    font-family: var(--font-primary);
+    background-color: var(--atria-light); /* Fundo cinza claro */
+    color: var(--atria-text);
+}
+/* 3. Estilização de Componentes Globais */
+
+/* --- Navbar --- */
+/* Queremos que o "brand" (nome Atria) tenha a cor primária */
+.navbar-brand {
+    color: var(--atria-primary) !important; /* !important força a sobrescrita */
+    font-weight: 700; /* Deixa o logo mais forte */
+}
+
+/* --- Botões --- */
+/* Vamos fazer TODOS os botões primários usarem nossa cor */
+.btn-primary {
+    background-color: var(--atria-primary);
+    border-color: var(--atria-primary);
+}
+
+    .btn-primary:hover {
+        /* Um pouco mais escuro no hover */
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+
+/* --- Links --- */
+/* Faz todos os links usarem a cor primária */
+a {
+    color: var(--atria-primary);
+    text-decoration: none; /* Remove o sublinhado padrão */
+}
+
+    a:hover {
+        color: #0b5ed7;
+        text-decoration: underline;
+    }
+/* Define o fundo da página inteira */
+body {
+    background-color: #f8f9fa; /* Este é o cinza-claro padrão do Bootstrap (bg-light) */
+}
+
+/* Garante que os cards não tenham borda 
+  e tenham uma sombra sutil, como na imagem.
+  Vamos usar classes para isso no HTML, mas é bom ter
+  uma regra geral.
+*/
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
