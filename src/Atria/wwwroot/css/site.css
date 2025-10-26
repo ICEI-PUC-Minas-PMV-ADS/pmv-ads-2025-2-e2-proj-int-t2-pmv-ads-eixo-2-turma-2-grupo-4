@@ -162,3 +162,13 @@ body, html {
     .page-card-body .table {
         margin-bottom: 0;
     }
+/* --- 6. Modificador para Cartões de Autenticação --- */
+
+/* Esta classe usa o 'page-container' como base,
+  mas define uma largura máxima menor, ideal para formulários.
+*/
+.page-container-auth {
+    width: 90%;
+    max-width: 500px; /* Mais estreito que os 960px normais */
+    margin: 2.5rem auto; /* Mesmo espaçamento */
+}

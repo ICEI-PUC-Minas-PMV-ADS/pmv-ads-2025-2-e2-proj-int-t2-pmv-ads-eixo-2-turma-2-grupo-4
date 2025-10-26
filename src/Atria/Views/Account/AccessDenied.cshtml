@@ -2,8 +2,16 @@
     ViewData["Title"] = "Acesso Negado";
 }
 
-<div class="text-center">
-    <h1 class="text-danger">Acesso Negado</h1>
-    <p class="lead">Você não tem permissão para acessar esta página.</p>
-    <a class="btn btn-primary" href="/">Voltar à página inicial</a>
+<div class="page-container-auth">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body text-center">
+            <h4 class="text-danger">Acesso Negado</h4>
+            <p class="lead">Você não tem permissão para acessar esta página.</p>
+            <hr />
+            <a class="btn btn-primary" href="/">Voltar à página inicial</a>
+        </div>
+    </div>
 </div>
