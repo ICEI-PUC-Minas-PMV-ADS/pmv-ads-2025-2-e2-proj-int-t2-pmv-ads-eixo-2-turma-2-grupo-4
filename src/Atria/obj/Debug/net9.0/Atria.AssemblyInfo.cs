@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Atria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db7f833d36cd2a0ad818a6cbb7e2385dd7c74181")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+947d0fc1a6feccd61927c5baf067f8a0216689b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Atria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Atria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
