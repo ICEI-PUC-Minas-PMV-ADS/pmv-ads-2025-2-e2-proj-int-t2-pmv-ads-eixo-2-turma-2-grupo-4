@@ -3,7 +3,7 @@
     ViewData["Title"] = "Detalhes da Comunidade";
 }
 
-<div class="page-container">
+<div class="page-container" style="margin-bottom: 0;">
     <div class="page-card">
         <div class="page-card-header">
             <h1>@Model.Nome</h1>
@@ -13,6 +13,40 @@
             <p><strong>Data:</strong> @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
             <hr />
             <p><a class="btn btn-secondary" href="/Comunidades">Voltar</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Grupos de Estudo</h1>
+                <a class="btn btn-primary" href="/GruposEstudo/Create?comunidadeId=@Model.Id">
+                    <i class="bi bi-plus-circle"></i> Criar Novo Grupo
+                </a>
+            </div>
+        </div>
+        <div class="page-card-body">
+            @if (Model.GruposEstudo == null || !Model.GruposEstudo.Any())
+            {
+            <p class="text-muted">Ainda não há grupos de estudo nesta comunidade.</p>
+            }
+            else
+            {
+            <div class="list-group">
+                @foreach(var grupo in Model.GruposEstudo)
+                    {
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@grupo.Nome</h5>
+                        <small>Criado em @grupo.DataCriacao.ToString("dd/MM/yy")</small>
+                    </div>
+                    <p class="mb-1">@grupo.Descricao</p>
+                </a>
+                    }
+            </div>
+            }
         </div>
     </div>
 </div>

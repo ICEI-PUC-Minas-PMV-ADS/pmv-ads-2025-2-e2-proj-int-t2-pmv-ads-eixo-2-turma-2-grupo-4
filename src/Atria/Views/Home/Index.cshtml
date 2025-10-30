@@ -4,9 +4,11 @@
 
 <div class="container text-center d-flex flex-column justify-content-center align-items-center pt-5">
 
-    <h1 class="display-4" style="color: white;">Bem-vindo ao Atria</h1>
-    <p class="lead">Plataforma colaborativa e gratuita para discussão de livros e conteúdos acadêmicos.</p>
-    <p style="color: rgba(255,255,255,0.7);">Crie listas de leitura, participe de comunidades, avalie materiais e conecte-se com outros estudantes e profissionais.</p>
+    <div class="home-hero-text">
+        <h1 class="display-4">Bem-vindo ao Atria</h1>
+        <p class="lead">Plataforma colaborativa e gratuita para discussão de livros e conteúdos acadêmicos.</p>
+        <p>Crie listas de leitura, participe de comunidades, avalie materiais e conecte-se com outros estudantes e profissionais.</p>
+    </div>
 
     @if (!User.Identity?.IsAuthenticated ?? true)
     {
@@ -37,7 +39,9 @@
             Na busca por enfrentar as disparidades econômicas e geográficas existentes no país, surge a necessidade de uma plataforma digital colaborativa voltada para conteúdos acadêmicos.
             Muitas vezes, ambientes desse tipo funcionam sob regime de assinaturas, o que restringe o acesso de grande parte dos estudantes e interessados.
             Nossa proposta é romper essa barreira, criando um espaço acessível e inclusivo.
-        </p>
+            </img src="~/images/pesquisador.jpg" class="img-fluid rounded" alt="Foto do pesquisador">
+    </div>
+</div>
     </div>
 
 </div>

@@ -1,7 +1,17 @@
-/* --- 1. Fundo (Background) --- */
+/* --- 1. Configuração (Fonte e Cores) --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --atria-primary: #0d6efd;
+    --atria-light-glass: rgba(255, 255, 255, 0.1);
+    --atria-light-text: rgba(255, 255, 255, 0.8);
+    --atria-white: #ffffff;
+}
+
+/* --- 2. Fundo (Background) --- */
 body, html {
     height: 100%;
-    font-family: Roboto, sans-serif; /* Fonte definida no _Layout */
+    font-family: 'Roboto', sans-serif;
 }
 
     body::before {
@@ -12,137 +22,196 @@ body, html {
         width: 100%;
         height: 100vh;
         z-index: -1;
-        /* Imagem de fundo com blur */
         background-image: url('../images/library-bg.jpg');
         background-size: cover;
         background-position: center;
         filter: blur(5px) brightness(0.7);
     }
-/* --- 2. A Barra de Navegação (BRANCA) --- */
 
-/* MUDANÇA: Resetamos o estilo do link da marca para que o texto
-  "Início" não fique azul por padrão.
-*/
-.navbar-brand {
-    color: inherit;
-    font-weight: normal;
-}
-
-    .navbar-brand:hover, .navbar-brand:focus {
-        color: inherit;
-    }
-
-/* MUDANÇA: Logo maior, quase ocupando a altura da navbar.
-  A altura padrão da navbar do Bootstrap com padding é ~56px, 
-  então 40px fica perfeito.
-*/
-#navbar-logo {
-    height: 40px; /* Aumentado de 35px */
-    width: auto;
-}
-
-/* NOVO: Estiliza o texto "Início"
-*/
-#brand-text {
-    font-weight: 700; /* Negrito */
-    font-size: 1.1rem;
-    color: #343a40; /* Cor de texto escura */
-}
-/* MUDANÇA: Aplica o mesmo estilo do "Início" 
-  aos outros links principais da navbar.
-*/
-.navbar-nav.me-auto .nav-link {
-    font-weight: 700; /* Negrito */
-    font-size: 1.1rem; /* Fonte maior */
-    color: #343a40; /* Cor escura */
-    padding-left: 0.75rem; /* Um pouco de espaço */
-    padding-right: 0.75rem;
-}
-
-    /* MUDANÇA: Corrige o hover cinza 
-  para o hover azul que você quer.
-*/
-    .navbar-nav.me-auto .nav-link:hover,
-    .navbar-nav.me-auto .nav-link.active {
-        color: #0d6efd !important; /* Azul primário */
-    }
-/* Faz o "Início" ganhar destaque no hover, como os outros links */
-.navbar-brand:hover #brand-text {
-    color: #0d6efd; /* Azul primário */
-}
-
-/* --- 3. Os "Balões" (Cards de Conteúdo) --- */
-.content-card {
-    background-color: rgba(255, 255, 255, 0.1);
+/* --- 3. BARRA LATERAL (SIDEBAR) --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 100;
+    background-color: var(--atria-light-glass);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 2rem;
-    /* CORREÇÃO DA FONTE: Definindo para branco, como pedido */
-    color: #ffffff;
-    margin: 2rem auto; /* Centraliza e adiciona espaço */
-    width: 90%;
-    max-width: 900px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
-    .content-card h2 {
-        font-weight: 700;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .content-card p {
-        font-size: 1.1rem;
-        font-weight: 300;
-    }
-
-/* Texto de "lead" (usado no "Bem-vindo" e "Notícias") */
-.lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.9); /* Branco suave */
-}
-
-.content-card .lead {
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--atria-white);
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 700;
+    text-decoration: none;
 }
 
-/* --- 4. O Rodapé --- */
-/* Estilo para o rodapé transparente */
-.footer {
-    color: rgba(255, 255, 255, 0.7);
+#sidebar-logo {
+    height: 40px;
+    width: auto;
+    margin-right: 0.75rem;
 }
-/* --- 5. Cartão de Página Padronizado --- */
 
-/* Este contêiner centraliza o cartão na página e
-  controla sua largura máxima e responsividade.
+.sidebar-nav {
+    list-style: none;
+    padding-left: 0;
+}
+
+    .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--atria-light-text);
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 0.25rem;
+        text-decoration: none;
+        transition: color 0.15s ease;
+    }
+
+        .sidebar-nav .nav-link i {
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .sidebar-nav .nav-link:hover {
+            color: var(--atria-primary);
+            background-color: transparent;
+        }
+
+.sidebar-user {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 1rem;
+}
+
+    .sidebar-user .nav-link,
+    .sidebar-user .btn {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        font-size: 1rem;
+        color: var(--atria-light-text);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+        .sidebar-user .nav-link:hover,
+        .sidebar-user .btn:hover {
+            color: var(--atria-white);
+            background-color: var(--atria-light-glass);
+        }
+
+        .sidebar-user .nav-link i,
+        .sidebar-user .btn i {
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+/* --- 4. O CONTEÚDO PRINCIPAL --- */
+
+/* MUDANÇA (FIX DO RODAPÉ): 
+  Isso faz o contêiner principal ter no mínimo a altura da tela
+  e se comportar como uma coluna flex, o que força o 'mt-auto' 
+  do rodapé a funcionar e empurrá-lo para baixo.
 */
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    /* Regras novas */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+    .main-content main {
+        flex-shrink: 0;
+    }
+
+/* MUDANÇA (FIX COR DO TEXTO): 
+  Regras mais específicas para forçar o texto da homepage
+  a ficar branco.
+*/
+.home-hero-text h1,
+.home-hero-text .display-4 {
+    color: var(--atria-white) !important;
+}
+
+.home-hero-text p,
+.home-hero-text .lead {
+    color: var(--atria-light-text) !important;
+}
+
+/* --- 5. RESPONSIVIDADE (Telas Pequenas) --- */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        align-items: center;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-nav {
+        display: none;
+    }
+
+    .sidebar-brand {
+        margin-bottom: 0;
+    }
+
+    .sidebar-user {
+        margin-top: 0;
+        margin-left: auto;
+        border-top: none;
+        padding-top: 0;
+        display: flex;
+    }
+
+        .sidebar-user .nav-link span,
+        .sidebar-user .btn span {
+            display: none;
+        }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* --- 6. Cartão de Página Padronizado (Telas internas) --- */
 .page-container {
     width: 90%;
-    max-width: 960px; /* Largura boa para tabelas e formulários */
-    margin: 2.5rem auto; /* 2.5rem de espaço em cima/baixo, e 'auto' para centralizar */
+    max-width: 960px;
+    margin: 2.5rem auto;
 }
 
-/* O cartão em si: define as bordas arredondadas, 
-  a sombra e o fundo branco do corpo.
-*/
 .page-card {
     border-radius: 12px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Força os filhos a respeitarem as bordas arredondadas */
+    overflow: hidden;
     background-color: #ffffff;
 }
 
-/* O cabeçalho azul-escuro, como nas suas imagens.
-*/
 .page-card-header {
-    /* Usei um azul-escuro mais moderno */
     background-color: #0d2c4b;
     padding: 1.5rem 2rem;
-    color: #ffffff; /* Título em branco */
+    color: #ffffff;
 }
 
     .page-card-header h1 {
@@ -151,24 +220,58 @@ body, html {
         font-weight: 700;
     }
 
-/* O corpo branco onde seu conteúdo (tabela, form) vai.
-*/
 .page-card-body {
     padding: 2rem;
-    color: #212529; /* Texto escuro normal */
+    color: #212529;
 }
 
-    /* Ajuste para tabelas (como na Index) */
     .page-card-body .table {
         margin-bottom: 0;
     }
-/* --- 6. Modificador para Cartões de Autenticação --- */
 
-/* Esta classe usa o 'page-container' como base,
-  mas define uma largura máxima menor, ideal para formulários.
-*/
 .page-container-auth {
     width: 90%;
-    max-width: 500px; /* Mais estreito que os 960px normais */
-    margin: 2.5rem auto; /* Mesmo espaçamento */
+    max-width: 500px;
+    margin: 2.5rem auto;
+}
+
+/* --- 7. "Balões" de Vidro da Homepage --- */
+
+/* MUDANÇA (FIX COR DO TEXTO): 
+  Regras mais fortes para garantir que o texto dentro
+  dos balões fique branco e legível.
+*/
+.content-card {
+    background-color: var(--atria-light-glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    color: var(--atria-white); /* Texto padrão branco */
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+    .content-card h2 {
+        color: var(--atria-white) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .content-card p {
+        color: var(--atria-light-text) !important;
+    }
+
+    .content-card .lead {
+        color: var(--atria-white) !important;
+    }
+
+/* --- 8. Rodapé (Footer) --- */
+/* (Nenhuma regra nova, mas o 'mt-auto' no _Layout.cshtml
+   agora funciona por causa do fix no .main-content) */
+.footer {
+    color: rgba(255, 255, 255, 0.7);
 }
