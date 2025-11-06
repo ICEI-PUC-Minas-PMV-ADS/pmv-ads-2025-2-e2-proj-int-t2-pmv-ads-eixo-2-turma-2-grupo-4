@@ -1,23 +1,39 @@
 @model IEnumerable<Atria.Models.GrupoEstudo>
-@{
+    @{
     ViewData["Title"] = "Grupos de Estudo";
-}
-<h1>Grupos de Estudo</h1>
-<p><a class="btn btn-primary" href="/GruposEstudo/Create">Novo Grupo</a></p>
-<table class="table">
-    <thead><tr><th>Nome</th><th>Descrição</th><th>Data</th><th></th></tr></thead>
-    <tbody>
-@foreach(var g in Model){
-    <tr>
-        <td>@g.Nome</td>
-        <td>@g.Descricao</td>
-        <td>@g.DataCriacao.ToString("yyyy-MM-dd")</td>
-        <td>
-            <a class="btn btn-sm btn-info" href="/GruposEstudo/Details/@g.Id">Detalhes</a>
-            <a class="btn btn-sm btn-warning" href="/GruposEstudo/Edit/@g.Id">Editar</a>
-            <a class="btn btn-sm btn-danger" href="/GruposEstudo/Delete/@g.Id">Excluir</a>
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
+    }
+
+    <div class="page-container">
+        <div class="page-card">
+            <div class="page-card-header">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="page-card-body">
+
+                <p><a class="btn btn-primary" href="/GruposEstudo/Create">Novo Grupo</a></p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead><tr><th>Nome</th><th>Descrição</th><th>Data</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach(var g in Model){
+                            <tr>
+                                <td>@g.Nome</td>
+                                <td>@g.Descricao</td>
+                                <td>@g.DataCriacao.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <div class="text-nowrap">
+                                        <a class="btn btn-sm btn-info" href="/GruposEstudo/Details/@g.Id">Detalhes</a>
+                                        <a class="btn btn-sm btn-warning" href="/GruposEstudo/Edit/@g.Id">Editar</a>
+                                        <a class="btn btn-sm btn-danger" href="/GruposEstudo/Delete/@g.Id">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>

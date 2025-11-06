@@ -73,6 +73,9 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-020 - O sistema deve permitir que o usuário personalize seu perfil, adicionando a informação de projetos aos quais participa. |
 |Registro de evidência | Campo Projetos adicionado ao modelo ApplicationUser (varchar 1000). ProfileController.Edit permite adicionar e editar projetos com GET/POST actions. Campo implementado como textarea com suporte a múltiplas linhas (white-space: pre-wrap na view). Validação MaxLength(1000) implementada no modelo e view. Views exibem projetos formatados corretamente preservando quebras de linha. Migration aplicada ao banco com sucesso. |
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5bf50b9a0020ee847e5817be7be08825fc8214bc
 
 

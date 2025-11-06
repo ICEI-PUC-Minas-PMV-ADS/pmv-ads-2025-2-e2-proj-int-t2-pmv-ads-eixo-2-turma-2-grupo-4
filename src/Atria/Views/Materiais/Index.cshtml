@@ -1,26 +1,41 @@
 @model IEnumerable<Atria.Models.Material>
-@{
+    @{
     ViewData["Title"] = "Materiais";
-}
+    }
 
-<h1>Materiais</h1>
-<p><a class="btn btn-primary" href="/Materiais/Create">Novo Material</a></p>
-<table class="table">
-    <thead>
-        <tr><th>Título</th><th>Criador</th><th>Data</th><th></th></tr>
-    </thead>
-    <tbody>
-@foreach(var m in Model) {
-    <tr>
-        <td>@m.Titulo</td>
-        <td>@m.Criador?.Nome</td>
-        <td>@m.DataCriacao.ToString("yyyy-MM-dd")</td>
-        <td>
-            <a class="btn btn-sm btn-info" href="/Materiais/Details/@m.Id">Detalhes</a>
-            <a class="btn btn-sm btn-warning" href="/Materiais/Edit/@m.Id">Editar</a>
-            <a class="btn btn-sm btn-danger" href="/Materiais/Delete/@m.Id">Excluir</a>
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
+    <div class="page-container">
+        <div class="page-card">
+            <div class="page-card-header">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="page-card-body">
+
+                <p><a class="btn btn-primary" href="/Materiais/Create">Novo Material</a></p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr><th>Título</th><th>Criador</th><th>Data</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var m in Model) {
+                            <tr>
+                                <td>@m.Titulo</td>
+                                <td>@m.Criador?.Nome</td>
+                                <td>@m.DataCriacao.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <div class="text-nowrap">
+                                        <a class="btn btn-sm btn-info" href="/Materiais/Details/@m.Id">Detalhes</a>
+                                        <a class="btn btn-sm btn-warning" href="/Materiais/Edit/@m.Id">Editar</a>
+                                        <a class="btn btn-sm btn-danger" href="/Materiais/Delete/@m.Id">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>

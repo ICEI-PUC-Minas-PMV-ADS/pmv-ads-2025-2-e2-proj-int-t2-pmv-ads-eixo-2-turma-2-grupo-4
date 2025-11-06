@@ -2,9 +2,19 @@
 @{
     ViewData["Title"] = "Detalhes do Material";
 }
-<h1>@Model.Titulo</h1>
-<p>@Model.Descricao</p>
-<p>Tipo: @Model.Tipo</p>
-<p>Criador: @Model.Criador?.Nome</p>
-<p>Data: @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
-<p><a class="btn btn-secondary" href="/Materiais">Voltar</a></p>
+
+<div class="page-container">
+    <div class="page-card">
+        <div class="page-card-header">
+            <h1>@Model.Titulo</h1>
+        </div>
+        <div class="page-card-body">
+            <p><strong>Descrição:</strong> @Model.Descricao</p>
+            <p><strong>Tipo:</strong> @Model.Tipo</p>
+            <p><strong>Criador:</strong> @Model.Criador?.Nome</p>
+            <p><strong>Data:</strong> @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
+            <hr />
+            <p><a class="btn btn-secondary" href="/Materiais">Voltar</a></p>
+        </div>
+    </div>
+</div>
