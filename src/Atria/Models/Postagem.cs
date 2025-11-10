@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,5 +28,24 @@ namespace Atria.Models
         [Column("FK_COMUNIDADE")]
         public int? FKComunidade { get; set; }
         public Comunidade? Comunidade { get; set; }
+
+        // Suporte para postagens vinculadas a grupos de estudo
+        [Column("FK_GRUPO")]
+        public int? FKGrupo { get; set; }
+        public GrupoEstudo? GrupoEstudo { get; set; }
+
+        // Coleção de comentários associados à postagem
+        public ICollection<Comentario>? Comentarios { get; set; }
+
+        // Define se a postagem deve ser visível na aba geral.
+        // Regras: se ambos FKComunidade e FKGrupo forem nulos, vazios (não aplicável a int) ou zero => verdadeiro.
+        // Caso contrário => falso.
+        public void SetVisibleOnGeral()
+        {
+            var comunidadeIsEmpty = !FKComunidade.HasValue || FKComunidade.GetValueOrDefault() == 0;
+            var grupoIsEmpty = !FKGrupo.HasValue || FKGrupo.GetValueOrDefault() == 0;
+
+            NoForumGeral = comunidadeIsEmpty && grupoIsEmpty;
+        }
     }
 }

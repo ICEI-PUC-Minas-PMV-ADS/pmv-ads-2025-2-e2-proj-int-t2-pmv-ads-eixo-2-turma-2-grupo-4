@@ -19,7 +19,11 @@ namespace Atria.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var postagens = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).ToListAsync();
+            var postagens = await _context.Postagens
+                .Include(p => p.Usuario)
+                .Include(p => p.Comunidade)
+                .Include(p => p.GrupoEstudo)
+                .ToListAsync();
             return View(postagens);
         }
 
@@ -27,20 +31,26 @@ namespace Atria.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-            var postagem = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).FirstOrDefaultAsync(p => p.Id == id);
+            var postagem = await _context.Postagens
+                .Include(p => p.Usuario)
+                .Include(p => p.Comunidade)
+                .Include(p => p.GrupoEstudo)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (postagem == null) return NotFound();
             return View(postagem);
         }
 
-        public IActionResult Create(int? comunidadeId)
+        // Accept optional comunidadeId and grupoId so the same Create view can be used from multiple screens
+        public IActionResult Create(int? comunidadeId, int? grupoId)
         {
             ViewBag.ComunidadeId = comunidadeId;
+            ViewBag.GrupoId = grupoId;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Conteudo,FKComunidade,NoForumGeral")] Postagem postagem)
+        public async Task<IActionResult> Create([Bind("Conteudo,FKComunidade,FKGrupo,NoForumGeral")] Postagem postagem)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +77,7 @@ namespace Atria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Conteudo,FKComunidade,NoForumGeral")] Postagem postagem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Conteudo,FKComunidade,FKGrupo,NoForumGeral")] Postagem postagem)
         {
             if (id != postagem.Id) return NotFound();
             if (ModelState.IsValid)
@@ -90,7 +100,11 @@ namespace Atria.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
-            var postagem = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).FirstOrDefaultAsync(p => p.Id == id);
+            var postagem = await _context.Postagens
+                .Include(p => p.Usuario)
+                .Include(p => p.Comunidade)
+                .Include(p => p.GrupoEstudo)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (postagem == null) return NotFound();
             return View(postagem);
         }
