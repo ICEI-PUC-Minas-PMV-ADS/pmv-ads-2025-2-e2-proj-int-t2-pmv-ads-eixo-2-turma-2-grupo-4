@@ -1,148 +1,208 @@
-/* --- 1. Fundo (Background) --- */
+/* --- 1. Configuração (Fonte e Cores) --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --atria-primary: #0d6efd;
+    --atria-light-glass: rgba(255, 255, 255, 0.1);
+    --atria-light-text: rgba(255, 255, 255, 0.8);
+    --atria-white: #ffffff;
+    --atria-success: #198754;
+    --atria-danger: #dc3545;
+}
+
+/* --- 2. Fundo (Background) --- */
 body, html {
     height: 100%;
-    font-family: Roboto, sans-serif; /* Fonte definida no _Layout */
+    font-family: 'Roboto', sans-serif;
 }
 
     body::before {
         content: "";
-        position: fixed;
+  position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-        z-index: -1;
-        /* Imagem de fundo com blur */
+     z-index: -1;
         background-image: url('../images/library-bg.jpg');
         background-size: cover;
-        background-position: center;
+  background-position: center;
         filter: blur(5px) brightness(0.7);
     }
-/* --- 2. A Barra de Navegação (BRANCA) --- */
 
-/* MUDANÇA: Resetamos o estilo do link da marca para que o texto
-  "Início" não fique azul por padrão.
-*/
-.navbar-brand {
-    color: inherit;
-    font-weight: normal;
-}
-
-    .navbar-brand:hover, .navbar-brand:focus {
-        color: inherit;
-    }
-
-/* MUDANÇA: Logo maior, quase ocupando a altura da navbar.
-  A altura padrão da navbar do Bootstrap com padding é ~56px, 
-  então 40px fica perfeito.
-*/
-#navbar-logo {
-    height: 40px; /* Aumentado de 35px */
-    width: auto;
-}
-
-/* NOVO: Estiliza o texto "Início"
-*/
-#brand-text {
-    font-weight: 700; /* Negrito */
-    font-size: 1.1rem;
-    color: #343a40; /* Cor de texto escura */
-}
-/* MUDANÇA: Aplica o mesmo estilo do "Início" 
-  aos outros links principais da navbar.
-*/
-.navbar-nav.me-auto .nav-link {
-    font-weight: 700; /* Negrito */
-    font-size: 1.1rem; /* Fonte maior */
-    color: #343a40; /* Cor escura */
-    padding-left: 0.75rem; /* Um pouco de espaço */
-    padding-right: 0.75rem;
-}
-
-    /* MUDANÇA: Corrige o hover cinza 
-  para o hover azul que você quer.
-*/
-    .navbar-nav.me-auto .nav-link:hover,
-    .navbar-nav.me-auto .nav-link.active {
-        color: #0d6efd !important; /* Azul primário */
-    }
-/* Faz o "Início" ganhar destaque no hover, como os outros links */
-.navbar-brand:hover #brand-text {
-    color: #0d6efd; /* Azul primário */
-}
-
-/* --- 3. Os "Balões" (Cards de Conteúdo) --- */
-.content-card {
-    background-color: rgba(255, 255, 255, 0.1);
+/* --- 3. BARRA LATERAL (SIDEBAR) --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 100;
+    background-color: var(--atria-light-glass);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 2rem;
-    /* CORREÇÃO DA FONTE: Definindo para branco, como pedido */
-    color: #ffffff;
-    margin: 2rem auto; /* Centraliza e adiciona espaço */
-    width: 90%;
-    max-width: 900px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
-    .content-card h2 {
-        font-weight: 700;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--atria-white);
+ font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
 
-    .content-card p {
+#sidebar-logo {
+    height: 40px;
+    width: auto;
+    margin-right: 0.75rem;
+}
+
+.sidebar-nav {
+    list-style: none;
+padding-left: 0;
+}
+
+    .sidebar-nav .nav-link {
+        display: flex;
+     align-items: center;
         font-size: 1.1rem;
-        font-weight: 300;
+        font-weight: 400;
+        color: var(--atria-light-text);
+     padding: 0.75rem;
+  border-radius: 8px;
+        margin-bottom: 0.25rem;
+        text-decoration: none;
+        transition: color 0.15s ease;
     }
 
-/* Texto de "lead" (usado no "Bem-vindo" e "Notícias") */
-.lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.9); /* Branco suave */
+        .sidebar-nav .nav-link i {
+     font-size: 1.25rem;
+          margin-right: 1rem;
+      width: 20px;
+        }
+
+.sidebar-nav .nav-link:hover {
+            color: var(--atria-primary);
+         background-color: transparent;
+        }
+
+.sidebar-user {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 1rem;
 }
 
-.content-card .lead {
-    font-size: 1.5rem;
-    font-weight: 400;
+    .sidebar-user .nav-link,
+    .sidebar-user .btn {
+    display: flex;
+        align-items: center;
+        text-align: left;
+        font-size: 1rem;
+ color: var(--atria-light-text);
+        padding: 0.5rem 0.75rem;
+   border-radius: 8px;
+        width: 100%;
+    }
+
+        .sidebar-user .nav-link:hover,
+   .sidebar-user .btn:hover {
+        color: var(--atria-white);
+      background-color: var(--atria-light-glass);
+     }
+
+        .sidebar-user .nav-link i,
+        .sidebar-user .btn i {
+            font-size: 1.2rem;
+      margin-right: 1rem;
+     width: 20px;
+ }
+
+/* --- 4. O CONTEÚDO PRINCIPAL --- */
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* --- 4. O Rodapé --- */
-/* Estilo para o rodapé transparente */
-.footer {
-    color: rgba(255, 255, 255, 0.7);
+    .main-content main {
+     flex-shrink: 0;
 }
-/* --- 5. Cartão de Página Padronizado --- */
 
-/* Este contêiner centraliza o cartão na página e
-  controla sua largura máxima e responsividade.
-*/
+.home-hero-text h1,
+.home-hero-text .display-4 {
+    color: var(--atria-white) !important;
+}
+
+.home-hero-text p,
+.home-hero-text .lead {
+    color: var(--atria-light-text) !important;
+}
+
+/* --- 5. RESPONSIVIDADE (Telas Pequenas) --- */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100%;
+      height: auto;
+  position: relative;
+        flex-direction: row;
+        align-items: center;
+      border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ }
+
+ .sidebar-nav {
+        display: none;
+    }
+
+ .sidebar-brand {
+     margin-bottom: 0;
+    }
+
+    .sidebar-user {
+     margin-top: 0;
+        margin-left: auto;
+  border-top: none;
+        padding-top: 0;
+        display: flex;
+    }
+
+        .sidebar-user .nav-link span,
+        .sidebar-user .btn span {
+      display: none;
+        }
+
+    .main-content {
+  margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* --- 6. Cartão de Página Padronizado (Telas internas) --- */
 .page-container {
     width: 90%;
-    max-width: 960px; /* Largura boa para tabelas e formulários */
-    margin: 2.5rem auto; /* 2.5rem de espaço em cima/baixo, e 'auto' para centralizar */
+    max-width: 960px;
+    margin: 2.5rem auto;
 }
 
-/* O cartão em si: define as bordas arredondadas, 
-  a sombra e o fundo branco do corpo.
-*/
 .page-card {
     border-radius: 12px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Força os filhos a respeitarem as bordas arredondadas */
+    overflow: hidden;
     background-color: #ffffff;
 }
 
-/* O cabeçalho azul-escuro, como nas suas imagens.
-*/
 .page-card-header {
-    /* Usei um azul-escuro mais moderno */
     background-color: #0d2c4b;
     padding: 1.5rem 2rem;
-    color: #ffffff; /* Título em branco */
+    color: #ffffff;
 }
 
     .page-card-header h1 {
@@ -151,24 +211,653 @@ body, html {
         font-weight: 700;
     }
 
-/* O corpo branco onde seu conteúdo (tabela, form) vai.
-*/
 .page-card-body {
     padding: 2rem;
-    color: #212529; /* Texto escuro normal */
+  color: #212529;
 }
 
-    /* Ajuste para tabelas (como na Index) */
     .page-card-body .table {
         margin-bottom: 0;
     }
-/* --- 6. Modificador para Cartões de Autenticação --- */
 
-/* Esta classe usa o 'page-container' como base,
-  mas define uma largura máxima menor, ideal para formulários.
-*/
 .page-container-auth {
     width: 90%;
-    max-width: 500px; /* Mais estreito que os 960px normais */
-    margin: 2.5rem auto; /* Mesmo espaçamento */
+    max-width: 500px;
+    margin: 2.5rem auto;
 }
+
+/* --- 7. "Balões" de Vidro da Homepage --- */
+.content-card {
+    background-color: var(--atria-light-glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    color: var(--atria-white);
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+    .content-card h2 {
+        color: var(--atria-white) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .content-card p {
+        color: var(--atria-light-text) !important;
+    }
+
+    .content-card .lead {
+  color: var(--atria-white) !important;
+    }
+
+/* --- 8. Rodapé (Footer) --- */
+.footer {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- 9. Estilos para Página de Postagens --- */
+.postagens-filters {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 4px solid var(--atria-primary);
+}
+
+.postagem-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+  .postagem-card:hover {
+     transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+.postagem-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.postagem-avatar i {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.postagem-user-name {
+    font-size: 1.1rem;
+    color: #0d2c4b;
+}
+
+.postagem-meta {
+  font-size: 0.875rem;
+}
+
+.postagem-comunidade {
+  color: #0d6efd;
+    font-weight: 500;
+}
+
+.postagem-content {
+    line-height: 1.6;
+    min-height: 60px;
+}
+
+.postagem-preview {
+    font-size: 1rem;
+    color: #495057;
+}
+
+.postagem-read-more {
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+    .postagem-read-more:hover {
+ gap: 0.5rem;
+  text-decoration: underline !important;
+    }
+
+        .postagem-read-more:hover i {
+            transform: translateX(4px);
+      }
+
+    .postagem-read-more i {
+        transition: transform 0.2s ease;
+    }
+
+.postagem-footer {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.postagem-stats {
+    font-size: 0.95rem;
+}
+
+.postagem-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+    .postagem-stat:hover {
+        color: var(--atria-primary) !important;
+    }
+
+    .postagem-stat i {
+     font-size: 1.1rem;
+    }
+
+/* Ajustes para inputs de filtro */
+.postagens-filters .input-group-text {
+    border-right: 0;
+}
+
+.postagens-filters .form-control,
+.postagens-filters .form-select {
+    border-left: 0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .postagens-filters .form-control:focus,
+    .postagens-filters .form-select:focus {
+        border-color: var(--atria-primary);
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+
+/* Estilo do dropdown de ações */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item {
+    transition: background-color 0.2s ease;
+}
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+}
+
+    .dropdown-item.text-danger:hover {
+        background-color: #fee;
+        color: #dc3545 !important;
+    }
+
+/* --- 10. Estilos para Detalhes da Postagem e Comentários --- */
+
+/* Postagem Principal (Details) */
+.postagem-details-card {
+  border: 1px solid #dee2e6;
+    border-radius: 12px;
+  overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.postagem-content-full {
+    background: #ffffff;
+    font-size: 1.05rem;
+    color: #212529;
+}
+
+    .postagem-content-full p {
+        margin-bottom: 1rem;
+    }
+
+/* Seção de Comentários */
+.comentarios-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e9ecef;
+}
+
+    .comentarios-section h3 {
+  color: #0d2c4b;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+/* Formulário de Comentário */
+.comentario-form-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-left: 4px solid var(--atria-primary) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+    .comentario-form-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .comentario-form-card textarea {
+        border: 2px solid #dee2e6;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+      .comentario-form-card textarea:focus {
+   border-color: var(--atria-primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        }
+
+/* Cards de Comentários */
+.comentarios-list {
+    margin-top: 1.5rem;
+}
+
+.comentario-card {
+  background: #ffffff;
+    border: 1px solid #e9ecef !important;
+    border-left: 3px solid #0d6efd !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+    .comentario-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateX(4px);
+    }
+
+.comentario-avatar i {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.comentario-user-name {
+    font-size: 1rem;
+    color: #0d2c4b;
+}
+
+.comentario-date {
+  font-size: 0.85rem;
+}
+
+.comentario-content {
+    color: #495057;
+    line-height: 1.6;
+}
+
+    .comentario-content p {
+    margin-bottom: 0.5rem;
+    }
+
+/* Animação para novos comentários */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+  }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comentario-card {
+    animation: slideInUp 0.3s ease-out;
+}
+
+/* Contador de comentários */
+.postagem-stats .fw-semibold {
+ color: var(--atria-primary);
+    font-size: 1.1rem;
+}
+
+/* Botão de comentar */
+.comentario-form-card .btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+    .comentario-form-card .btn-primary:hover {
+        background: linear-gradient(135deg, #0a58ca 0%, #084298 100%);
+   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+    }
+
+/* Alert para login */
+.comentarios-section .alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    border-left: 4px solid #0dcaf0;
+    border-radius: 8px;
+}
+
+    .comentarios-section .alert-info a {
+        color: #055160;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+ .comentarios-section .alert-info a:hover {
+            color: #033d48;
+        }
+
+/* Alert quando não há comentários */
+.comentarios-section .alert-secondary {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 4px solid #6c757d;
+    color: #495057;
+}
+
+/* Dropdown de ações nos comentários */
+.comentario-card .dropdown-toggle,
+.postagem-details-card .dropdown-toggle {
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease;
+}
+
+    .comentario-card .dropdown-toggle:hover,
+    .postagem-details-card .dropdown-toggle:hover {
+        background: #e9ecef;
+        border-color: #adb5bd;
+    }
+
+/* Responsividade para comentários */
+@media (max-width: 768px) {
+    .comentario-avatar i {
+  font-size: 1.5rem !important;
+    }
+
+    .postagem-avatar i {
+     font-size: 2rem !important;
+}
+
+    .comentario-card {
+     padding: 0.75rem !important;
+    }
+
+    .comentario-form-card {
+        padding: 0.75rem !important;
+    }
+}
+
+/* Melhorias no botão voltar do header */
+.page-card-header .btn-light {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+ font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+    .page-card-header .btn-light:hover {
+        background: #ffffff;
+        border-color: #ffffff;
+  transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    }
+/* --- 11. Sistema de Curtidas e Notificações --- */
+
+/* Botão de curtir */
+#btn-curtir {
+    transition: all 0.3s ease;
+}
+
+    #btn-curtir:hover {
+        transform: scale(1.1);
+    }
+
+    #btn-curtir.text-danger {
+        color: var(--atria-danger) !important;
+ }
+
+     #btn-curtir.text-danger i {
+    animation: heartBeat 0.3s ease;
+        }
+
+@keyframes heartBeat {
+    0%, 100% {
+transform: scale(1);
+    }
+
+  50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Estatísticas com hover */
+.postagem-stat {
+  cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+    .postagem-stat:hover {
+        color: var(--atria-primary) !important;
+  transform: translateY(-2px);
+    }
+
+/* Toast de notificação */
+.toast {
+    min-width: 300px;
+}
+
+/* Contador de caracteres */
+#char-count {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+textarea:focus + .form-text #char-count {
+    color: var(--atria-primary);
+}
+
+/* Loading spinner */
+#loading-comentarios {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+   opacity: 0;
+  }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Badge de contador */
+.badge.badge-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    padding: 0.25em 0.6em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 10rem;
+}
+
+/* Melhorias nos contadores da listagem */
+.postagens-stats {
+    font-size: 0.9rem;
+}
+
+    .postagens-stats .postagem-stat {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+    }
+
+    .postagens-stats .postagem-stat:hover {
+          background-color: rgba(13, 110, 253, 0.1);
+     }
+
+/* Animação de novo comentário */
+.comentario-card.novo {
+    animation: slideInUp 0.4s ease-out, highlight 2s ease;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: #fff3cd;
+    }
+
+    100% {
+        background-color: #ffffff;
+    }
+}
+
+/* Estado de carregamento */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Botão de curtir responsivo */
+@media (max-width: 768px) {
+    #btn-curtir {
+        font-size: 0.875rem;
+    }
+
+    .toast {
+ min-width: 250px;
+    }
+}
+
+/* Hover effect no formulário de comentário */
+.comentario-form-card:hover {
+    border-color: var(--atria-primary) !important;
+}
+
+/* Estilo para comentários do próprio usuário */
+.comentario-card[data-proprio="true"] {
+    border-left-color: var(--atria-primary) !important;
+    border-left-width: 4px !important;
+}
+
+/* Transição suave para contadores */
+.visualizacoes-count,
+.comentarios-count,
+.curtidas-count {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.postagem-stat:hover .visualizacoes-count,
+.postagem-stat:hover .comentarios-count,
+.postagem-stat:hover .curtidas-count {
+    font-weight: 600;
+    color: var(--atria-primary);
+}
+
+/* Badge de novo */
+.badge-novo {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+ 0%, 100% {
+      opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Melhorias na área de notificações */
+.notification-icon {
+    position: relative;
+}
+
+    .notification-icon .badge {
+        position: absolute;
+  top: -5px;
+    right: -5px;
+    }
+
+/* Efeito de digitação no textarea */
+#comentario-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+    #comentario-input:focus {
+ border-color: var(--atria-primary);
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+
+/* Estado vazio */
+.comentarios-list:empty::before {
+    content: 'Carregando comentários...';
+    display: block;
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Scroll suave para comentários */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Indicador de atividade recente */
+.postagem-card.ativa {
+    border-left: 4px solid var(--atria-success) !important;
+}
+
+/* Gradiente no botão de comentar */
+.comentario-form-card .btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+    .comentario-form-card .btn-primary:hover {
+        background: linear-gradient(135deg, #0a58ca 0%, #084298 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+    }
+
+        .comentario-form-card .btn-primary:active {
+ transform: translateY(0);
+        }
+
+/* Skeleton loading para comentários */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0% {
+     background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Tooltip customizado */
+[title] {
+    cursor: help;
+}
+
+/* Estilo notificação item */
+.notificacao-item {
+    transition: background-color 0.2s ease;
+}
+
+    .notificacao-item:hover {
+        background-color: #f8f9fa !important;
+    }
+
+    .notificacao-item:not(.bg-light) {
+        font-weight: 500;
+    }

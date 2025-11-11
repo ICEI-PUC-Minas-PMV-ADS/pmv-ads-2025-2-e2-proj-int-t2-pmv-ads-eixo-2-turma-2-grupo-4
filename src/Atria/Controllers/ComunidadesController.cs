@@ -26,7 +26,11 @@ namespace Atria.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-            var comunidade = await _context.Comunidades.Include(c => c.Postagens).FirstOrDefaultAsync(c => c.Id == id);
+            var comunidade = await _context.Comunidades
+                .Include(c => c.Postagens)
+                .Include(c => c.GruposEstudo)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (comunidade == null) return NotFound();
             return View(comunidade);
         }

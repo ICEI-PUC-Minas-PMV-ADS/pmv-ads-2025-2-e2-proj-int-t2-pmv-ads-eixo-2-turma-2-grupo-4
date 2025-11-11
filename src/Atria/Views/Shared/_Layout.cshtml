@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Atria</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -15,72 +15,252 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body class="d-flex flex-column h-100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow-sm">
-        <div class="container">
 
-            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
-                <img src="~/images/atria-logo.jpg" alt="Atria Logo" id="navbar-logo" class="me-2">
-                <span id="brand-text">Início</span>
+<nav class="sidebar">
+        <a class="sidebar-brand" asp-controller="Home" asp-action="Index">
+            <img src="~/images/atria-logo.jpg" alt="Atria Logo" id="sidebar-logo">
+    <span>Atria</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+         <a class="nav-link" href="/Home"><i class="bi bi-house-door-fill"></i> Início</a>
+       </li>
+            <li class="nav-item">
+     <a class="nav-link" href="/Materiais"><i class="bi bi-book-fill"></i> Materiais</a>
+            </li>
+            <li class="nav-item">
+             <a class="nav-link" href="/Comunidades"><i class="bi bi-people-fill"></i> Comunidades</a>
+  </li>
+            <li class="nav-item">
+         <a class="nav-link" href="/Postagens"><i class="bi bi-chat-left-text-fill"></i> Postagens</a>
+         </li>
+            <li class="nav-item">
+     <a class="nav-link" href="/ListasLeitura"><i class="bi bi-list-task"></i> Listas</a>
+            </li>
+      @if (User.Identity?.IsAuthenticated ?? false)
+  {
+      <li class="nav-item">
+      <a class="nav-link position-relative" href="#" id="notificacoes-link">
+              <i class="bi bi-bell-fill"></i> Notificações
+  <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" 
+      id="notificacoes-badge" style="display: none;">
+    0
+          </span>
+           </a>
+         </li>
+      }
+</ul>
+
+        <div class="sidebar-user">
+        @if (User.Identity?.IsAuthenticated ?? false)
+      {
+            <a class="nav-link" href="/Profile/Index" title="Meu Perfil">
+          <i class="bi bi-person-circle"></i> <span>Olá, <strong>@User.Identity.Name</strong></span>
             </a>
-
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/Materiais">Materiais</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Comunidades">Comunidades</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Postagens">Postagens</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/GruposEstudo">Grupos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/ListasLeitura">Listas</a></li>
-                </ul>
-            </div>
-
-            <ul class="navbar-nav ms-auto flex-row align-items-center">
-                @if (User.Identity?.IsAuthenticated ?? false)
-            {
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/Profile/Index" title="Meu Perfil">
-                        <i class="bi bi-person-circle"></i>
-                        <span class="d-none d-lg-inline">Meu Perfil</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link text-dark text-nowrap">Olá, <strong>@User.Identity.Name</strong></span>
-                </li>
-                <li class="nav-item">
-                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link" style="border:none;cursor:pointer;" title="Logout">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span class="d-none d-lg-inline">Logout</span>
-                        </button>
-                    </form>
-                </li>
-            }
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+  <button type="submit" class="nav-link btn" title="Logout">
+         <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
+           </button>
+        </form>
+}
             else
-            {
-                <li class="nav-item"><a class="nav-link" href="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Account/Register"><i class="bi bi-person-plus"></i> Registrar</a></li>
-            }
-            </ul>
-
-            <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
+ {
+  <a class="nav-link" href="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> <span>Login</span></a>
+            <a class="nav-link" href="/Account/Register"><i class="bi bi-person-plus"></i> <span>Registrar</span></a>
+  }
         </div>
     </nav>
 
-    <main class="flex-shrink-0">
-        <div>
-            @RenderBody()
-        </div>
-    </main>
+    <div class="main-content">
+        <main class="flex-shrink-0">
+    <div>
+                @RenderBody()
+            </div>
+        </main>
 
-    <footer class="footer mt-auto py-3">
-        <div class="container text-center">
-            <span style="color: rgba(255, 255, 255, 0.7);">© 2025 Atria - Plataforma Colaborativa de Estudo</span>
-        </div>
-    </footer>
+  <footer class="footer mt-auto py-3">
+          <div class="container text-center">
+ <span style="color: rgba(255, 255, 255, 0.7);">© 2025 Atria - Plataforma Colaborativa de Estudo</span>
+            </div>
+  </footer>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Modal de Notificações -->
+    @if (User.Identity?.IsAuthenticated ?? false)
+  {
+    <div class="modal fade" id="notificacoesModal" tabindex="-1" aria-labelledby="notificacoesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+       <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="notificacoesModalLabel">
+              <i class="bi bi-bell-fill me-2"></i>Notificações
+           </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+     <div class="modal-body p-0">
+         <div id="notificacoes-list">
+            <div class="text-center py-4 text-muted">
+       <i class="bi bi-bell-slash fs-1"></i>
+                <p class="mt-2">Nenhuma notificação no momento</p>
+  </div>
+     </div>
+   </div>
+    <div class="modal-footer">
+  <button type="button" class="btn btn-sm btn-outline-danger" id="limpar-notificacoes">
+    <i class="bi bi-trash me-1"></i>Limpar Todas
+               </button>
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fechar</button>
+</div>
+     </div>
+      </div>
+    </div>
+    }
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+   <script>
+  // ===== SISTEMA DE NOTIFICAÇÕES GLOBAL =====
+         class NotificacoesSystem {
+                static getNotificacoes() {
+  const data = localStorage.getItem('notificacoes');
+            return data ? JSON.parse(data) : [];
+       }
+
+       static adicionarNotificacao(notificacao) {
+          const notificacoes = this.getNotificacoes();
+   notificacao.id = Date.now().toString();
+         notificacao.lida = false;
+notificacao.data = new Date().toISOString();
+      notificacoes.unshift(notificacao);
+              
+        // Manter apenas as 50 mais recentes
+         if (notificacoes.length > 50) {
+          notificacoes.splice(50);
+}
+        
+                    localStorage.setItem('notificacoes', JSON.stringify(notificacoes));
+            this.atualizarBadge();
+     this.renderizar();
+            }
+
+static marcarComoLida(id) {
+      const notificacoes = this.getNotificacoes();
+   const notif = notificacoes.find(n => n.id === id);
+           if (notif) {
+   notif.lida = true;
+          localStorage.setItem('notificacoes', JSON.stringify(notificacoes));
+           this.atualizarBadge();
+  }
+                }
+
+         static limparTodas() {
+    localStorage.setItem('notificacoes', JSON.stringify([]));
+        this.atualizarBadge();
+        this.renderizar();
+                }
+
+        static atualizarBadge() {
+    const notificacoes = this.getNotificacoes();
+              const naoLidas = notificacoes.filter(n => !n.lida).length;
+      const badge = document.getElementById('notificacoes-badge');
+         
+      if (badge) {
+    if (naoLidas > 0) {
+ badge.textContent = naoLidas > 99 ? '99+' : naoLidas;
+          badge.style.display = 'inline-block';
+        } else {
+           badge.style.display = 'none';
+            }
+    }
+                }
+
+          static renderizar() {
+    const container = document.getElementById('notificacoes-list');
+        if (!container) return;
+
+        const notificacoes = this.getNotificacoes();
+
+       if (notificacoes.length === 0) {
+         container.innerHTML = `
+   <div class="text-center py-4 text-muted">
+              <i class="bi bi-bell-slash fs-1"></i>
+    <p class="mt-2">Nenhuma notificação no momento</p>
+    </div>
+            `;
+     return;
+                }
+
+      container.innerHTML = notificacoes.map(notif => `
+          <div class="notificacao-item p-3 border-bottom ${notif.lida ? '' : 'bg-light'}" 
+     data-id="${notif.id}">
+       <div class="d-flex">
+         <div class="flex-shrink-0">
+   <i class="bi ${notif.icone || 'bi-bell'} fs-4 ${notif.cor || 'text-primary'}"></i>
+       </div>
+        <div class="flex-grow-1 ms-3">
+     <div class="d-flex justify-content-between align-items-start">
+       <h6 class="mb-1">${notif.titulo}</h6>
+<small class="text-muted">${this.formatarTempo(notif.data)}</small>
+               </div>
+   <p class="mb-1 small">${notif.mensagem}</p>
+          ${notif.link ? `<a href="${notif.link}" class="btn btn-sm btn-outline-primary mt-1">Ver detalhes</a>` : ''}
+</div>
+   </div>
+          </div>
+   `).join('');
+         }
+
+      static formatarTempo(dataISO) {
+  const data = new Date(dataISO);
+            const agora = new Date();
+       const diff = Math.floor((agora - data) / 1000);
+
+if (diff < 60) return 'Agora';
+   if (diff < 3600) return `${Math.floor(diff / 60)}min`;
+ if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+                return `${Math.floor(diff / 86400)}d`;
+    }
+            }
+
+          // Inicializar sistema
+     document.addEventListener('DOMContentLoaded', function() {
+          NotificacoesSystem.atualizarBadge();
+
+   // Abrir modal
+             const notifLink = document.getElementById('notificacoes-link');
+         if (notifLink) {
+         notifLink.addEventListener('click', function(e) {
+          e.preventDefault();
+     NotificacoesSystem.renderizar();
+            const modal = new bootstrap.Modal(document.getElementById('notificacoesModal'));
+            modal.show();
+        });
+          }
+
+     // Limpar notificações
+  const btnLimpar = document.getElementById('limpar-notificacoes');
+                if (btnLimpar) {
+       btnLimpar.addEventListener('click', function() {
+             if (confirm('Deseja limpar todas as notificações?')) {
+      NotificacoesSystem.limparTodas();
+     }
+        });
+ }
+
+         // Escutar eventos de nova notificação
+         window.addEventListener('nova-notificacao', function(e) {
+     NotificacoesSystem.adicionarNotificacao(e.detail);
+   });
+            });
+
+       // Expor globalmente
+            window.NotificacoesSystem = NotificacoesSystem;
+        </script>
+    }
+
+ @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
