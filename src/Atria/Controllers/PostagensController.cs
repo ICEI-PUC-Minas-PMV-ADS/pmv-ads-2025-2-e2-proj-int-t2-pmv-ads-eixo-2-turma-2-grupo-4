@@ -6,106 +6,120 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Atria.Controllers
 {
-  [Authorize]
+    [Authorize]
     public class PostagensController : Controller
     {
-  private readonly ApplicationDbContext _context;
+      private readonly ApplicationDbContext _context;
 
         public PostagensController(ApplicationDbContext context)
- {
+        {
   _context = context;
- }
-
-        [AllowAnonymous]
-  public async Task<IActionResult> Index()
-   {
-       var postagens = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).ToListAsync();
-     return View(postagens);
         }
 
-     [AllowAnonymous]
-    public async Task<IActionResult> Details(int? id)
-   {
-       if (id == null) return NotFound();
-     var postagem = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).FirstOrDefaultAsync(p => p.Id == id);
-    if (postagem == null) return NotFound();
-    return View(postagem);
- }
-
-        public IActionResult Create(int? comunidadeId)
+  [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
-        ViewBag.ComunidadeId = comunidadeId;
- return View();
- }
+            var postagens = await _context.Postagens
+.Include(p => p.Usuario)
+  .Include(p => p.Comunidade)
+                .Include(p => p.GrupoEstudo)
+        .ToListAsync();
+      return View(postagens);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int? id)
+     {
+        if (id == null) return NotFound();
+         var postagem = await _context.Postagens
+   .Include(p => p.Usuario)
+   .Include(p => p.Comunidade)
+             .Include(p => p.GrupoEstudo)
+      .FirstOrDefaultAsync(p => p.Id == id);
+     if (postagem == null) return NotFound();
+    return View(postagem);
+        }
+
+        // Accept optional comunidadeId and grupoId so the same Create view can be used from multiple screens
+        public IActionResult Create(int? comunidadeId, int? grupoId)
+        {
+      ViewBag.ComunidadeId = comunidadeId;
+            ViewBag.GrupoId = grupoId;
+    return View();
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Conteudo,FKComunidade,NoForumGeral")] Postagem postagem)
-   {
-   if (ModelState.IsValid)
+     [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Conteudo,FKComunidade,FKGrupo,NoForumGeral")] Postagem postagem)
      {
-     var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-         if (userIdClaim == null) return Challenge();
-   if (!int.TryParse(userIdClaim.Value, out var userId)) return BadRequest();
+            if (ModelState.IsValid)
+            {
+    var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+    if (userIdClaim == null) return Challenge();
+                if (!int.TryParse(userIdClaim.Value, out var userId)) return BadRequest();
 
-     postagem.FKUsuario = userId;
+                postagem.FKUsuario = userId;
     postagem.DataPostagem = DateTime.UtcNow;
-        _context.Add(postagem);
-   await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+                _context.Add(postagem);
+         await _context.SaveChangesAsync();
+           return RedirectToAction(nameof(Index));
        }
       return View(postagem);
         }
 
-  public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-       if (id == null) return NotFound();
-  var postagem = await _context.Postagens.FindAsync(id);
+        if (id == null) return NotFound();
+       var postagem = await _context.Postagens.FindAsync(id);
     if (postagem == null) return NotFound();
-         return View(postagem);
+            return View(postagem);
         }
 
-     [HttpPost]
-        [ValidateAntiForgeryToken]
-public async Task<IActionResult> Edit(int id, [Bind("Id,Conteudo,FKComunidade,NoForumGeral")] Postagem postagem)
-  {
-       if (id != postagem.Id) return NotFound();
-          if (ModelState.IsValid)
-   {
-                try
-      {
+        [HttpPost]
+   [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Conteudo,FKComunidade,FKGrupo,NoForumGeral")] Postagem postagem)
+        {
+          if (id != postagem.Id) return NotFound();
+         if (ModelState.IsValid)
+            {
+   try
+            {
       _context.Update(postagem);
-      await _context.SaveChangesAsync();
-   }
-        catch (DbUpdateConcurrencyException)
-  {
-       if (!_context.Postagens.Any(e => e.Id == postagem.Id)) return NotFound();
+         await _context.SaveChangesAsync();
+        }
+     catch (DbUpdateConcurrencyException)
+             {
+     if (!_context.Postagens.Any(e => e.Id == postagem.Id)) return NotFound();
       else throw;
   }
-           return RedirectToAction(nameof(Index));
-    }
+    return RedirectToAction(nameof(Index));
+ }
    return View(postagem);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+     public async Task<IActionResult> Delete(int? id)
         {
-     if (id == null) return NotFound();
-          var postagem = await _context.Postagens.Include(p => p.Usuario).Include(p => p.Comunidade).FirstOrDefaultAsync(p => p.Id == id);
-     if (postagem == null) return NotFound();
- return View(postagem);
+   if (id == null) return NotFound();
+var postagem = await _context.Postagens
+     .Include(p => p.Usuario)
+     .Include(p => p.Comunidade)
+    .Include(p => p.GrupoEstudo)
+         .FirstOrDefaultAsync(p => p.Id == id);
+            if (postagem == null) return NotFound();
+    return View(postagem);
     }
 
-   [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-      public async Task<IActionResult> DeleteConfirmed(int id)
-        {
+    [HttpPost, ActionName("Delete")]
+  [ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(int id)
+    {
      var postagem = await _context.Postagens.FindAsync(id);
-      if (postagem != null)
-   {
-    _context.Postagens.Remove(postagem);
-  await _context.SaveChangesAsync();
-  }
-   return RedirectToAction(nameof(Index));
- }
+  if (postagem != null)
+            {
+      _context.Postagens.Remove(postagem);
+     await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

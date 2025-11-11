@@ -5,4 +5,5 @@
 /.vs
 [Oo]bj/
 [Bb]in/
-/src/Atria/Data/Migrations
+/src/atria/data/Migrations/
+/src/Atria/Migrations
