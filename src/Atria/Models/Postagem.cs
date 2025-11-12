@@ -11,6 +11,10 @@ namespace Atria.Models
         [Column("ID_POSTAGEM")]
         public int Id { get; set; }
 
+        [Column("TITULO")]
+        [Required]
+        public string Titulo { get; set; } = string.Empty;
+
         [Column("CONTEUDO")]
         [Required]
         public string Conteudo { get; set; } = string.Empty;
