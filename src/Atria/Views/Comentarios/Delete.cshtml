@@ -1,0 +1,42 @@
+@model Atria.Models.Comentario
+@{
+    ViewData["Title"] = "Excluir Comentário";
+}
+
+<div class="page-container">
+    <div class="page-card">
+      <div class="page-card-header bg-danger text-white">
+       <h1><i class="bi bi-trash"></i> @ViewData["Title"]</h1>
+   </div>
+    <div class="page-card-body">
+            <div class="alert alert-warning">
+       <i class="bi bi-exclamation-triangle-fill"></i>
+     <strong>Atenção!</strong> Tem certeza que deseja excluir este comentário? Esta ação não pode ser desfeita.
+     </div>
+
+   <div class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">
+      <i class="bi bi-person-circle"></i> @(Model.Usuario?.Nome ?? "Usuário desconhecido")
+        <span class="text-muted ms-2">
+ <i class="bi bi-clock"></i> @Model.DataComentario.ToString("dd/MM/yyyy HH:mm")
+        </span>
+ </h6>
+     <p class="card-text">@Model.Conteudo</p>
+         </div>
+ </div>
+
+          <form asp-action="Delete" method="post">
+<input type="hidden" asp-for="Id" />
+         <div class="d-flex gap-2">
+        <button class="btn btn-danger" type="submit">
+        <i class="bi bi-trash"></i> Sim, Excluir Comentário
+       </button>
+    <a class="btn btn-secondary" href="/Postagens/Details/@Model.FKPostagem">
+       <i class="bi bi-x-circle"></i> Cancelar
+    </a>
+                </div>
+   </form>
+        </div>
+    </div>
+</div>

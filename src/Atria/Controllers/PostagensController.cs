@@ -35,6 +35,8 @@ namespace Atria.Controllers
    .Include(p => p.Usuario)
    .Include(p => p.Comunidade)
              .Include(p => p.GrupoEstudo)
+   .Include(p => p.Comentarios!)
+         .ThenInclude(c => c.Usuario)
       .FirstOrDefaultAsync(p => p.Id == id);
      if (postagem == null) return NotFound();
     return View(postagem);

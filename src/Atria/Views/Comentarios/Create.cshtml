@@ -1,0 +1,41 @@
+@model Atria.Models.Comentario
+@{
+    ViewData["Title"] = "Adicionar Comentário";
+    var postagemId = ViewBag.PostagemId ?? Model.FKPostagem;
+}
+
+<div class="page-container">
+    <div class="page-card">
+  <div class="page-card-header">
+       <h1><i class="bi bi-chat-left-text"></i> @ViewData["Title"]</h1>
+        </div>
+        <div class="page-card-body">
+          <form asp-action="Create" method="post">
+          <input type="hidden" asp-for="FKPostagem" value="@postagemId" />
+                
+   <div class="mb-3">
+          <label class="form-label" asp-for="Conteudo">
+    <i class="bi bi-pencil-square"></i> Seu Comentário
+     </label>
+  <textarea class="form-control" asp-for="Conteudo" rows="4" 
+    placeholder="Escreva seu comentário aqui..."></textarea>
+       <span asp-validation-for="Conteudo" class="text-danger"></span>
+      <div class="form-text">Máximo de 1000 caracteres</div>
+     </div>
+
+     <div class="d-flex gap-2">
+     <button class="btn btn-primary" type="submit">
+    <i class="bi bi-check-circle"></i> Publicar Comentário
+            </button>
+            <a class="btn btn-secondary" href="/Postagens/Details/@postagemId">
+     <i class="bi bi-x-circle"></i> Cancelar
+        </a>
+      </div>
+         </form>
+        </div>
+</div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
