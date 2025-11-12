@@ -19,7 +19,7 @@ namespace Atria.Models
         public string? Descricao { get; set; }
 
         [Column("FK_COMUNIDADE")]
-        public int FKComunidade { get; set; } = 0;
+        public int FKComunidade { get; set; }
         public Comunidade? Comunidade { get; set; }
 
         [Column("DATA_CRIACAO")]
