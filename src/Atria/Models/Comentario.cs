@@ -19,11 +19,11 @@ namespace Atria.Models
     public DateTime DataComentario { get; set; } = DateTime.UtcNow;
 
         [Column("FK_USUARIO")]
-        public int FKUsuario { get; set; }
+        public int FKUsuario { get; set; } = 0;
         public ApplicationUser? Usuario { get; set; }
 
-        [Column("FK_POSTAGEM")]
-        public int FKPostagem { get; set; }
+        [Column("FK_POSTAGEM")] 
+        public int FKPostagem { get; set; } = 0;
         public Postagem? Postagem { get; set; }
     }
 }

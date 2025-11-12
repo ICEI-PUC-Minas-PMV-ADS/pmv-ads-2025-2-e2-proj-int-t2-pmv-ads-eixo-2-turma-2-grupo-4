@@ -6,11 +6,11 @@ namespace Atria.Models
     public class UsuarioGrupo
     {
         [Column("FK_USUARIO")]
-        public int FKUsuario { get; set; }
+        public int FKUsuario { get; set; } = 0;
         public ApplicationUser? Usuario { get; set; }
 
         [Column("FK_GRUPO")]
-        public int FKGrupo { get; set; }
+        public int FKGrupo { get; set; } = 0;
         public GrupoEstudo? GrupoEstudo { get; set; }
 
         [Column("DATA_ENTRADA")]

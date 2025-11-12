@@ -19,7 +19,7 @@ namespace Atria.Models
         public string? Descricao { get; set; }
 
         [Column("FK_USUARIO")]
-        public int FKUsuario { get; set; }
+        public int FKUsuario { get; set; } = 0;
         public ApplicationUser? Usuario { get; set; }
 
         public ICollection<ListaTemMaterial> ListaTemMateriais { get; set; } = new List<ListaTemMaterial>();

@@ -7,11 +7,11 @@ namespace Atria.Models
     public class UsuarioComunidade
     {
         [Column("FK_USUARIO")]
-        public int FKUsuario { get; set; }
+        public int FKUsuario { get; set; } = 0;
         public ApplicationUser? Usuario { get; set; }
 
         [Column("FK_COMUNIDADE")]
-        public int FKComunidade { get; set; }
+        public int FKComunidade { get; set; } = 0;
         public Comunidade? Comunidade { get; set; }
 
         [Column("DATA_ENTRADA")]

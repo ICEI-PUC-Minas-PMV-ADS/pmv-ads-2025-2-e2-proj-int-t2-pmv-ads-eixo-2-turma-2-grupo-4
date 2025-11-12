@@ -30,12 +30,12 @@ namespace Atria.Models
         public ApplicationUser? Usuario { get; set; }
 
         [Column("FK_COMUNIDADE")]
-        public int? FKComunidade { get; set; }
+        public int? FKComunidade { get; set; } = 0;
         public Comunidade? Comunidade { get; set; }
 
         // Suporte para postagens vinculadas a grupos de estudo
         [Column("FK_GRUPO")]
-        public int? FKGrupo { get; set; }
+        public int? FKGrupo { get; set; } = 0;
         public GrupoEstudo? GrupoEstudo { get; set; }
 
         // Coleção de comentários associados à postagem

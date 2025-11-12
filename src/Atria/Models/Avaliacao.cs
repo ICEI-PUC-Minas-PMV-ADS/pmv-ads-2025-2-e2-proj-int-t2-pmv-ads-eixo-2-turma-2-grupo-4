@@ -19,11 +19,11 @@ namespace Atria.Models
         public string? TipoAvaliacao { get; set; }
 
         [Column("FK_USUARIO")]
-        public int FKUsuario { get; set; }
+        public int FKUsuario { get; set; } = 0;
         public ApplicationUser? Usuario { get; set; }
 
         [Column("FK_MATERIAL")]
-        public int FKMaterial { get; set; }
+        public int FKMaterial { get; set; } = 0;
         public Material? Material { get; set; }
 
         [Column("RESENHA")]

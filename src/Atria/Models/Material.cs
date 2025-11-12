@@ -28,7 +28,7 @@ namespace Atria.Models
 
 
         [Column("FK_USUARIO_CRIADOR")]
-        public int FKUsuarioCriador { get; set; }
+        public int FKUsuarioCriador { get; set; } = 0;
         public ApplicationUser? Criador { get; set; }
 
 

@@ -6,11 +6,11 @@ namespace Atria.Models
     public class ListaTemMaterial
     {
         [Column("FK_LISTA")]
-        public int FKLista { get; set; }
+        public int FKLista { get; set; } = 0;
         public ListaLeitura? ListaLeitura { get; set; }
 
         [Column("FK_MATERIAL")]
-        public int FKMaterial { get; set; }
+        public int FKMaterial { get; set; } = 0;
         public Material? Material { get; set; }
 
         [Column("ORDEM")]
