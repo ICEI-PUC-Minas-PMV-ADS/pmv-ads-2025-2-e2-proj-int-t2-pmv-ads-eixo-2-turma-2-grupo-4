@@ -21,8 +21,8 @@ namespace Atria.Models
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
 
-        public ICollection<Postagem> Postagens { get; set; } = new List<Postagem>();
+        public ICollection<Postagem>? Postagens { get; set; } = new List<Postagem>();
         public ICollection<UsuarioComunidade> Usuarios { get; set; } = new List<UsuarioComunidade>();
-        public ICollection<GrupoEstudo> GruposEstudo { get; set; } = new List<GrupoEstudo>();
+        public ICollection<GrupoEstudo>? GruposEstudo { get; set; } = new List<GrupoEstudo>();
     }
 }
