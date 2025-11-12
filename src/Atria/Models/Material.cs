@@ -22,9 +22,15 @@ namespace Atria.Models
         [MaxLength(50)]
         public string? Tipo { get; set; }
 
+        [Column("CAMINHOIMG")]
+        [MaxLength(250)]
+        public string? CAMINHOIMG { get; set; }
+
+
         [Column("FK_USUARIO_CRIADOR")]
         public int FKUsuarioCriador { get; set; }
         public ApplicationUser? Criador { get; set; }
+
 
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
@@ -37,3 +43,4 @@ namespace Atria.Models
         public ICollection<ListaTemMaterial> ListaTemMateriais { get; set; } = new List<ListaTemMaterial>();
     }
 }
+
