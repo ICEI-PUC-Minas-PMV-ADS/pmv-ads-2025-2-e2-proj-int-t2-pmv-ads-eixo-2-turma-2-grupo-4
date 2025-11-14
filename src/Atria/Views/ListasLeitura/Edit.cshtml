@@ -19,6 +19,13 @@
                     <label class="form-label">Descrição</label>
                     <textarea class="form-control" asp-for="Descricao"></textarea>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Materiais</label>
+                    @* Usamos MultiSelectList no controller, então asp-items funciona direto *@
+                    <select class="form-select" name="materialIds" asp-items="@ViewBag.Materiais" multiple>
+                    </select>
+                    <div class="form-text">Segure "Ctrl" (ou "Command" no Mac) para selecionar mais de um material.</div>
+                </div>
                 <button class="btn btn-primary" type="submit">Salvar</button>
                 <a class="btn btn-secondary" href="/ListasLeitura">Cancelar</a>
             </form>
