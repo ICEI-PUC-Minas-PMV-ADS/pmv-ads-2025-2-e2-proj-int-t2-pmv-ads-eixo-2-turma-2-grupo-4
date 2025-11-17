@@ -5,36 +5,70 @@
 
     <div class="page-container">
         <div class="page-card">
-            <div class="page-card-header">
+            <div class="page-card-header d-flex justify-content-between align-items-center">
                 <h1>@ViewData["Title"]</h1>
+                <a class="btn btn-primary" asp-action="Create">
+                    <i class="fas fa-plus me-1"></i> Nova Lista
+                </a>
             </div>
+
             <div class="page-card-body">
 
-                <p><a class="btn btn-primary" href="/ListasLeitura/Create">Nova Lista</a></p>
+                <div class="row g-4">
+                    @foreach(var l in Model)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="lista-leitura-card">
 
-                @* Remova o <div class="table-responsive">  e a <table> ... </table> *@
+                            <div class="lista-leitura-imagem">
+                                @{
+                                    var primeiraImagem = l.ListaTemMateriais.FirstOrDefault()?.Material?.CAMINHOIMG;
+                                    var caminhoImagem = !string.IsNullOrEmpty(primeiraImagem)
+                                        ? $"~/resources/{primeiraImagem}"
+                                        : "~/resources/placeholder.png";
+                                }
+                                <img src="@Url.Content(caminhoImagem)" alt="Capa da lista @l.Nome">
+                            </div>
 
-                <div class="row">
-                    @* O loop foreach é o mesmo que você já tinha [cite: 19] *@
-                    @foreach(var l in Model){
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@l.Nome</h5>
-                                <p class="card-text flex-grow-1">@l.Descricao</p>
+                            <div class="lista-leitura-conteudo">
+                                <h5 class="lista-leitura-titulo">@l.Nome</h5>
 
-                                @* Os mesmos botões que você tinha[cite: 21], mas no card *@
-                                <div class="mt-auto">
-                                    <a class="btn btn-sm btn-info" href="/ListasLeitura/Details/@l.Id">Detalhes</a>
-                                    <a class="btn btn-sm btn-warning" href="/ListasLeitura/Edit/@l.Id">Editar</a>
-                                    <a class="btn btn-sm btn-danger" href="/ListasLeitura/Delete/@l.Id">Excluir</a>
+                                @if (l.Usuario != null)
+                                {
+                                <div class="lista-leitura-criador">
+                                    <i class="fas fa-user-edit me-1"></i> Por @l.Usuario.UserName
+                                </div>
+                                }
+
+                                <p class="lista-leitura-descricao">
+                                    @(l.Descricao ?? "Nenhuma descrição fornecida.")
+                                </p>
+
+                                <div class="lista-leitura-acoes">
+                                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@l.Id">
+                                        <i class="fas fa-eye me-1"></i> Ver
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@l.Id">
+                                        <i class="fas fa-pen me-1"></i> Editar
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@l.Id">
+                                        <i class="fas fa-trash me-1"></i> Excluir
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-    }
-                </div>
+                }
 
+                    @if (!Model.Any())
+                {
+                    <div class="col-12">
+                        <div class="alert alert-secondary text-center" role="alert">
+                            Nenhuma lista de leitura foi criada ainda. Seja o primeiro!
+                        </div>
+                    </div>
+                }
+                </div>
             </div>
         </div>
     </div>

@@ -17,20 +17,31 @@ namespace Atria.Controllers
             _context = context;
         }
 
+        // VERSÃO NOVA - CORRIGIDA
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ListasLeitura.ToListAsync());
+            var listas = await _context.ListasLeitura
+                .Include(l => l.Usuario) // <--- ADICIONE ESTA LINHA
+                .Include(l => l.ListaTemMateriais)
+                    .ThenInclude(lm => lm.Material)
+                .ToListAsync();
+
+            return View(listas);
         }
 
+        // VERSÃO NOVA - CORRIGIDA
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
+
             var lista = await _context.ListasLeitura
+                .Include(l => l.Usuario) // <--- ADICIONE ESTA LINHA
                 .Include(l => l.ListaTemMateriais!)
-                .ThenInclude(lm => lm.Material)
+                    .ThenInclude(lm => lm.Material)
                 .FirstOrDefaultAsync(l => l.Id == id);
+
             if (lista == null) return NotFound();
             return View(lista);
         }

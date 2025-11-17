@@ -12,7 +12,6 @@ namespace Atria.Data
 
         // DbSets das entidades do domínio
         // Em ApplicationDbContext.cs
-        public DbSet<ListaTemMaterial> ListaTemMateriais { get; set; }
 
         public DbSet<Material> Materiais { get; set; }
         public DbSet<Avaliacao> Avaliacoes { get; set; }

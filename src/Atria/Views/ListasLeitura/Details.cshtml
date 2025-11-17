@@ -5,27 +5,56 @@
 
 <div class="page-container">
     <div class="page-card">
-        <div class="page-card-header">
+
+        <div class="page-card-header detalhes-lista-header">
             <h1>@Model.Nome</h1>
+            @if (Model.Usuario != null)
+            {
+            <h5 class="text-white-50 fw-normal mb-0">Criada por: @Model.Usuario.UserName</h5>
+            }
         </div>
-        <div class="page-card-body">
-            <p><strong>Descrição:</strong> @Model.Descricao</p>
-            <hr />
-            <h5>Materiais nesta lista:</h5>
+
+        <div class="page-card-body detalhes-lista-body">
+
+            @if (!string.IsNullOrEmpty(Model.Descricao))
+            {
+            <h5>Descrição</h5>
+            <p class="detalhes-lista-descricao">@Model.Descricao</p>
+            }
+
+            <h5>Materiais na Lista (@Model.ListaTemMateriais.Count)</h5>
+
             @if (Model.ListaTemMateriais == null || !Model.ListaTemMateriais.Any())
             {
-            <p class="text-muted">Nenhum material foi adicionado a esta lista ainda.</p>
+            <div class="alert alert-secondary" role="alert">
+                Nenhum material foi adicionado a esta lista ainda.
+            </div>
             }
             else
             {
-            <ul class="list-group">
-                @foreach(var item in Model.ListaTemMateriais) {
-                <li class="list-group-item">@item.Material?.Titulo</li>
-                }
-            </ul>
+            <div class="detalhes-materiais-grid">
+                @foreach(var item in Model.ListaTemMateriais.OrderBy(m => m.Ordem))
+                    {
+                        var caminhoImagem = "~/resources/placeholder.png";
+                        if (item.Material != null && !string.IsNullOrEmpty(item.Material.CAMINHOIMG))
+                        {
+                            caminhoImagem = $"~/resources/{item.Material.CAMINHOIMG}";
+                        }
+
+                <div class="material-item-card" title="@(item.Material?.Titulo ?? "Material não encontrado")">
+                    <img src="@Url.Content(caminhoImagem)" alt="Capa de @(item.Material?.Titulo)">
+                    <span>@(item.Material?.Titulo ?? "...")</span>
+                </div>
+                    }
+            </div>
             }
-            <br />
-            <p><a class="btn btn-secondary" href="/ListasLeitura">Voltar</a></p>
+
+            <div class="mt-4">
+                <a class="btn btn-secondary" asp-action="Index">
+                    <i class="fas fa-arrow-left me-1"></i> Voltar para Listas
+                </a>
+            </div>
+
         </div>
     </div>
 </div>

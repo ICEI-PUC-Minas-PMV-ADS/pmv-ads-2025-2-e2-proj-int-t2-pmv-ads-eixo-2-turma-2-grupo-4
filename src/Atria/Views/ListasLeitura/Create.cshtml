@@ -24,31 +24,24 @@
                     <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Materiais</label>
-                    @* Usamos MultiSelectList no controller, então asp-items funciona direto *@
-                    <select class="form-select" name="materialIds" asp-items="@ViewBag.Materiais" multiple>
-                    </select>
-                    <div class="form-text">Segure "Ctrl" (ou "Command" no Mac) para selecionar mais de um material.</div>
-                </div>
-
-                <button class="btn btn-primary" type="submit">Criar</button>
-                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
-
                 @* O div original  *@
                 <div class="mb-3">
                     <label class="form-label">Materiais</label>
 
                     @* Verificamos se o ViewBag.Materiais tem algum item *@
                     @if (ViewBag.Materiais != null && ((SelectList)ViewBag.Materiais).Any()){
-                        <select class="form-select" name="materialIds" asp-items="@ViewBag.Materiais" multiple>
-                        </select>
-                        <div class="form-text">Segure "Ctrl" (ou "Command" no Mac) para selecionar mais de um material.</div>
+                    <select class="form-select" name="materialIds" asp-items="@ViewBag.Materiais" multiple>
+                    </select>
+                    <div class="form-text">Segure "Ctrl" (ou "Command" no Mac) para selecionar mais de um material.</div>
                     }
                     else{
-                        <p class="text-muted">Nenhum material cadastrado no momento. Você pode criar a lista e adicionar materiais depois.</p>
+                    <p class="text-muted">Nenhum material cadastrado no momento. Você pode criar a lista e adicionar materiais depois.</p>
                     }
                 </div>
+
+                <button class="btn btn-primary" type="submit">Criar</button>
+                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+
             </form>
         </div>
     </div>

@@ -861,3 +861,131 @@ html {
     .notificacao-item:not(.bg-light) {
         font-weight: 500;
     }
+
+/* =========================================
+   12. ESTILOS (LISTAS DE LEITURA)
+       (Design by Gemini)
+   ========================================= */
+
+/* --- Index: O Card da Lista --- */
+.lista-leitura-card {
+    background-color: #fff; /* Garante fundo branco */
+    border: 1px solid #e0e0e0; /* Borda sutil */
+    border-radius: 12px; /* Combina com .page-card  */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa todo o espaço do grid */
+    transition: all 0.3s ease;
+}
+
+    .lista-leitura-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        border-color: var(--atria-primary); /* Usa a cor primária do site  */
+    }
+
+.lista-leitura-imagem img {
+    height: 200px; /* Altura fixa para as capas */
+    width: 100%;
+    object-fit: cover;
+}
+
+.lista-leitura-conteudo {
+    padding: 1.5rem;
+    flex-grow: 1; /* Empurra as ações para baixo */
+    display: flex;
+    flex-direction: column;
+}
+
+.lista-leitura-titulo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d2c4b; /* Combina com o header  */
+    margin-bottom: 0.25rem;
+}
+
+.lista-leitura-criador {
+    font-size: 0.9rem;
+    color: var(--atria-primary); /* Destaque no criador */
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.lista-leitura-descricao {
+    font-size: 0.95rem;
+    color: #495057; /* Texto do body  */
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+    /* Limita a descrição para 3 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lista-leitura-acoes {
+    margin-top: auto; /* Alinha no final */
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* --- Details: O Grid de Materiais --- */
+
+.detalhes-lista-body h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0d2c4b; /* Cor do header */
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.detalhes-lista-descricao {
+    font-size: 1.05rem;
+    color: #343a40;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.detalhes-materiais-grid {
+    display: grid;
+    /* Grid responsivo: 120px no mínimo */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+}
+
+.material-item-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+    .material-item-card:hover {
+        transform: scale(1.05);
+        border-color: var(--atria-primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .material-item-card img {
+        width: 100%;
+        height: 170px; /* Altura da capa */
+        object-fit: cover;
+    }
+
+    .material-item-card span {
+        display: block;
+        padding: 0.75rem;
+        color: #212529; /* Cor do texto do body  */
+        font-size: 0.85rem;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
