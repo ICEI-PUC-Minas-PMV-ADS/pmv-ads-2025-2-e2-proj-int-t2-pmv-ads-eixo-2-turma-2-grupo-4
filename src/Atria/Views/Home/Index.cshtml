@@ -4,21 +4,27 @@
     }
 
     @if (User.Identity != null && User.Identity.IsAuthenticated)
-{
+    {
     // ------------------------------------
     //  VISÃO: USUÁRIO LOGADO (SÓ O FEED)
     // ------------------------------------
     ViewData["Title"] = "Feed Principal";
+    var rand = new Random(); // <--- APENAS ISSO
 
     <h3 class="text-dark mb-4">Feed Principal</h3>
 
     <div class="feed-container" style="max-width: 800px; margin: auto;">
         @foreach (var post in Model)
         {
+            var views = rand.Next(100, 2500);
+            var comments = rand.Next(5, 50);
+            var likes = rand.Next(20, 300);
+
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center" style="font-size: 0.9em; background-color: #f8f9fa;">
                 <span>
-                    Postado por: <strong>@(post.Usuario?.UserName ?? "Anônimo")</strong>
+                    Postado por:
+                    <strong>@(post.Usuario?.UserName ?? "Anônimo")</strong>
                 </span>
                 <span class="text-muted">
                     @post.DataPostagem.ToString("dd/MM/yyyy 'às' HH:mm")
@@ -26,7 +32,8 @@
             </div>
             <div class="card-body">
                 <h4 class="card-title">
-                    <a asp-controller="Postagens" asp-action="Details" asp-route-id="@post.Id" style="text-decoration: none; color: #212529;">
+
+                    <a asp-controller="Home" asp-action="DiscussaoFicticia" asp-route-id="@post.Id" style="text-decoration: none; color: #212529;">
                         @Html.DisplayFor(modelItem => post.Titulo)
                     </a>
                 </h4>
@@ -34,11 +41,26 @@
                     @Html.DisplayFor(modelItem => post.Conteudo)
                 </p>
             </div>
-            <div class="card-footer" style="background-color: #f8f9fa;">
-                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-outline-primary">
+
+            <div class="card-footer d-flex justify-content-between align-items-center" style="background-color: #f8f9fa;">
+
+                <div class="postagens-stats text-muted" style="font-size: 0.9rem;">
+                    <span class="postagem-stat" title="Visualizações">
+                        <i class="fas fa-eye me-1"></i> @views.ToString("N0")
+                    </span>
+                    <span class="postagem-stat ms-3" title="Comentários">
+                        <i class="fas fa-comments me-1"></i> @comments
+                    </span>
+                    <span class="postagem-stat ms-3" title="Curtidas">
+                        <i class="fas fa-heart me-1"></i> @likes
+                    </span>
+                </div>
+
+                <a asp-controller="Home" asp-action="DiscussaoFicticia" asp-route-id="@post.Id" class="btn btn-sm btn-outline-primary">
                     Ver Discussão
                 </a>
             </div>
+
         </div>
         }
     </div>
