@@ -965,6 +965,7 @@ html {
     text-align: left;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
 }
 
     .material-item-card:hover {
