@@ -41,10 +41,15 @@
                             caminhoImagem = $"~/resources/{item.Material.CAMINHOIMG}";
                         }
 
-                <div class="material-item-card" title="@(item.Material?.Titulo ?? "Material não encontrado")">
-                    <img src="@Url.Content(caminhoImagem)" alt="Capa de @(item.Material?.Titulo)">
-                    <span>@(item.Material?.Titulo ?? "...")</span>
-                </div>
+                        <a class="material-item-card"
+                           asp-controller="Materiais"
+                           asp-action="Details"
+                           asp-route-id="@item.Material?.Id"
+                           title="@(item.Material?.Titulo ?? "Material não encontrado")">
+
+                            <img src="@Url.Content(caminhoImagem)" alt="Capa de @(item.Material?.Titulo)">
+                            <span>@(item.Material?.Titulo ?? "...")</span>
+                        </a>
                     }
             </div>
             }
