@@ -109,7 +109,7 @@ return NotFound();
      ModelState.AddModelError(string.Empty, error.Description);
        }
 
-  return View(model);
+            return View("~/Views/Profile/Edit.cshtml", model);
         }
     }
 }

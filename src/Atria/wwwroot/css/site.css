@@ -990,3 +990,43 @@ html {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+/* --- 10. Estilos para Detalhes da pagina de comunidades --- */
+
+/* Estilo para a barra de botões abaixo do primeiro card */
+.nav-buttons-container {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 960px;
+    margin: 2.5rem auto;
+/*    margin-bottom: 20px;*/
+    display: flex;
+    gap: 10px;
+
+
+}
+
+/* Estilo base para os botões de navegação */
+.nav-button {
+    flex-grow: 1;
+    background-color: #343a40;
+    color: white;
+    border: 1px solid #495057;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-decoration: inherit;
+}
+
+    .nav-button:hover {
+        background-color: #495057; 
+        text-decoration: none;
+        color: white;
+    }
+
+    /* Estilo para o botão ativo */
+    .nav-button.active {
+        background-color: #007bff; 
+        border-color: #007bff;
+    }
