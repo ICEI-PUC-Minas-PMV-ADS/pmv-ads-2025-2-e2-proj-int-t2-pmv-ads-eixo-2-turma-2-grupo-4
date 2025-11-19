@@ -1,25 +1,180 @@
 @model Atria.Models.Avaliacao
 @{
-    ViewData["Title"] = "Criar Avaliação";
+    ViewData["Title"] = "Avaliar Material";
+    var materialId = ViewBag.MaterialId;
 }
-<h1>Criar Avaliação</h1>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+ <i class="bi bi-exclamation-triangle-fill me-2"></i>
+  @ViewBag.ErrorMessage
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+}
+
+@if (materialId == null || materialId == 0)
+{
+    <div class="page-container" style="max-width: 700px;">
+        <div class="page-card">
+         <div class="page-card-header bg-danger text-white">
+  <h1><i class="bi bi-exclamation-triangle-fill me-2"></i>Erro</h1>
+     </div>
+    <div class="page-card-body">
+  <div class="alert alert-danger">
+         <h5><i class="bi bi-x-circle me-2"></i>Material não especificado</h5>
+         <p class="mb-3">Para criar uma avaliação, você precisa acessar esta página a partir dos detalhes de um material.</p>
+            <hr>
+    <div class="d-flex gap-2">
+          <a href="/Materiais" class="btn btn-primary">
+          <i class="bi bi-book me-2"></i>Ver Materiais
+      </a>
+              <a href="javascript:history.back()" class="btn btn-secondary">
+          <i class="bi bi-arrow-left me-2"></i>Voltar
+  </a>
+    </div>
+     </div>
+    </div>
+    </div>
+    </div>
+}
+else
+{
+<div class="page-container" style="max-width: 700px;">
+    <div class="page-card">
+    <div class="page-card-header">
+     <h1><i class="bi bi-star-fill me-2"></i>Nova Avaliação</h1>
+<p class="text-muted mb-0">Compartilhe sua opinião sobre este material</p>
+        </div>
+      <div class="page-card-body">
 <form asp-action="Create" method="post">
-    <div class="form-group">
-        <label>Nota</label>
-        <input asp-for="Nota" class="form-control" />
+     <input type="hidden" asp-for="FKMaterial" value="@materialId" />
+            
+      <!-- Nota -->
+   <div class="mb-4">
+    <label class="form-label fw-bold">
+<i class="bi bi-star me-1"></i>Nota
+   <span class="text-danger">*</span>
+</label>
+          <div class="d-flex gap-2 mb-2">
+    @for (int i = 1; i <= 5; i++)
+        {
+   <input type="radio" class="btn-check" name="Nota" id="nota@(i)" value="@i" required>
+<label class="btn btn-outline-warning btn-lg" for="nota@(i)" title="@i estrela@(i > 1 ? "s" : "")">
+  @for (int j = 1; j <= i; j++)
+ {
+     <i class="bi bi-star-fill"></i>
+    }
+      </label>
+    }
+         </div>
+       <span asp-validation-for="Nota" class="text-danger"></span>
+          <div class="form-text">
+          <i class="bi bi-info-circle me-1"></i>
+       Selecione de 1 a 5 estrelas
+            </div>
+     </div>
+
+      <!-- Tipo de Avaliação -->
+        <div class="mb-4">
+     <label asp-for="TipoAvaliacao" class="form-label fw-bold">
+           <i class="bi bi-tag me-1"></i>Tipo de Avaliação
+           </label>
+        <select asp-for="TipoAvaliacao" class="form-select">
+     <option value="">Selecione o tipo...</option>
+  <option value="Leitura Completa">?? Leitura Completa</option>
+   <option value="Leitura Parcial">?? Leitura Parcial</option>
+    <option value="Recomendação">? Recomendação</option>
+            <option value="Estudo">?? Estudo</option>
+ </select>
+        <span asp-validation-for="TipoAvaliacao" class="text-danger"></span>
+       </div>
+
+     <!-- Resenha -->
+    <div class="mb-4">
+    <label asp-for="Resenha" class="form-label fw-bold">
+  <i class="bi bi-pencil me-1"></i>Resenha (Opcional)
+      </label>
+    <textarea asp-for="Resenha" class="form-control" rows="6" 
+  placeholder="Compartilhe sua opinião detalhada sobre este material...&#10;&#10;O que você achou? O que aprendeu? Recomendaria para quem?"
+   maxlength="2000" id="resenhaInput"></textarea>
+    <span asp-validation-for="Resenha" class="text-danger"></span>
+    <div class="form-text">
+        <i class="bi bi-info-circle me-1"></i>
+       Sua resenha ajuda outros estudantes
+ <span class="float-end">
+     <span id="resenhaContador">0</span>/2000 caracteres
+          </span>
+       </div>
+   </div>
+
+    <hr class="my-4">
+
+     <!-- Botões -->
+    <div class="d-flex gap-2 justify-content-end">
+        <a class="btn btn-secondary" href="/Materiais/Details/@materialId">
+ <i class="bi bi-x-circle me-2"></i>Cancelar
+  </a>
+   <button type="submit" class="btn btn-primary btn-lg" id="btnSubmit">
+    <i class="bi bi-check-circle me-2"></i>Salvar Avaliação
+          </button>
     </div>
-    <div class="form-group">
-        <label>Tipo</label>
-        <input asp-for="TipoAvaliacao" class="form-control" />
+         </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label>Resenha</label>
-        <textarea asp-for="Resenha" class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Material Id</label>
-        <input asp-for="FKMaterial" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Salvar</button>
-    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
-</form>
+</div>
+
+<style>
+    .btn-check:checked + .btn-outline-warning {
+    background-color: #ffc107;
+        border-color: #ffc107;
+        color: #000;
+    }
+
+    .btn-outline-warning:hover {
+      transform: scale(1.1);
+    transition: transform 0.2s ease;
+    }
+
+    .btn-outline-warning {
+        transition: all 0.2s ease;
+ }
+</style>
+
+<script>
+    // Contador de caracteres para resenha
+    const resenhaInput = document.getElementById('resenhaInput');
+ const resenhaContador = document.getElementById('resenhaContador');
+    
+    if (resenhaInput) {
+        resenhaInput.addEventListener('input', function() {
+            resenhaContador.textContent = this.value.length;
+  });
+    }
+
+    // Validação antes de enviar
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+   const notaSelecionada = document.querySelector('input[name="Nota"]:checked');
+        
+            if (!notaSelecionada) {
+           e.preventDefault();
+              alert('Por favor, selecione uma nota de 1 a 5 estrelas.');
+     return false;
+            }
+
+  // Animação no botão
+   const btnSubmit = document.getElementById('btnSubmit');
+            if (btnSubmit) {
+    btnSubmit.disabled = true;
+    btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Salvando...';
+      }
+        });
+    }
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+}

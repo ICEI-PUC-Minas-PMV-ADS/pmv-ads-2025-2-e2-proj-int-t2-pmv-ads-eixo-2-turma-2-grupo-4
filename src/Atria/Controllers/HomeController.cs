@@ -18,7 +18,7 @@ namespace Atria.Controllers
                     Titulo = "⭐ [FIXADO] Regras da Comunidade e Como Usar o Atria",
                     Conteudo = "Bem-vindo ao Atria! Por favor, leia as regras antes de postar...",
                     DataPostagem = DateTime.Now.AddDays(-3),
-                    Usuario = new ApplicationUser { UserName = "Moderador" }
+                    Usuario = new ApplicationUser { UserName = "Moderador", Nome = "Moderador" }
                 },
                 new Postagem
                 {
@@ -26,7 +26,7 @@ namespace Atria.Controllers
                     Titulo = "🏆 [Mais Votado] A lista definitiva de livros para quem está começando em C#",
                     Conteudo = "Depois de 10 anos programando, essa é a minha lista pessoal...",
                     DataPostagem = DateTime.Now.AddHours(-5),
-                    Usuario = new ApplicationUser { UserName = "DevSenior" }
+                    Usuario = new ApplicationUser { UserName = "DevSenior", Nome = "DevSenior" }
                 },
                 new Postagem
                 {
@@ -34,7 +34,7 @@ namespace Atria.Controllers
                     Titulo = "O que vocês acharam de 'O Idiota' de Dostoiévski?",
                     Conteudo = lorem,
                     DataPostagem = DateTime.Now.AddMinutes(-45),
-                    Usuario = new ApplicationUser { UserName = "LeitorClassico" }
+                    Usuario = new ApplicationUser { UserName = "LeitorClassico", Nome = "LeitorClassico" }
                 },
                 new Postagem
                 {
@@ -42,7 +42,7 @@ namespace Atria.Controllers
                     Titulo = "Como manter a rotina de academia e estudos?",
                     Conteudo = lorem,
                     DataPostagem = DateTime.Now.AddMinutes(-10),
-                    Usuario = new ApplicationUser { UserName = "MarombeiroDev" }
+                    Usuario = new ApplicationUser { UserName = "MarombeiroDev", Nome = "MarombeiroDev" }
                 }
             };
 

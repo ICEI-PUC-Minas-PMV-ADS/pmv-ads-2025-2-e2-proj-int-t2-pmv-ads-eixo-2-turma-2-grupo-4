@@ -12,11 +12,13 @@ namespace Atria.Models
         public int Id { get; set; }
 
         [Column("TITULO")]
-        [Required]
+        [Required(ErrorMessage = "O título da postagem é obrigatório")]
+        [StringLength(200, ErrorMessage = "O título não pode ter mais de 200 caracteres")]
         public string Titulo { get; set; } = string.Empty;
 
         [Column("CONTEUDO")]
-        [Required]
+        [Required(ErrorMessage = "O conteúdo da postagem é obrigatório")]
+        [StringLength(5000, ErrorMessage = "O conteúdo não pode ter mais de 5000 caracteres")]
         public string Conteudo { get; set; } = string.Empty;
 
         [Column("DATA_POSTAGEM")]

@@ -1,20 +1,325 @@
 @model Atria.Models.Material
 @{
     ViewData["Title"] = "Detalhes do Material";
+    
+    // Calcular médias de avaliações
+    var totalAvaliacoes = Model.Avaliacoes?.Count ?? 0;
+    var mediaGeral = totalAvaliacoes > 0 && Model.Avaliacoes != null ? Model.Avaliacoes.Average(a => (double)a.Nota) : 0;
+    var avaliacoesProfessores = Model.Avaliacoes?.Where(a => a.TipoAvaliacao == "Professor").ToList() ?? new List<Atria.Models.Avaliacao>();
+    var mediaProfessores = avaliacoesProfessores.Any() ? avaliacoesProfessores.Average(a => (double)a.Nota) : 0;
 }
 
-<div class="page-container">
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="page-container" style="max-width: 1200px;">
     <div class="page-card">
-        <div class="page-card-header">
-            <h1>@Model.Titulo</h1>
+        <div class="page-card-header d-flex justify-content-between align-items-center">
+     <div>
+    <h1><i class="bi bi-book me-2"></i>@Model.Titulo</h1>
+              @if (!string.IsNullOrEmpty(Model.Tipo))
+ {
+          <span class="badge bg-primary">@Model.Tipo</span>
+           }
+ @if (!string.IsNullOrEmpty(Model.Status))
+      {
+<span class="badge @(Model.Status == "Aprovado" ? "bg-success" : Model.Status == "Pendente" ? "bg-warning" : "bg-secondary")">
+         @Model.Status
+            </span>
+  }
+            </div>
         </div>
+   
         <div class="page-card-body">
-            <p><strong>Descrição:</strong> @Model.Descricao</p>
-            <p><strong>Tipo:</strong> @Model.Tipo</p>
-            <p><strong>Criador:</strong> @Model.Criador?.Nome</p>
-            <p><strong>Data:</strong> @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
-            <hr />
-            <p><a class="btn btn-secondary" href="/Materiais">Voltar</a></p>
+    <div class="row">
+     <!-- Coluna Principal - Informações do Material -->
+       <div class="col-md-8">
+        <!-- Informações Básicas -->
+  <div class="mb-4">
+      <h5 class="text-primary mb-3">
+      <i class="bi bi-info-circle me-2"></i>Informações do Material
+        </h5>
+ 
+     @if (!string.IsNullOrEmpty(Model.Descricao))
+         {
+      <div class="card mb-3">
+         <div class="card-body">
+             <p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;">@Model.Descricao</p>
+                  </div>
+           </div>
+             }
+      else
+     {
+         <p class="text-muted fst-italic">Nenhuma descrição disponível</p>
+       }
+       
+      <div class="row g-3 mt-2">
+              <div class="col-md-6">
+        <div class="d-flex align-items-center">
+              <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
+             <div>
+    <small class="text-muted d-block">Criado por</small>
+    <strong>@(Model.Criador?.Nome ?? "Desconhecido")</strong>
+   </div>
+</div>
+               </div>
+     <div class="col-md-6">
+        <div class="d-flex align-items-center">
+   <i class="bi bi-calendar-event fs-4 me-2 text-primary"></i>
+    <div>
+     <small class="text-muted d-block">Data de Criação</small>
+      <strong>@Model.DataCriacao.ToString("dd/MM/yyyy")</strong>
+        </div>
+           </div>
+                   </div>
+         </div>
+                </div>
+
+          <!-- Seção de Avaliações -->
+     <div class="mt-5">
+                <h5 class="text-primary mb-4">
+          <i class="bi bi-star-fill me-2"></i>Avaliações
+          </h5>
+
+               @if (totalAvaliacoes > 0)
+          {
+          <!-- Lista de Avaliações -->
+    <div class="avaliacoes-lista">
+     @foreach (var avaliacao in (Model.Avaliacoes ?? new List<Atria.Models.Avaliacao>()).OrderByDescending(a => a.Id))
+     {
+   <div class="card mb-3 @(avaliacao.TipoAvaliacao == "Professor" ? "border-warning" : "")">
+    <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+  <div>
+        <strong class="d-flex align-items-center gap-2">
+                 <i class="bi bi-person-circle"></i>
+              @(avaliacao.Usuario?.Nome ?? "Anônimo")
+      @if (avaliacao.TipoAvaliacao == "Professor")
+{
+         <span class="badge bg-warning text-dark">
+     <i class="bi bi-mortarboard-fill me-1"></i>Especialista
+            </span>
+       }
+        </strong>
+     </div>
+   <div class="text-warning">
+        @for (int i = 1; i <= 5; i++)
+         {
+        <i class="bi @(i <= avaliacao.Nota ? "bi-star-fill" : "bi-star")"></i>
+      }
+  </div>
+         </div>
+
+  @if (!string.IsNullOrEmpty(avaliacao.Resenha))
+        {
+  <p class="mb-0 mt-2" style="white-space: pre-wrap;">@avaliacao.Resenha</p>
+    }
+       </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted fst-italic">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
+}
+
+    <!-- Formulário de Avaliação -->
+              @if (User.Identity?.IsAuthenticated ?? false)
+         {
+            <div class="card border-primary mt-4">
+      <div class="card-header bg-primary text-white">
+        <h6 class="mb-0">
+   <i class="bi bi-pencil-square me-2"></i>Adicionar sua Avaliação
+          </h6>
+  </div>
+      <div class="card-body">
+       <form asp-controller="Avaliacoes" asp-action="Create" method="post">
+            <input type="hidden" name="FKMaterial" value="@Model.Id" />
+
+       <div class="mb-3">
+ <label class="form-label">Nota</label>
+             <div class="btn-group d-flex" role="group">
+        @for (int i = 1; i <= 5; i++)
+      {
+              <input type="radio" class="btn-check" name="Nota" value="@i" id="nota-@i" required />
+      <label class="btn btn-outline-warning" for="nota-@i">
+    @i <i class="bi bi-star-fill"></i>
+   </label>
+   }
+       </div>
+             </div>
+
+         <div class="mb-3">
+     <label class="form-label">Resenha (opcional)</label>
+   <textarea name="Resenha" class="form-control" rows="3" maxlength="500"></textarea>
+     </div>
+
+     <button type="submit" class="btn btn-primary">
+             <i class="bi bi-send"></i> Enviar Avaliação
+              </button>
+          </form>
+   </div>
+  </div>
+       }
+    else
+        {
+          <div class="alert alert-info mt-4">
+     <i class="bi bi-info-circle me-2"></i>
+        <a href="/Account/Login">Faça login</a> para avaliar este material
+</div>
+       }
+       </div>
+  </div>
+
+      <!-- Coluna Lateral - Estatísticas e Ações -->
+    <div class="col-md-4">
+             <!-- Card de Avaliações Gerais -->
+         <div class="card mb-3">
+       <div class="card-header bg-light">
+     <h6 class="mb-0">
+  <i class="bi bi-bar-chart me-2"></i>Estatísticas
+  </h6>
+ </div>
+    <div class="card-body">
+       <div class="text-center mb-3">
+   <div class="display-4 text-warning">
+ @mediaGeral.ToString("F1")
+  </div>
+            <div class="text-warning">
+             @for (int i = 1; i <= 5; i++)
+ {
+    <i class="bi @(i <= Math.Round(mediaGeral) ? "bi-star-fill" : "bi-star")"></i>
+       }
+     </div>
+  <small class="text-muted">Média Geral (@totalAvaliacoes avaliações)</small>
+  </div>
+
+     @if (avaliacoesProfessores.Any())
+        {
+             <hr>
+      <div class="text-center">
+               <strong class="text-warning">
+       <i class="bi bi-mortarboard-fill me-1"></i>
+           Especialistas: @mediaProfessores.ToString("F1")
+                 </strong>
+      <div class="text-warning">
+      @for (int i = 1; i <= 5; i++)
+     {
+         <i class="bi @(i <= Math.Round(mediaProfessores) ? "bi-star-fill" : "bi-star")"></i>
+    }
+         </div>
+             <small class="text-muted">(@avaliacoesProfessores.Count avaliações)</small>
+            </div>
+               }
+      </div>
+     </div>
+
+   <!-- Card de Ações -->
+             <div class="card">
+       <div class="card-header bg-light">
+     <h6 class="mb-0">
+    <i class="bi bi-gear me-2"></i>Ações
+   </h6>
+  </div>
+   <div class="card-body d-grid gap-2">
+      <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">
+         <i class="bi bi-pencil"></i> Editar
+ </a>
+           <a asp-action="Index" class="btn btn-outline-secondary">
+       <i class="bi bi-arrow-left"></i> Voltar para Lista
+           </a>
+           <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+   <i class="bi bi-trash"></i> Excluir
+   </a>
+            </div>
+</div>
+</div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* ===== ANIMAÇÕES E TRANSIÇÕES ===== */
+    .page-card {
+        animation: fadeIn 0.4s ease;
+    }
+ 
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+  
+    /* ===== HOVER EFFECTS ===== */
+    .btn {
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* ===== CARDS DE AVALIAÇÃO ===== */
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    
+    /* ===== STARS ===== */
+    .stars i {
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+    
+ .stars i:hover {
+        transform: scale(1.2);
+    }
+    
+    /* ===== INPUT FOCUS ===== */
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        transform: scale(1.01);
+        transition: all 0.2s ease;
+    }
+    
+    /* ===== BADGES ===== */
+    .badge {
+        transition: transform 0.2s ease;
+    }
+    
+    .badge:hover {
+        transform: scale(1.05);
+ }
+    
+    /* ===== RESPONSIVO ===== */
+    @@media (max-width: 768px) {
+     .btn:hover {
+        transform: none;
+        }
+      
+        .card:hover {
+  transform: none;
+    }
+    }
+</style>

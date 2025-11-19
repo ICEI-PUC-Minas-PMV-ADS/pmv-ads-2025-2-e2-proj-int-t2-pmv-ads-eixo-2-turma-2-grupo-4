@@ -32,26 +32,73 @@ namespace Atria.Controllers
 
         public IActionResult Create(int? materialId)
         {
+            if (!materialId.HasValue || materialId.Value == 0)
+            {
+                TempData["ErrorMessage"] = "ID do material não foi especificado. Por favor, acesse esta página a partir dos detalhes de um material.";
+                return RedirectToAction("Index", "Materiais");
+            }
+
+            // Verificar se o material existe
+            var material = _context.Materiais.Find(materialId.Value);
+            if (material == null)
+            {
+                TempData["ErrorMessage"] = $"Material com ID {materialId} não foi encontrado.";
+                return RedirectToAction("Index", "Materiais");
+            }
+
             ViewBag.MaterialId = materialId;
+            ViewBag.MaterialTitulo = material.Titulo;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nota,TipoAvaliacao,Resenha,FKMaterial")] Avaliacao avaliacao)
+        public async Task<IActionResult> Create([Bind("Nota,Resenha,FKMaterial")] Avaliacao avaliacao)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                if (userIdClaim == null) return Challenge();
-                if (!int.TryParse(userIdClaim.Value, out var userId)) return BadRequest();
-
-                avaliacao.FKUsuario = userId;
-                _context.Add(avaliacao);
-                await _context.SaveChangesAsync();
+                TempData["ErrorMessage"] = "Há erros no formulário. Verifique os campos.";
                 return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
             }
-            return View(avaliacao);
+
+            var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            if (userIdClaim == null)
+            {
+                TempData["ErrorMessage"] = "Você precisa estar logado para avaliar materiais.";
+                return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out var userId))
+            {
+                TempData["ErrorMessage"] = "Erro ao identificar usuário.";
+                return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
+            }
+
+            try
+            {
+                // Verificar se usuário já avaliou este material
+                var avaliacaoExistente = await _context.Avaliacoes
+                    .FirstOrDefaultAsync(a => a.FKUsuario == userId && a.FKMaterial == avaliacao.FKMaterial);
+
+                if (avaliacaoExistente != null)
+                {
+                    TempData["ErrorMessage"] = "Você já avaliou este material. Edite sua avaliação existente.";
+                    return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
+                }
+
+                avaliacao.FKUsuario = userId;
+                avaliacao.TipoAvaliacao = "Comum"; // Definir tipo padrão
+                _context.Add(avaliacao);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Avaliação criada com sucesso! Obrigado por compartilhar sua opinião.";
+                return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Erro ao salvar avaliação: {ex.Message}";
+                return RedirectToAction("Details", "Materiais", new { id = avaliacao.FKMaterial });
+            }
         }
 
         public async Task<IActionResult> Edit(int? id)

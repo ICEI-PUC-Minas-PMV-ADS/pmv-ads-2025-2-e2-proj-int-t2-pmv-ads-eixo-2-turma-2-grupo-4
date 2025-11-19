@@ -3,35 +3,179 @@
     ViewData["Title"] = "Editar Postagem";
 }
 
-<div class="page-container">
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+     <i class="bi bi-exclamation-triangle-fill me-2"></i>
+ @ViewBag.ErrorMessage
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+     @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="page-container" style="max-width: 900px;">
     <div class="page-card">
         <div class="page-card-header">
-            <h1>@ViewData["Title"]</h1>
-        </div>
+      <h1><i class="bi bi-pencil-square me-2"></i>@ViewData["Title"]</h1>
+     <p class="text-muted mb-0">Edite sua postagem abaixo</p>
+    </div>
         <div class="page-card-body">
-            <form asp-action="Edit" method="post">
-                <input type="hidden" asp-for="Id" />
-                <div class="mb-3">
-                    <label class="form-label">Conteúdo</label>
-                    <textarea class="form-control" asp-for="Conteudo"></textarea>
-                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+<form asp-action="Edit" method="post">
+       <input type="hidden" asp-for="Id" />
+          
+      <!-- Seleção de Contexto -->
+      <div class="mb-4">
+          <h5><i class="bi bi-geo-alt me-2"></i>Onde publicar?</h5>
+          <p class="text-muted small">Escolha onde sua postagem será publicada</p>
+          
+  <div class="row g-3">
+ <!-- Comunidade -->
+    <div class="col-md-6">
+      <label asp-for="FKComunidade" class="form-label fw-bold">
+          <i class="bi bi-people-fill me-1"></i>Comunidade (opcional)
+       </label>
+            <select asp-for="FKComunidade" class="form-select" asp-items="ViewBag.Comunidades">
+          <option value="">-- Nenhuma Comunidade --</option>
+     </select>
+      <small class="form-text text-muted">Selecione uma comunidade específica</small>
+     </div>
+              
+              <!-- Grupo -->
+   <div class="col-md-6">
+<label asp-for="FKGrupo" class="form-label fw-bold">
+  <i class="bi bi-bookmark-fill me-1"></i>Grupo de Estudo (opcional)
+       </label>
+            <select asp-for="FKGrupo" class="form-select" asp-items="ViewBag.Grupos">
+              <option value="">-- Nenhum Grupo --</option>
+             </select>
+         <small class="form-text text-muted">Selecione um grupo de estudo</small>
+      </div>
+          </div>
+        
+    <!-- Checkbox NoForumGeral -->
+          <div class="form-check form-switch mt-3">
+ <input class="form-check-input" 
+      type="checkbox" 
+asp-for="NoForumGeral"
+          id="noForumGeralSwitch" />
+       <label class="form-check-label" for="noForumGeralSwitch">
+      <i class="bi bi-eye me-1"></i>Visível no Fórum Geral
+              </label>
+              <div class="form-text">
+         Se marcado, sua postagem também aparecerá no fórum geral
+   </div>
+          </div>
+      </div>
+      
+    <hr class="my-4">
+          
+      <!-- Título -->
+        <div class="mb-4">
+     <label class="form-label fw-bold">
+     <i class="bi bi-chat-quote me-1"></i>Título
+          <span class="text-danger">*</span>
+     </label>
+         <input class="form-control form-control-lg" 
+   asp-for="Titulo" 
+           placeholder="Digite um título para sua postagem"
+        maxlength="200"
+    id="tituloInput" 
+    required />
+       <span asp-validation-for="Titulo" class="text-danger"></span>
+   <div class="form-text">
+   <span id="tituloContador">0</span>/200 caracteres
+     </div>
+     </div>
+
+        <!-- Conteúdo -->
+     <div class="mb-4">
+            <label class="form-label fw-bold">
+      <i class="bi bi-file-text me-1"></i>Conteúdo
+          <span class="text-danger">*</span>
+            </label>
+  <textarea class="form-control" 
+asp-for="Conteudo" 
+        rows="8" 
+   placeholder="Escreva o conteúdo da sua postagem"
+     maxlength="5000"
+          id="conteudoInput"
+          required></textarea>
+   <span asp-validation-for="Conteudo" class="text-danger"></span>
+    <div class="form-text">
+  <span id="conteudoContador">0</span>/5000 caracteres
+      </div>
+            </div>
+
+       <!-- Botões -->
+     <div class="d-flex gap-2 justify-content-end">
+          <a class="btn btn-secondary" href="/Postagens">
+      <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+  <button class="btn btn-primary btn-lg" type="submit">
+       <i class="bi bi-check-circle me-2"></i>Salvar Alterações
+        </button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Comunidade (opcional)</label>
-                    <input class="form-control" asp-for="FKComunidade" />
-                    <span asp-validation-for="FKComunidade" class="text-danger"></span>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" asp-for="NoForumGeral" />
-                    <label class="form-check-label" asp-for="NoForumGeral">Postagem no fórum geral</label>
-                </div>
-                <button class="btn btn-primary" type="submit">Salvar</button>
-                <a class="btn btn-secondary" href="/Postagens">Cancelar</a>
-            </form>
-        </div>
+    </form>
+    </div>
     </div>
 </div>
 
+<script>
+    // Contador de caracteres para título
+    const tituloInput = document.getElementById('tituloInput');
+    const tituloContador = document.getElementById('tituloContador');
+    
+    if (tituloInput) {
+// Atualizar contador no load
+  tituloContador.textContent = tituloInput.value.length;
+        
+        tituloInput.addEventListener('input', function() {
+  tituloContador.textContent = this.value.length;
+   });
+    }
+
+    // Contador de caracteres para conteúdo
+    const conteudoInput = document.getElementById('conteudoInput');
+    const conteudoContador = document.getElementById('conteudoContador');
+    
+    if (conteudoInput) {
+     // Atualizar contador no load
+     conteudoContador.textContent = conteudoInput.value.length;
+        
+        conteudoInput.addEventListener('input', function() {
+        conteudoContador.textContent = this.value.length;
+      });
+    }
+
+    // Validação antes de enviar
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const titulo = tituloInput.value.trim();
+        const conteudo = conteudoInput.value.trim();
+    
+      if (!titulo || titulo.length < 3) {
+            e.preventDefault();
+            alert('O título deve ter pelo menos 3 caracteres.');
+      tituloInput.focus();
+            return false;
+    }
+        
+        if (!conteudo || conteudo.length < 10) {
+          e.preventDefault();
+   alert('O conteúdo deve ter pelo menos 10 caracteres.');
+      conteudoInput.focus();
+         return false;
+}
+    });
+</script>
+
 @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }

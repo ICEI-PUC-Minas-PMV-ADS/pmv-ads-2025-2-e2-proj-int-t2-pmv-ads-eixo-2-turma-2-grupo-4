@@ -49,12 +49,30 @@ namespace Atria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Conteudo,FKPostagem")] Comentario comentario)
         {
-            if (ModelState.IsValid)
-            {
-                var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                if (userIdClaim == null) return Challenge();
-                if (!int.TryParse(userIdClaim.Value, out var userId)) return BadRequest();
+            ModelState.Remove("Usuario");
+            ModelState.Remove("Postagem");
 
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Há erros no formulário. Verifique os campos.";
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
+
+            var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            if (userIdClaim == null)
+            {
+                TempData["ErrorMessage"] = "Você precisa estar logado para comentar.";
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out var userId))
+            {
+                TempData["ErrorMessage"] = "Erro ao identificar usuário.";
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
+
+            try
+            {
                 comentario.FKUsuario = userId;
                 comentario.DataComentario = DateTime.UtcNow;
 
@@ -69,9 +87,15 @@ namespace Atria.Controllers
                 }
 
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Comentário adicionado com sucesso!";
                 return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
             }
-            return View(comentario);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Erro ao salvar comentário: {ex.Message}";
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
         }
 
         public async Task<IActionResult> Edit(int? id)
