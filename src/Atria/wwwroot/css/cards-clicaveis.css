@@ -1,0 +1,66 @@
+/* ===========================================
+   CARDS CLICÁVEIS - ESTILO REDDIT
+   Design minimalista e funcional (SEM dropdowns)
+   =========================================== */
+
+/* ===== RESET E BASE ===== */
+.material-card,
+.postagem-card {
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+}
+
+/* ===== HOVER SUTIL (ESTILO REDDIT) ===== */
+.material-card:hover,
+.postagem-card:hover {
+  background-color: #f8f9fa !important;
+    border-color: #d0d0d0 !important;
+}
+
+/* ===== BADGE DISCRETO ===== */
+.material-tipo-badge {
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+}
+
+.material-tipo-badge .badge {
+    background-color: #e9ecef !important;
+    color: #495057 !important;
+    font-weight: 500 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* ===== TÍTULO (ESTILO REDDIT) ===== */
+.material-card:hover .material-titulo,
+.postagem-card:hover .postagem-titulo {
+    color: #0079d3 !important; /* Azul Reddit */
+    text-decoration: none !important;
+}
+
+/* ===== STATS DISCRETOS ===== */
+.material-footer,
+.postagem-footer {
+    background-color: transparent !important;
+    border-top: 1px solid #f0f0f0 !important;
+    font-size: 0.8rem !important;
+color: #7c7c7c !important;
+}
+
+/* ===== DENSIDADE DE INFORMAÇÃO ===== */
+.material-rating,
+.postagens-stats {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+ .material-card:hover,
+    .postagem-card:hover {
+        background-color: #ffffff !important;
+    }
+}
