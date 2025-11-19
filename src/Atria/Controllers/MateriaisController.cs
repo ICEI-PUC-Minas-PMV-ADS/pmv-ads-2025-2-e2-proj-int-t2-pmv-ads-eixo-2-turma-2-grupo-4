@@ -17,35 +17,9 @@ namespace Atria.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? tipo, string? ordenacao)
+        public async Task<IActionResult> Index()
         {
-            // Buscar materiais com relacionamentos
-            var query = _context.Materiais
-                .Include(m => m.Criador)
-                .Include(m => m.Avaliacoes)
-                .AsQueryable();
-
-            // Filtrar por tipo se especificado
-            if (!string.IsNullOrEmpty(tipo))
-            {
-                query = query.Where(m => m.Tipo == tipo);
-            }
-
-            // Aplicar ordenação
-            query = ordenacao switch
-            {
-                "titulo" => query.OrderBy(m => m.Titulo),
-                "tipo" => query.OrderBy(m => m.Tipo).ThenBy(m => m.Titulo),
-                "recentes" => query.OrderByDescending(m => m.DataCriacao),
-                _ => query.OrderByDescending(m => m.DataCriacao) // Padrão: mais recentes
-            };
-
-            var materiais = await query.ToListAsync();
-
-            // Passar parâmetros para a view via ViewBag
-            ViewBag.TipoFiltro = tipo;
-            ViewBag.Ordenacao = ordenacao;
-
+            var materiais = await _context.Materiais.Include(m => m.Criador).ToListAsync();
             return View(materiais);
         }
 
@@ -53,38 +27,9 @@ namespace Atria.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-            
-            try
-            {
-                var material = await _context.Materiais
-                    .Include(m => m.Criador)
-                    .Include(m => m.Avaliacoes!)
-                    .ThenInclude(a => a.Usuario)
-                    .Include(m => m.Avaliacoes!)
-                    .ThenInclude(a => a.Comentarios!) // Carregar comentários das avaliações
-                    .ThenInclude(c => c.Usuario)
-                    .FirstOrDefaultAsync(m => m.Id == id);
-        
-                if (material == null) return NotFound();
-                
-                return View(material);
-            }
-            catch (Exception ex)
-            {
-                // Se der erro ao carregar comentários (tabela não existe), carrega sem eles
-                var material = await _context.Materiais
-                    .Include(m => m.Criador)
-                    .Include(m => m.Avaliacoes!)
-                    .ThenInclude(a => a.Usuario)
-                    .FirstOrDefaultAsync(m => m.Id == id);
-    
-                if (material == null) return NotFound();
-        
-                // Logar erro para debug
-                Console.WriteLine($"Aviso: Não foi possível carregar comentários das avaliações. Erro: {ex.Message}");
-                
-                return View(material);
-            }
+            var material = await _context.Materiais.Include(m => m.Criador).FirstOrDefaultAsync(m => m.Id == id);
+            if (material == null) return NotFound();
+            return View(material);
         }
 
         public IActionResult Create()
@@ -111,17 +56,8 @@ namespace Atria.Controllers
 
                 material.FKUsuarioCriador = userId;
                 material.DataCriacao = DateTime.UtcNow;
-
-                // Garantir status padrão se não informado
-                if (string.IsNullOrEmpty(material.Status))
-                {
-                    material.Status = "Pendente";
-                }
-
                 _context.Add(material);
                 await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Material criado com sucesso! Aguarde aprovação do moderador.";
                 return RedirectToAction(nameof(Index));
             }
             return View(material);

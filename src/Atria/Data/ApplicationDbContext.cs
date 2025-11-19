@@ -20,7 +20,6 @@ namespace Atria.Data
         public DbSet<GrupoEstudo> GruposEstudo { get; set; }
         public DbSet<ListaLeitura> ListasLeitura { get; set; }
         public DbSet<Comentario> Comentarios { get; set; } // Adicionada DbSet<Comentario>
-        public DbSet<ComentarioAvaliacao> ComentariosAvaliacao { get; set; } // ? NOVO
 
         // Tabelas N:M representadas como entidades
         public DbSet<UsuarioComunidade> UsuariosComunidade { get; set; }
@@ -114,7 +113,6 @@ namespace Atria.Data
                 b.Property(m => m.Titulo).HasColumnName("TITULO").HasMaxLength(250).IsRequired();
                 b.Property(m => m.Descricao).HasColumnName("DESCRICAO");
                 b.Property(m => m.Tipo).HasColumnName("TIPO").HasMaxLength(50);
-                b.Property(m => m.CAMINHOIMG).HasColumnName("CAMINHOIMG").HasMaxLength(250);
                 b.Property(m => m.FKUsuarioCriador).HasColumnName("FK_USUARIO_CRIADOR");
                 b.Property(m => m.DataCriacao).HasColumnName("DATA_CRIACAO");
                 b.Property(m => m.Status).HasColumnName("STATUS");
@@ -168,13 +166,12 @@ namespace Atria.Data
                 b.ToTable("TB_POSTAGEM");
                 b.HasKey(p => p.Id).HasName("PK_TB_POSTAGEM");
                 b.Property(p => p.Id).HasColumnName("ID_POSTAGEM");
-                b.Property(p => p.Titulo).HasColumnName("TITULO").HasMaxLength(200).IsRequired();
                 b.Property(p => p.Conteudo).HasColumnName("CONTEUDO");
                 b.Property(p => p.DataPostagem).HasColumnName("DATA_POSTAGEM");
                 b.Property(p => p.NoForumGeral).HasColumnName("NOFORUMGERAL");
                 b.Property(p => p.FKUsuario).HasColumnName("FK_USUARIO");
                 b.Property(p => p.FKComunidade).HasColumnName("FK_COMUNIDADE");
-                b.Property(p => p.FKGrupo).HasColumnName("FK_GRUPO");
+                b.Property(p => p.FKGrupo).HasColumnName("FK_GRUPO"); // Adicionada a propriedade FKGrupo
 
                 b.HasOne(p => p.Usuario)
                     .WithMany()
@@ -188,7 +185,7 @@ namespace Atria.Data
                     .HasConstraintName("FK_POSTAGEM_COMUNIDADE")
                     .OnDelete(DeleteBehavior.SetNull);
 
-                b.HasOne(p => p.GrupoEstudo)
+                b.HasOne(p => p.GrupoEstudo) // Adicionado o mapeamento para GrupoEstudo
                     .WithMany(g => g.Postagens)
                     .HasForeignKey(p => p.FKGrupo)
                     .HasConstraintName("FK_POSTAGEM_GRUPO")
@@ -207,41 +204,17 @@ namespace Atria.Data
                 b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
 
                 b.HasOne(c => c.Postagem)
-                        .WithMany(p => p.Comentarios)
-                .HasForeignKey(c => c.FKPostagem)
-                       .HasConstraintName("FK_COMENTARIO_POSTAGEM")
-      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(p => p.Comentarios)
+                    .HasForeignKey(c => c.FKPostagem)
+                    .HasConstraintName("FK_COMENTARIO_POSTAGEM")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                        b.HasOne(c => c.Usuario)
-       .WithMany()
-                .HasForeignKey(c => c.FKUsuario)
-           .HasConstraintName("FK_COMENTARIO_USUARIO")
-            .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(c => c.Usuario)
+                    .WithMany()
+                    .HasForeignKey(c => c.FKUsuario)
+                    .HasConstraintName("FK_COMENTARIO_USUARIO")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
-            
-   // ? NOVO: ComentarioAvaliacao mapping
-        builder.Entity<ComentarioAvaliacao>(b =>
- {
-   b.ToTable("TB_COMENTARIO_AVALIACAO");
-   b.HasKey(c => c.Id).HasName("PK_TB_COMENTARIO_AVALIACAO");
-    b.Property(c => c.Id).HasColumnName("ID_COMENTARIO_AVALIACAO");
-    b.Property(c => c.Conteudo).HasColumnName("CONTEUDO").HasMaxLength(500).IsRequired();
-   b.Property(c => c.DataComentario).HasColumnName("DATA_COMENTARIO");
-          b.Property(c => c.FKAvaliacao).HasColumnName("FK_AVALIACAO");
-  b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
-
-  b.HasOne(c => c.Avaliacao)
- .WithMany(a => a.Comentarios)
-            .HasForeignKey(c => c.FKAvaliacao)
-     .HasConstraintName("FK_COMENTARIO_AVALIACAO_AVALIACAO")
-.OnDelete(DeleteBehavior.Cascade);
-
-      b.HasOne(c => c.Usuario)
-        .WithMany()
-      .HasForeignKey(c => c.FKUsuario)
-      .HasConstraintName("FK_COMENTARIO_AVALIACAO_USUARIO")
-          .OnDelete(DeleteBehavior.Cascade);
- });
 
             builder.Entity<GrupoEstudo>(b =>
             {

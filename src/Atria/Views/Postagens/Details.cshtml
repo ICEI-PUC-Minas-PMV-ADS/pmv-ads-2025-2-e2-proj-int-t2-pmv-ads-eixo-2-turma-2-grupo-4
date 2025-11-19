@@ -1,25 +1,6 @@
 @model Atria.Models.Postagem
 @{
     ViewData["Title"] = "Detalhes da Postagem";
-  var totalComentarios = Model.Comentarios?.Count ?? 0;
-}
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        @TempData["SuccessMessage"]
-  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
 }
 
 <div class="page-container" style="max-width: 1000px;">
@@ -27,41 +8,35 @@
         <div class="page-card-header d-flex justify-content-between align-items-center">
             <h1><i class="bi bi-chat-left-text-fill me-2"></i>@ViewData["Title"]</h1>
        <a class="btn btn-light" href="/Postagens">
-   <i class="bi bi-arrow-left me-1"></i>Voltar
+                <i class="bi bi-arrow-left me-1"></i>Voltar
             </a>
      </div>
      <div class="page-card-body">
-          <!-- POSTAGEM PRINCIPAL -->
-          <div class="postagem-details-card mb-4 border rounded">
+            <!-- POSTAGEM PRINCIPAL -->
+            <div class="postagem-details-card mb-4 border rounded">
     <div class="postagem-header p-3 border-bottom bg-light">
-   <div class="d-flex align-items-start">
-      <div class="postagem-avatar me-3">
+     <div class="d-flex align-items-start">
+          <div class="postagem-avatar me-3">
           <i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i>
-</div>
-   <div class="flex-grow-1">
+          </div>
+            <div class="flex-grow-1">
         <div class="postagem-user-name fw-bold fs-5 text-dark">@(Model.Usuario?.Nome ?? "Usuário")</div>
-      <div class="postagem-meta text-muted small">
+        <div class="postagem-meta text-muted small">
            <span class="me-3">
         <i class="bi bi-clock me-1"></i>@Model.DataPostagem.ToString("dd/MM/yyyy HH:mm")
     </span>
                 @if (Model.FKComunidade.HasValue)
-       {
+           {
    <span class="postagem-comunidade">
    <i class="bi bi-people-fill me-1"></i>@(Model.Comunidade?.Nome ?? "Comunidade")
     </span>
       }
-        else if (Model.FKGrupo.HasValue)
-                {
-  <span class="postagem-grupo">
-  <i class="bi bi-bookmark-fill me-1"></i>@(Model.GrupoEstudo?.Nome ?? "Grupo")
-     </span>
- }
     else if (Model.NoForumGeral)
- {
+         {
    <span class="badge bg-info text-white">
-         <i class="bi bi-globe me-1"></i>Fórum Geral
-         </span>
-    }
+           <i class="bi bi-globe me-1"></i>Fórum Geral
+           </span>
+             }
           </div>
        </div>
 
@@ -69,260 +44,402 @@
     {
      var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
     if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId) && Model.FKUsuario == userId)
-      {
+             {
    <div class="dropdown">
         <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-     <i class="bi bi-three-dots-vertical"></i>
+               <i class="bi bi-three-dots-vertical"></i>
      </button>
-     <ul class="dropdown-menu dropdown-menu-end">
+          <ul class="dropdown-menu dropdown-menu-end">
     <li><a class="dropdown-item" href="/Postagens/Edit/@Model.Id">
             <i class="bi bi-pencil me-2"></i>Editar
-          </a></li>
+                 </a></li>
         <li><a class="dropdown-item text-danger" href="/Postagens/Delete/@Model.Id">
         <i class="bi bi-trash me-2"></i>Excluir
    </a></li>
-      </ul>
- </div>
+          </ul>
+    </div>
 }
    }
         </div>
       </div>
 
    <div class="postagem-content-full p-4 bg-white">
-   @if (!string.IsNullOrEmpty(Model.Titulo))
-{
-        <h2 class="postagem-titulo-detalhes fw-bold mb-3">@Model.Titulo</h2>
- }
-     @if (!string.IsNullOrEmpty(Model.Conteudo))
-      {
-     <p class="mb-0 text-dark" style="white-space: pre-wrap; line-height: 1.7;">@Model.Conteudo</p>
-     }
-     else
-     {
-   <p class="mb-0 text-muted"><em>Esta postagem não possui conteúdo.</em></p>
- }
- </div>
+         <p class="mb-0 text-dark" style="white-space: pre-wrap; line-height: 1.7;">@Model.Conteudo</p>
+                </div>
 
-         <!-- FOOTER COM ESTATÍSTICAS -->
+         <!-- FOOTER COM ESTATÍSTICAS E AÇÕES -->
                 <div class="postagem-footer p-3 border-top bg-light d-flex justify-content-between align-items-center">
-  <div class="postagem-stats d-flex gap-4">
-    <!-- Comentários -->
-  <span class="postagem-stat text-muted" title="Comentários">
+    <div class="postagem-stats d-flex gap-4">
+        <!-- Visualizações -->
+           <span class="postagem-stat text-muted" title="Visualizações" id="visualizacoes-count">
+       <i class="bi bi-eye me-1"></i>
+   <span data-postagem-id="@Model.Id">0</span>
+   </span>
+            <!-- Comentários -->
+           <span class="postagem-stat text-muted" title="Comentários" id="comentarios-count">
       <i class="bi bi-chat-dots me-1"></i>
-   <span class="fw-semibold">@totalComentarios</span> comentário@(totalComentarios != 1 ? "s" : "")
+   <span class="fw-semibold">0</span> comentários
  </span>
+     <!-- Curtidas -->
+      <button class="btn btn-sm btn-link postagem-stat text-muted p-0 border-0" 
+       id="btn-curtir" 
+     title="Curtir" 
+          data-postagem-id="@Model.Id">
+          <i class="bi bi-heart me-1"></i>
+         <span id="curtidas-count">0</span>
+ </button>
       </div>
         <div class="text-muted small">
         <i class="bi bi-info-circle me-1"></i>
-          Postado em @Model.DataPostagem.ToString("dd/MM/yyyy 'às' HH:mm")
+            Postado em @Model.DataPostagem.ToString("dd/MM/yyyy 'às' HH:mm")
    </div>
-   </div>
+          </div>
             </div>
 
        <!-- SEÇÃO DE COMENTÁRIOS -->
  <div class="comentarios-section">
        <h3 class="mb-3">
 <i class="bi bi-chat-dots me-2"></i>
-Comentários (@totalComentarios)
+Comentários (<span id="total-comentarios">0</span>)
         </h3>
 
      @if (User.Identity?.IsAuthenticated ?? false)
       {
-   <!-- FORMULÁRIO PARA NOVO COMENTÁRIO -->
-<div class="comentario-form-card mb-4 p-3 border rounded bg-light">
-        <form asp-controller="Comentario" asp-action="Create" method="post">
+       <!-- FORMULÁRIO PARA NOVO COMENTÁRIO -->
+        <div class="comentario-form-card mb-4 p-3 border rounded bg-light">
+          <form id="form-comentario">
       <input type="hidden" name="FKPostagem" value="@Model.Id" />
-      <div class="mb-3">
-   <label for="Conteudo" class="form-label fw-semibold">Deixe seu comentário:</label>
+             <div class="mb-3">
+            <label for="Conteudo" class="form-label fw-semibold">Deixe seu comentário:</label>
        <textarea class="form-control" id="comentario-input" name="Conteudo" rows="3"
-    placeholder="Compartilhe sua opinião, faça uma pergunta ou contribua para a discussão..."
+       placeholder="Compartilhe sua opinião, faça uma pergunta ou contribua para a discussão..."
    maxlength="1000" required></textarea>
           <div class="form-text">
         <span id="char-count">0</span>/1000 caracteres
       </div>
      </div>
     <button type="submit" class="btn btn-primary">
-      <i class="bi bi-send me-1"></i>Comentar
- </button>
+        <i class="bi bi-send me-1"></i>Comentar
+    </button>
  </form>
     </div>
        }
     else
     {
-     <div class="alert alert-info">
-     <i class="bi bi-info-circle me-2"></i>
+             <div class="alert alert-info">
+             <i class="bi bi-info-circle me-2"></i>
      <a href="/Account/Login">Faça login</a> para comentar nesta postagem.
  </div>
        }
 
- <!-- LISTA DE COMENTÁRIOS -->
-   <div class="comentarios-list">
-   @if (totalComentarios > 0)
-        {
-     foreach (var comentario in Model.Comentarios!.OrderByDescending(c => c.DataComentario))
-           {
-   <div class="comentario-card mb-3 p-3 border rounded bg-white">
-          <div class="d-flex align-items-start">
- <div class="comentario-avatar me-3">
-    <i class="bi bi-person-circle text-secondary" style="font-size: 2rem;"></i>
+     <!-- LISTA DE COMENTÁRIOS -->
+                <div class="comentarios-list" id="lista-comentarios">
+<!-- Comentários serão carregados aqui via JavaScript -->
+             <div class="text-center py-4 text-muted" id="loading-comentarios">
+      <div class="spinner-border spinner-border-sm me-2" role="status">
+       <span class="visually-hidden">Carregando...</span>
+               </div>
+       Carregando comentários...
+        </div>
+        </div>
    </div>
-    <div class="flex-grow-1">
-     <div class="d-flex justify-content-between align-items-start mb-2">
-        <div>
-   <div class="comentario-user-name fw-semibold text-dark">
-       @(comentario.Usuario?.Nome ?? "Usuário")
-       </div>
-     <div class="comentario-date text-muted small">
-     <i class="bi bi-clock me-1"></i>
-    @comentario.DataComentario.ToString("dd/MM/yyyy HH:mm")
-       </div>
-    </div>
-           @if (User.Identity?.IsAuthenticated ?? false)
- {
-    var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-      if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId) && comentario.FKUsuario == userId)
-   {
-         <div class="dropdown">
-      <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-      <i class="bi bi-three-dots-vertical"></i>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-   <li>
-    <a class="dropdown-item text-danger" href="/Comentario/Delete/@comentario.Id">
-       <i class="bi bi-trash me-2"></i>Excluir
-          </a>
-    </li>
-     </ul>
-   </div>
-    }
-         }
-       </div>
-    <div class="comentario-content mt-2">
-        <p class="mb-0 text-dark" style="white-space: pre-wrap;">@comentario.Conteudo</p>
-    </div>
- </div>
-    </div>
-           </div>
-}
-         }
-    else
-      {
-      <div class="alert alert-secondary">
-   <i class="bi bi-chat-dots me-2"></i>
-    Nenhum comentário ainda. Seja o primeiro a comentar!
-   </div>
-        }
+        </div>
     </div>
 </div>
 
-<style>
-    /* ===== ANIMAÇÕES E TRANSIÇÕES ===== */
-    .page-card {
-        animation: fadeIn 0.4s ease;
-    }
-    
-    @@keyframes fadeIn {
-   from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* ===== HOVER EFFECTS ===== */
-    .hover-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .hover-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    }
-    
-    /* ===== BOTÕES ===== */
-.btn {
-     transition: all 0.2s ease;
-    }
-  
-    .btn:hover {
- transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    /* ===== COMENTÁRIOS ===== */
-    .comentario-card {
-   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-    
-    .comentario-card:hover {
-        transform: translateX(4px);
- box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    
-    /* ===== TEXTAREA FOCUS ===== */
-    #comentario-input:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
-        transform: scale(1.01);
-  transition: all 0.2s ease;
-}
-    
-    /* ===== AVATAR ===== */
-    .postagem-avatar i, .comentario-avatar i {
-        transition: transform 0.2s ease;
-    }
-    
-    .hover-card:hover .postagem-avatar i,
-    .comentario-card:hover .comentario-avatar i {
- transform: scale(1.1);
-  }
-    
-    /* ===== STATS ===== */
-  .postagem-stat {
- transition: color 0.2s ease, transform 0.2s ease;
-    }
-    
-    .postagem-stat:hover {
-     color: #0d6efd !important;
-        transform: scale(1.05);
-    }
-    
-    /* ===== BADGES ===== */
-    .badge {
-        transition: transform 0.2s ease;
-    }
-    
-    .badge:hover {
-        transform: scale(1.05);
-    }
-    
-    /* ===== DROPDOWN ===== */
-    .dropdown-toggle {
-transition: all 0.2s ease;
-    }
-    
-    .dropdown-toggle:hover {
-background-color: #e9ecef;
-      transform: scale(1.05);
-    }
-    
-  /* ===== RESPONSIVO ===== */
-  @@media (max-width: 768px) {
- .btn:hover {
-transform: none;
-        }
-      
-        .card:hover {
-   transform: none;
-    }
-    }
-</style>
+<!-- NOTIFICAÇÃO TOAST -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="notification-toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+    <div class="toast-body">
+                <i class="bi bi-check-circle me-2"></i>
+      <span id="toast-message">Ação realizada com sucesso!</span>
+     </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
+@section Scripts {
 <script>
-    // Contador de caracteres
-    const textarea = document.getElementById('comentario-input');
-    const charCount = document.getElementById('char-count');
+    // ===== CONFIGURAÇÃO INICIAL =====
+    const postagemId = @Model.Id;
+    const usuarioLogado = @((User.Identity?.IsAuthenticated ?? false) ? "true" : "false");
     
-    if (textarea && charCount) {
-        textarea.addEventListener('input', function() {
-     charCount.textContent = this.value.length;
-});
+    // ===== SISTEMA DE ARMAZENAMENTO LOCAL =====
+    class LocalStorage {
+        static getComentarios(postagemId) {
+ const key = `comentarios_${postagemId}`;
+            const data = localStorage.getItem(key);
+     return data ? JSON.parse(data) : [];
+   }
+
+      static salvarComentario(postagemId, comentario) {
+      const comentarios = this.getComentarios(postagemId);
+            comentarios.push(comentario);
+            localStorage.setItem(`comentarios_${postagemId}`, JSON.stringify(comentarios));
+        }
+
+ static deletarComentario(postagemId, comentarioId) {
+            let comentarios = this.getComentarios(postagemId);
+            comentarios = comentarios.filter(c => c.id !== comentarioId);
+            localStorage.setItem(`comentarios_${postagemId}`, JSON.stringify(comentarios));
+        }
+
+    static getCurtidas() {
+     const data = localStorage.getItem('curtidas');
+            return data ? JSON.parse(data) : {};
+        }
+
+ static toggleCurtida(postagemId) {
+            const curtidas = this.getCurtidas();
+        curtidas[postagemId] = !curtidas[postagemId];
+        localStorage.setItem('curtidas', JSON.stringify(curtidas));
+     return curtidas[postagemId];
+        }
+
+        static getVisualizacoes(postagemId) {
+  const key = `visualizacoes_${postagemId}`;
+       return parseInt(localStorage.getItem(key) || '0');
+        }
+
+ static incrementarVisualizacoes(postagemId) {
+const key = `visualizacoes_${postagemId}`;
+         const atual = this.getVisualizacoes(postagemId);
+            localStorage.setItem(key, (atual + 1).toString());
+            return atual + 1;
+        }
     }
+
+    // ===== NOTIFICAÇÕES =====
+    function mostrarNotificacao(mensagem, tipo = 'success') {
+   const toast = document.getElementById('notification-toast');
+     const toastMsg = document.getElementById('toast-message');
+        
+        // Atualizar cor
+    toast.className = `toast align-items-center text-white bg-${tipo} border-0`;
+        
+    // Atualizar ícone e mensagem
+        const icone = tipo === 'success' ? 'check-circle' : 'exclamation-circle';
+        toastMsg.innerHTML = `<i class="bi bi-${icone} me-2"></i>${mensagem}`;
+        
+        // Mostrar toast
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+    }
+
+    // ===== RENDERIZAR COMENTÁRIOS =====
+    function renderizarComentarios() {
+  const container = document.getElementById('lista-comentarios');
+        const loading = document.getElementById('loading-comentarios');
+        const comentarios = LocalStorage.getComentarios(postagemId);
+        
+        // Remover loading
+        if (loading) loading.remove();
+
+    // Atualizar contador
+        document.getElementById('total-comentarios').textContent = comentarios.length;
+        document.querySelector('#comentarios-count span').textContent = comentarios.length;
+        
+     if (comentarios.length === 0) {
+ container.innerHTML = `
+     <div class="alert alert-secondary">
+        <i class="bi bi-chat-dots me-2"></i>
+        Nenhum comentário ainda. Seja o primeiro a comentar!
+       </div>
+         `;
+      return;
+   }
+      
+        // Ordenar por data (mais recentes primeiro)
+        comentarios.sort((a, b) => new Date(b.data) - new Date(a.data));
+        
+        container.innerHTML = comentarios.map(comentario => `
+        <div class="comentario-card mb-3 p-3 border rounded bg-white" data-comentario-id="${comentario.id}">
+        <div class="d-flex align-items-start">
+        <div class="comentario-avatar me-3">
+   <i class="bi bi-person-circle text-secondary" style="font-size: 2rem;"></i>
+     </div>
+      <div class="flex-grow-1">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+       <div>
+       <div class="comentario-user-name fw-semibold text-dark">
+            ${comentario.usuario}
+           </div>
+      <div class="comentario-date text-muted small">
+           <i class="bi bi-clock me-1"></i>
+               ${formatarData(comentario.data)}
+      </div>
+      </div>
+      ${comentario.podeEditar ? `
+              <div class="dropdown">
+            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+  <i class="bi bi-three-dots-vertical"></i>
+        </button>
+       <ul class="dropdown-menu dropdown-menu-end">
+   <li>
+          <button class="dropdown-item btn-deletar-comentario" data-id="${comentario.id}">
+<i class="bi bi-trash me-2"></i>Excluir
+         </button>
+       </li>
+     </ul>
+            </div>
+          ` : ''}
+             </div>
+            <div class="comentario-content mt-2">
+          <p class="mb-0 text-dark" style="white-space: pre-wrap;">${escapeHtml(comentario.conteudo)}</p>
+           </div>
+        </div>
+       </div>
+         </div>
+ `).join('');
+  
+        // Adicionar event listeners para deletar
+        document.querySelectorAll('.btn-deletar-comentario').forEach(btn => {
+btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+                if (confirm('Tem certeza que deseja excluir este comentário?')) {
+       LocalStorage.deletarComentario(postagemId, id);
+        renderizarComentarios();
+   mostrarNotificacao('Comentário excluído com sucesso!');
+          }
+            });
+        });
+    }
+
+    // ===== FORMULÁRIO DE COMENTÁRIO =====
+    const formComentario = document.getElementById('form-comentario');
+    if (formComentario) {
+ const textarea = document.getElementById('comentario-input');
+      const charCount = document.getElementById('char-count');
+        
+        // Contador de caracteres
+        textarea.addEventListener('input', function() {
+       charCount.textContent = this.value.length;
+        });
+        
+  formComentario.addEventListener('submit', function(e) {
+     e.preventDefault();
+        
+            const conteudo = textarea.value.trim();
+ if (!conteudo) return;
+       
+    const novoComentario = {
+       id: Date.now().toString(),
+        conteudo: conteudo,
+       usuario: '@(User.Identity?.Name ?? "Usuário")',
+    data: new Date().toISOString(),
+      podeEditar: true
+      };
+         
+      LocalStorage.salvarComentario(postagemId, novoComentario);
+    renderizarComentarios();
+            
+       // Limpar form
+     textarea.value = '';
+         charCount.textContent = '0';
+            
+        // Notificação local
+   mostrarNotificacao('Comentário adicionado com sucesso!');
+    
+            // Disparar notificação global
+            if (window.NotificacoesSystem) {
+          window.dispatchEvent(new CustomEvent('nova-notificacao', {
+        detail: {
+     titulo: 'Novo Comentário',
+      mensagem: 'Você comentou em uma postagem',
+  icone: 'bi-chat-dots-fill',
+              cor: 'text-success',
+     link: `/Postagens/Details/${postagemId}`
+        }
+    }));
+ }
+ 
+            // Scroll para o novo comentário
+            setTimeout(() => {
+    document.querySelector('.comentarios-list').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+        });
+    }
+
+    // ===== SISTEMA DE CURTIDAS =====
+    const btnCurtir = document.getElementById('btn-curtir');
+    const curtidasCount = document.getElementById('curtidas-count');
+    
+    if (btnCurtir) {
+    // Inicializar estado
+  const curtidas = LocalStorage.getCurtidas();
+const jaClicou = curtidas[postagemId] || false;
+        
+        if (jaClicou) {
+  btnCurtir.classList.add('text-danger');
+            btnCurtir.querySelector('i').classList.replace('bi-heart', 'bi-heart-fill');
+        }
+        
+        // Atualizar contador (simulado)
+        curtidasCount.textContent = Object.values(curtidas).filter(Boolean).length;
+        
+        btnCurtir.addEventListener('click', function() {
+   const curtiu = LocalStorage.toggleCurtida(postagemId);
+     const icon = this.querySelector('i');
+         
+      if (curtiu) {
+            this.classList.add('text-danger');
+    icon.classList.replace('bi-heart', 'bi-heart-fill');
+       mostrarNotificacao('Você curtiu esta postagem!');
+      } else {
+                this.classList.remove('text-danger');
+           icon.classList.replace('bi-heart-fill', 'bi-heart');
+      mostrarNotificacao('Curtida removida', 'secondary');
+}
+     
+         // Atualizar contador
+         const todasCurtidas = LocalStorage.getCurtidas();
+         curtidasCount.textContent = Object.values(todasCurtidas).filter(Boolean).length;
+        });
+    }
+
+    // ===== VISUALIZAÇÕES =====
+    function registrarVisualizacao() {
+        const novoTotal = LocalStorage.incrementarVisualizacoes(postagemId);
+     const visualizacoesSpan = document.querySelector('#visualizacoes-count span');
+        if (visualizacoesSpan) {
+        visualizacoesSpan.textContent = novoTotal;
+     }
+    }
+
+    // ===== FUNÇÕES UTILITÁRIAS =====
+    function formatarData(dataISO) {
+        const data = new Date(dataISO);
+        const agora = new Date();
+        const diff = Math.floor((agora - data) / 1000); // segundos
+        
+        if (diff < 60) return 'Agora mesmo';
+        if (diff < 3600) return `${Math.floor(diff / 60)} min atrás`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h atrás`;
+        if (diff < 604800) return `${Math.floor(diff / 86400)} dias atrás`;
+  
+        return data.toLocaleDateString('pt-BR', { 
+            day: '2-digit', 
+            month: '2-digit', 
+            year: 'numeric',
+         hour: '2-digit',
+     minute: '2-digit'
+        });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ===== INICIALIZAÇÃO =====
+    document.addEventListener('DOMContentLoaded', function() {
+    renderizarComentarios();
+    registrarVisualizacao();
+   
+        console.log('? Sistema de comentários, curtidas e visualizações carregado!');
+    });
 </script>
+}

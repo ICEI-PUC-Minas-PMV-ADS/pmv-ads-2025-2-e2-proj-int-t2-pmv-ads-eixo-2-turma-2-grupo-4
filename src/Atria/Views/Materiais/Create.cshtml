@@ -3,236 +3,37 @@
     ViewData["Title"] = "Criar Material";
 }
 
-@if (ViewBag.ErrorMessage != null)
-{
- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        @ViewBag.ErrorMessage
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-
-<div class="page-container" style="max-width: 800px;">
+<div class="page-container">
     <div class="page-card">
         <div class="page-card-header">
-     <h1><i class="bi bi-plus-circle me-2"></i>@ViewData["Title"]</h1>
- <p class="text-muted mb-0">Compartilhe um novo material com a comunidade</p>
-        </div>
-   <div class="page-card-body">
-<form asp-action="Create" method="post" id="formCriarMaterial">
-     
-       <!-- Campo hidden para Status -->
-         <input type="hidden" asp-for="Status" value="Pendente" />
-
-   <!-- Título -->
-          <div class="mb-4">
-    <label asp-for="Titulo" class="form-label fw-bold">
-            <i class="bi bi-pencil me-1"></i>Título do Material
-   <span class="text-danger">*</span>
-     </label>
-       <input class="form-control form-control-lg" 
-          asp-for="Titulo" 
-        placeholder="Ex: Clean Code - Um guia prático"
-                 maxlength="250" 
-                id="tituloInput"
-      required />
-         <span asp-validation-for="Titulo" class="text-danger"></span>
-            <div class="form-text">
-           <i class="bi bi-info-circle me-1"></i>
-<span id="tituloContador">0</span>/250 caracteres
-       </div>
-     </div>
-
-                <!-- Tipo -->
-          <div class="mb-4">
- <label asp-for="Tipo" class="form-label fw-bold">
-       <i class="bi bi-tag me-1"></i>Tipo de Material
-      <span class="text-danger">*</span>
-     </label>
-         <div class="row g-3">
-              <div class="col-6">
-          <input type="radio" class="btn-check" name="Tipo" id="tipoLivro" value="Livro" checked required>
-  <label class="btn btn-outline-primary w-100 p-3" for="tipoLivro">
-       <i class="bi bi-book fs-3 d-block mb-2"></i>
-     <strong>Livro</strong>
-  <small class="d-block text-muted">Obras completas e extensas</small>
-            </label>
-              </div>
-     <div class="col-6">
-         <input type="radio" class="btn-check" name="Tipo" id="tipoArtigo" value="Artigo">
-   <label class="btn btn-outline-primary w-100 p-3" for="tipoArtigo">
-    <i class="bi bi-file-text fs-3 d-block mb-2"></i>
-              <strong>Artigo</strong>
- <small class="d-block text-muted">Papers, artigos científicos</small>
-      </label>
-       </div>
-  </div>
-        </div>
-
-    <!-- Descrição -->
-        <div class="mb-4">
-            <label asp-for="Descricao" class="form-label fw-bold">
-           <i class="bi bi-align-left me-1"></i>Descrição
-        </label>
-                <textarea class="form-control" 
-     asp-for="Descricao" 
-            rows="6"
-                 placeholder="Descreva brevemente o conteúdo, os tópicos abordados, para quem é indicado..."
- id="descricaoInput"
-maxlength="5000"></textarea>
-       <div class="form-text">
-           <i class="bi bi-info-circle me-1"></i>
-   Forneça informações que ajudem outros usuários a entenderem do que se trata
-  <span class="float-end">
-         <span id="descricaoContador">0</span>/5000 caracteres
-       </span>
-           </div>
-          </div>
-
-         <!-- Status (somente visualização) -->
-          <div class="mb-4">
-       <div class="alert alert-info">
-             <i class="bi bi-info-circle-fill me-2"></i>
-   <strong>Sobre a Aprovação:</strong> Seu material será enviado para revisão e ficará com status 
-            <span class="badge bg-warning text-dark">Pendente</span> até ser aprovado por um moderador.
-         </div>
-   </div>
-
-   <hr class="my-4">
-
-      <!-- Botões de Ação -->
-           <div class="d-flex gap-2 justify-content-end">
-         <a class="btn btn-secondary" href="/Materiais">
-       <i class="bi bi-x-circle me-2"></i>Cancelar
-        </a>
-         <button class="btn btn-primary btn-lg" type="submit" id="btnSubmit">
-        <i class="bi bi-check-circle me-2"></i>Criar Material
-             </button>
-          </div>
-      </form>
-        </div>
-    </div>
-</div>
-
-<!-- Prévia do Material (Opcional) -->
-<div class="page-container mt-4" style="max-width: 800px; display: none;" id="previaContainer">
-    <div class="page-card">
-        <div class="page-card-header bg-light">
-            <h5 class="mb-0"><i class="bi bi-eye me-2"></i>Prévia do Material</h5>
+            <h1>@ViewData["Title"]</h1>
         </div>
         <div class="page-card-body">
-            <div class="card">
-    <div class="card-body">
-   <div class="d-flex align-items-center gap-2 mb-2">
-  <h4 class="mb-0" id="previaTitulo">Título do Material</h4>
-          <span class="badge bg-primary" id="previaTipo">Livro</span>
-       <span class="badge bg-warning text-dark">Pendente</span>
-        </div>
-        <p class="text-muted mb-0" id="previaDescricao">Descrição do material...</p>
-  </div>
-            </div>
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label"></label>
+                    <input class="form-control" asp-for="Titulo" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Descricao" class="form-label"></label>
+                    <textarea class="form-control" asp-for="Descricao"></textarea>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label asp-for="Tipo" class="form-label"></label> 
+                        <select asp-for="Tipo" class="form-select">
+                            <option value="Livro">Livro</option> 
+                            <option value="Artigo">Artigo</option> 
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Criar</button>
+                <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+            </form>
         </div>
     </div>
 </div>
-
-<style>
-    .btn-check:checked + .btn-outline-primary {
-        background-color: #0d6efd;
-        color: white;
-      transform: scale(1.05);
-    }
-
-    .btn-outline-primary {
-   transition: all 0.3s ease;
-    }
-
-    .btn-outline-primary:hover {
-        transform: scale(1.02);
-    }
-
-    #formCriarMaterial .form-control:focus {
-      border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    }
-</style>
-
-<script>
-    // Contador de caracteres para Título
-    const tituloInput = document.getElementById('tituloInput');
-    const tituloContador = document.getElementById('tituloContador');
-    
-    if (tituloInput) {
-        tituloInput.addEventListener('input', function() {
-            tituloContador.textContent = this.value.length;
-            atualizarPrevia();
-        });
-    }
-
-    // Contador de caracteres para Descrição
-    const descricaoInput = document.getElementById('descricaoInput');
-    const descricaoContador = document.getElementById('descricaoContador');
-    
-    if (descricaoInput) {
-        descricaoInput.addEventListener('input', function() {
-   descricaoContador.textContent = this.value.length;
-  atualizarPrevia();
-        });
-    }
-
-    // Atualizar prévia em tempo real
-    function atualizarPrevia() {
-        const titulo = tituloInput.value || 'Título do Material';
-  const descricao = descricaoInput.value || 'Descrição do material...';
-        const tipoSelecionado = document.querySelector('input[name="Tipo"]:checked');
-  const tipo = tipoSelecionado ? tipoSelecionado.value : 'Livro';
-    
-    document.getElementById('previaTitulo').textContent = titulo;
-    document.getElementById('previaDescricao').textContent = descricao;
-        document.getElementById('previaTipo').textContent = tipo;
-
-        // Mostrar/ocultar prévia
-        const previaContainer = document.getElementById('previaContainer');
-        if (titulo.length > 3) {
-            previaContainer.style.display = '';
-        } else {
-            previaContainer.style.display = 'none';
-        }
-    }
-
-    // Event listeners para prévia
-    if (tituloInput) tituloInput.addEventListener('input', atualizarPrevia);
-  if (descricaoInput) descricaoInput.addEventListener('input', atualizarPrevia);
- 
-    document.querySelectorAll('input[name="Tipo"]').forEach(radio => {
-        radio.addEventListener('change', atualizarPrevia);
-    });
-
-    // Validação antes de enviar
-    document.getElementById('formCriarMaterial').addEventListener('submit', function(e) {
-        const titulo = tituloInput.value.trim();
-        
-  if (titulo.length < 3) {
-       e.preventDefault();
-            alert('O título deve ter pelo menos 3 caracteres');
-     tituloInput.focus();
-            return false;
-    }
-
-        // Animação no botão de submit
-        const btnSubmit = document.getElementById('btnSubmit');
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Criando...';
-    });
-</script>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

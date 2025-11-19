@@ -28,8 +28,5 @@ namespace Atria.Models
 
         [Column("RESENHA")]
         public string? Resenha { get; set; }
-
-        // ? NOVO: Coleção de comentários na avaliação (thread)
-        public ICollection<ComentarioAvaliacao>? Comentarios { get; set; } = new List<ComentarioAvaliacao>();
     }
 }
