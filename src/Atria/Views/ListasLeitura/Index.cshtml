@@ -24,8 +24,8 @@
                                 @{
                                     var primeiraImagem = l.ListaTemMateriais.FirstOrDefault()?.Material?.CAMINHOIMG;
                                     var caminhoImagem = !string.IsNullOrEmpty(primeiraImagem)
-                                        ? $"~/resources/{primeiraImagem}"
-                                        : "~/resources/placeholder.png";
+                                    ? $"~/resources/{primeiraImagem}"
+                                    : "~/resources/placeholder.png";
                                 }
                                 <img src="@Url.Content(caminhoImagem)" alt="Capa da lista @l.Nome">
                             </div>
@@ -48,12 +48,27 @@
                                     <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@l.Id">
                                         <i class="fas fa-eye me-1"></i> Ver
                                     </a>
+
+                                    @* --- VERIFICAÇÃO DE DONO PARA MOSTRAR BOTÕES --- *@
+                                    @{
+                                        var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                                        int currentUserId = 0;
+                                        if (userIdClaim != null)
+                                        {
+                                            int.TryParse(userIdClaim.Value, out currentUserId);
+                                        }
+                                    }
+
+                                    @if (User.Identity != null && User.Identity.IsAuthenticated && l.FKUsuario == currentUserId)
+                                    {
                                     <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@l.Id">
                                         <i class="fas fa-pen me-1"></i> Editar
                                     </a>
                                     <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@l.Id">
                                         <i class="fas fa-trash me-1"></i> Excluir
                                     </a>
+                                    }
+                                    @* --- FIM DA VERIFICAÇÃO --- *@
                                 </div>
                             </div>
                         </div>
