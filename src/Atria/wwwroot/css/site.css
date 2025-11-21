@@ -18,15 +18,15 @@ body, html {
 
     body::before {
         content: "";
-  position: fixed;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-     z-index: -1;
+        z-index: -1;
         background-image: url('../images/library-bg.jpg');
         background-size: cover;
-  background-position: center;
+        background-position: center;
         filter: blur(5px) brightness(0.7);
     }
 
@@ -52,7 +52,7 @@ body, html {
     padding: 0.5rem 0.75rem;
     margin-bottom: 1rem;
     color: var(--atria-white);
- font-size: 1.5rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
 }
@@ -65,31 +65,31 @@ body, html {
 
 .sidebar-nav {
     list-style: none;
-padding-left: 0;
+    padding-left: 0;
 }
 
     .sidebar-nav .nav-link {
         display: flex;
-     align-items: center;
+        align-items: center;
         font-size: 1.1rem;
         font-weight: 400;
         color: var(--atria-light-text);
-     padding: 0.75rem;
-  border-radius: 8px;
+        padding: 0.75rem;
+        border-radius: 8px;
         margin-bottom: 0.25rem;
         text-decoration: none;
         transition: color 0.15s ease;
     }
 
         .sidebar-nav .nav-link i {
-     font-size: 1.25rem;
-          margin-right: 1rem;
-      width: 20px;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            width: 20px;
         }
 
 .sidebar-nav .nav-link:hover {
             color: var(--atria-primary);
-         background-color: transparent;
+            background-color: transparent;
         }
 
 .sidebar-user {
@@ -104,24 +104,24 @@ padding-left: 0;
         align-items: center;
         text-align: left;
         font-size: 1rem;
- color: var(--atria-light-text);
+        color: var(--atria-light-text);
         padding: 0.5rem 0.75rem;
-   border-radius: 8px;
+        border-radius: 8px;
         width: 100%;
     }
 
         .sidebar-user .nav-link:hover,
-   .sidebar-user .btn:hover {
-        color: var(--atria-white);
-      background-color: var(--atria-light-glass);
-     }
+        .sidebar-user .btn:hover {
+            color: var(--atria-white);
+            background-color: var(--atria-light-glass);
+        }
 
         .sidebar-user .nav-link i,
         .sidebar-user .btn i {
             font-size: 1.2rem;
-      margin-right: 1rem;
-     width: 20px;
- }
+            margin-right: 1rem;
+            width: 20px;
+        }
 
 /* --- 4. O CONTEÚDO PRINCIPAL --- */
 .main-content {
@@ -588,7 +588,7 @@ padding-left: 0;
   transform: translateY(-2px);
 box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
     }
-/* --- 11. Sistema de Curtidas e Notificações --- */
+/* --- 13. Sistema de Curtidas e Notificações --- */
 
 /* Botão de curtir */
 #btn-curtir {
@@ -863,8 +863,7 @@ html {
     }
 
 /* =========================================
-   12. ESTILOS (LISTAS DE LEITURA)
-       (Design by Gemini)
+   14. ESTILOS (LISTAS DE LEITURA)
    ========================================= */
 
 /* --- Index: O Card da Lista --- */
@@ -1030,3 +1029,67 @@ html {
         background-color: #007bff; 
         border-color: #007bff;
     }
+
+/* --- 13. ESTILOS HOME (FEED & TAGS) --- */
+
+/* Tags de Contexto */
+.context-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35em 0.8em;
+    border-radius: 50rem; /* Pílula */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-geral {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+
+.badge-comunidade {
+    background-color: #e7f1ff; /* Azul bem claro */
+    color: #0d6efd;
+    border: 1px solid #b6d4fe;
+}
+
+.badge-grupo {
+    background-color: #d1e7dd; /* Verde bem claro */
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+/* Melhorias no Card de Postagem */
+.postagem-card {
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    transition: box-shadow 0.3s ease;
+}
+
+    .postagem-card:hover {
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+    }
+
+/* Responsividade para Mobile */
+@media (max-width: 576px) {
+    .postagem-card .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+    }
+
+    .postagem-meta-info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .context-badge {
+        font-size: 0.7rem;
+        padding: 0.25em 0.6em;
+    }
+}
