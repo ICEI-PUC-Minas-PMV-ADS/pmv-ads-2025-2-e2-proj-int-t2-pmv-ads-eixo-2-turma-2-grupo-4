@@ -1109,3 +1109,16 @@ html {
         .hover-effect:hover .card-title {
             color: var(--atria-primary, #0d6efd) !important;
         }
+/* --- ESTILO DO LINK ATIVO (NOVO) --- */
+
+/* Aplica o mesmo estilo do hover quando o link tem a classe 'active' */
+.sidebar-nav .nav-link.active {
+    color: var(--atria-primary) !important; /* Azul */
+    background-color: rgba(13, 110, 253, 0.05); /* Fundo azul bem clarinho (opcional) */
+    font-weight: 700; /* Deixa negrito para destacar mais */
+    border-left: 3px solid var(--atria-primary); /* Detalhe na borda esquerda */
+}
+
+    .sidebar-nav .nav-link.active i {
+        color: var(--atria-primary) !important;
+    }

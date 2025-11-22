@@ -32,5 +32,19 @@ namespace Atria.Models
         [Column("FK_DESTINATARIO")]
         public int? FKDestinatario { get; set; }
         public virtual ApplicationUser? Destinatario { get; set; }
+
+    }
+
+    public class ChatPrivadoViewModel
+    {
+        public ApplicationUser UsuarioDestino { get; set; } = null!;
+        public List<Mensagem> Mensagens { get; set; } = new List<Mensagem>();
+    }
+
+    public class InboxItemViewModel
+    {
+        public ApplicationUser? Usuario { get; set; }
+        public string UltimaMensagem { get; set; } = string.Empty;
+        public DateTime DataUltimaMensagem { get; set; }
     }
 }

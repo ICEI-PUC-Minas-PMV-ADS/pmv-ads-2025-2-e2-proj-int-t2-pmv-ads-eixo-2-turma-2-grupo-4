@@ -1,0 +1,70 @@
+@model IEnumerable<Atria.Models.ApplicationUser>
+    @{
+    ViewData["Title"] = "Encontrar Pessoas";
+    }
+
+    <div class="page-container">
+        <div class="page-card">
+            <div class="page-card-header">
+                <h1><i class="bi bi-search me-2"></i>Encontrar Pessoas</h1>
+            </div>
+
+            <div class="page-card-body p-4">
+                <form asp-action="Pesquisar" method="get" class="mb-5">
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="termo" class="form-control"
+                               placeholder="Digite um nome..." value="@ViewBag.Termo" required>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search"></i> Pesquisar
+                        </button>
+                    </div>
+                </form>
+
+                @if (Model != null && Model.Any())
+            {
+                <h5 class="mb-3 text-muted">Resultados encontrados:</h5>
+                <div class="row g-3">
+                    @foreach (var user in Model)
+                    {
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 text-primary fw-bold"
+                                     style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                    @(user.Nome?.Substring(0, 1).ToUpper() ?? "U")
+                                </div>
+
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1 text-dark">@user.Nome</h5>
+                                    <small class="text-muted d-block">@user.TipoUsuario</small>
+                                    <small class="text-secondary">
+                                        <i class="bi bi-mortarboard"></i> @(user.AreaEstudo ?? "Área não informada")
+                                    </small>
+                                </div>
+
+                                <a asp-action="Visualizar" asp-route-id="@user.Id" class="btn btn-sm btn-outline-primary rounded-pill">
+                                    Ver Perfil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            }
+            else if (ViewBag.Termo != null)
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-emoji-frown fs-1"></i>
+                    <p class="mt-2">Nenhum usuário encontrado para "<strong>@ViewBag.Termo</strong>".</p>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-people fs-1"></i>
+                    <p class="mt-2">Digite um nome acima para começar a buscar.</p>
+                </div>
+            }
+            </div>
+        </div>
+    </div>

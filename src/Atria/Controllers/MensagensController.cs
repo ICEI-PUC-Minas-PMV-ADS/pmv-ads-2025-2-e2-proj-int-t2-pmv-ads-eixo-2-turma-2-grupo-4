@@ -25,9 +25,8 @@ namespace Atria.Controllers
             // 1. Validação Básica
             if (string.IsNullOrWhiteSpace(conteudo))
             {
-                // Se vazio, volta para de onde veio
                 if (grupoId.HasValue) return RedirectToAction("Details", "GruposEstudo", new { id = grupoId });
-                // if (destinatarioId.HasValue) return RedirectToAction("Chat", "Direct", new { userId = destinatarioId });
+                if (destinatarioId.HasValue) return RedirectToAction("Privado", "Chat", new { userId = destinatarioId });
                 return RedirectToAction("Index", "Home");
             }
 
@@ -41,20 +40,27 @@ namespace Atria.Controllers
                 Conteudo = conteudo,
                 DataEnvio = DateTime.UtcNow,
                 FKRemetente = user.Id,
-                FKGrupo = grupoId,          // Preenchido se for Grupo
-                FKDestinatario = destinatarioId // Preenchido se for Direct
+                FKGrupo = grupoId,
+                FKDestinatario = destinatarioId
             };
 
             _context.Mensagens.Add(mensagem);
             await _context.SaveChangesAsync();
 
-            // 4. Redirecionar de volta
+            // 4. REDIRECIONAMENTO INTELIGENTE (A CORREÇÃO ESTÁ AQUI)
+
+            // Se for mensagem de Grupo -> Volta para o Grupo
             if (grupoId.HasValue)
             {
                 return RedirectToAction("Details", "GruposEstudo", new { id = grupoId });
             }
 
-            // Futuramente você adicionará o redirecionamento do Direct aqui
+            // Se for Direct -> Volta para o Chat Privado (ESTAVA FALTANDO ISSO)
+            if (destinatarioId.HasValue)
+            {
+                return RedirectToAction("Privado", "Chat", new { userId = destinatarioId });
+            }
+
             return RedirectToAction("Index", "Home");
         }
     }
