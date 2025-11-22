@@ -26,6 +26,7 @@ namespace Atria.Data
         public DbSet<UsuarioComunidade> UsuariosComunidade { get; set; }
         public DbSet<ListaTemMaterial> ListaTemMateriais { get; set; }
         public DbSet<UsuarioGrupo> UsuariosGrupo { get; set; }
+        public DbSet<Mensagem> Mensagens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -340,6 +341,33 @@ namespace Atria.Data
                     .HasForeignKey(p => p.FKGrupo)
                     .HasConstraintName("FK_USUARIOGRUPO_GRUPO")
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+            // N:M Mensagem
+            builder.Entity<Mensagem>(b =>
+            {
+                b.ToTable("TB_MENSAGEM");
+                b.HasKey(m => m.Id).HasName("PK_TB_MENSAGEM");
+
+                // Configuração: Quem enviou
+                b.HasOne(m => m.Remetente)
+                    .WithMany() // Usuário pode enviar muitas mensagens
+                    .HasForeignKey(m => m.FKRemetente)
+                    .HasConstraintName("FK_MENSAGEM_REMETENTE")
+                    .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict para não quebrar o banco
+
+                // Configuração: Chat de Grupo
+                b.HasOne(m => m.GrupoEstudo)
+                    .WithMany(g => g.Mensagens) // Já vamos adicionar essa lista no GrupoEstudo
+                    .HasForeignKey(m => m.FKGrupo)
+                    .HasConstraintName("FK_MENSAGEM_GRUPO")
+                    .OnDelete(DeleteBehavior.Cascade); // Se apagar o grupo, apaga as mensagens dele
+
+                // Configuração: Direct Message (DM)
+                b.HasOne(m => m.Destinatario)
+                    .WithMany()
+                    .HasForeignKey(m => m.FKDestinatario)
+                    .HasConstraintName("FK_MENSAGEM_DESTINATARIO")
+                    .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict também
             });
         }
     }

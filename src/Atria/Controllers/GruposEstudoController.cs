@@ -26,8 +26,16 @@ namespace Atria.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-            var grupo = await _context.GruposEstudo.Include(g => g.Usuarios).FirstOrDefaultAsync(g => g.Id == id);
+
+            var grupo = await _context.GruposEstudo
+                .Include(g => g.Usuarios)
+                // ADICIONE ESTAS LINHAS:
+                .Include(g => g.Mensagens.OrderBy(m => m.DataEnvio)) // Carrega msg
+                    .ThenInclude(m => m.Remetente)                   // Carrega quem mandou
+                .FirstOrDefaultAsync(g => g.Id == id);
+
             if (grupo == null) return NotFound();
+
             return View(grupo);
         }
 

@@ -1,35 +1,55 @@
 @model Atria.Models.GrupoEstudo
 @{
-    ViewData["Title"] = "Editar Grupo";
+    ViewData["Title"] = "Configurar Sala";
 }
 
-<div class="page-container">
+<div class="page-container" style="max-width: 800px;">
     <div class="page-card">
-        <div class="page-card-header">
-            <h1>@ViewData["Title"]</h1>
+        <div class="page-card-header bg-warning text-dark d-flex align-items-center">
+            <a href="javascript:history.back()" class="btn btn-sm btn-outline-dark me-3 border-0">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h1 class="m-0 fs-3"><i class="bi bi-gear-fill me-2"></i>@ViewData["Title"]</h1>
         </div>
-        <div class="page-card-body">
+
+        <div class="page-card-body p-4">
             <form asp-action="Edit" method="post">
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="FKComunidade" />
+
                 <div class="mb-3">
-                    <label class="form-label">Nome</label>
-                    <input class="form-control" asp-for="Nome" />
+                    <label asp-for="Nome" class="form-label fw-bold">Nome da Sala</label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Descrição</label>
-                    <textarea class="form-control" asp-for="Descricao"></textarea>
+
+                <div class="mb-4">
+                    <label asp-for="Descricao" class="form-label fw-bold">Descrição</label>
+                    <textarea asp-for="Descricao" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Comunidade (opcional)</label>
-                    <input class="form-control" asp-for="FKComunidade" />
+
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                    <div>
+                        <strong>Atenção:</strong> Alterar o nome da sala pode confundir os membros atuais.
+                    </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Salvar</button>
-                <a class="btn btn-secondary" href="/GruposEstudo">Cancelar</a>
+
+                <div class="d-flex justify-content-between pt-3 border-top">
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger border-0">
+                        <i class="bi bi-trash me-1"></i> Excluir Sala
+                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="javascript:history.back()" class="btn btn-light border">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-bold">Salvar Alterações</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
 @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-}
+    <partial name="_ValidationScriptsPartial" /> }
