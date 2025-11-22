@@ -5,26 +5,40 @@
 
     <div class="page-container">
         <div class="page-card">
+
             <div class="page-card-header">
                 <h1><i class="bi bi-chat-dots-fill me-2"></i>Minhas Conversas</h1>
             </div>
-            <div class="list-group list-group-flush">
+
+            <div class="p-3 bg-light border-bottom">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" id="filtroConversas" class="form-control border-start-0"
+                           placeholder="Buscar por nome ou mensagem..." autocomplete="off">
+                </div>
+            </div>
+
+            <div class="list-group list-group-flush" id="listaConversas">
                 @if (Model != null && Model.Any())
             {
                 @foreach (var item in Model)
                 {
-                <a asp-action="Privado" asp-route-userId="@item.Usuario.Id" class="list-group-item list-group-item-action p-3 d-flex align-items-center">
-                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm"
+                    if (item.Usuario == null) continue;
+
+                <a asp-action="Privado" asp-route-userId="@item.Usuario.Id" class="list-group-item list-group-item-action p-3 d-flex align-items-center conversa-item">
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm flex-shrink-0"
                          style="width: 50px; height: 50px; font-size: 1.2rem;">
                         @(item.Usuario.Nome?.Substring(0,1).ToUpper() ?? "?")
                     </div>
 
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-1 text-dark fw-bold">@item.Usuario.Nome</h5>
+                            <h5 class="mb-1 text-dark fw-bold nome-usuario">@item.Usuario.Nome</h5>
                             <small class="text-muted">@item.DataUltimaMensagem.ToLocalTime().ToString("dd/MM HH:mm")</small>
                         </div>
-                        <p class="mb-0 text-secondary text-truncate">
+                        <p class="mb-0 text-secondary text-truncate texto-mensagem">
                             <i class="bi bi-reply-fill me-1"></i> @item.UltimaMensagem
                         </p>
                     </div>
@@ -33,7 +47,7 @@
             }
             else
             {
-                <div class="text-center py-5 text-muted">
+                <div class="text-center py-5 text-muted" id="semConversasMsg">
                     <i class="bi bi-inbox fs-1"></i>
                     <p class="mt-2">Você ainda não iniciou conversas privadas.</p>
                     <a asp-controller="Profile" asp-action="Pesquisar" class="btn btn-outline-primary mt-2">
@@ -41,6 +55,49 @@
                     </a>
                 </div>
             }
+
+                <div id="semResultadosBusca" class="text-center py-5 text-muted d-none">
+                    <i class="bi bi-search fs-1"></i>
+                    <p class="mt-2">Nenhuma conversa encontrada para essa busca.</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+    document.getElementById('filtroConversas').addEventListener('keyup', function() {
+        let termo = this.value.toLowerCase();
+        let itens = document.querySelectorAll('.conversa-item');
+        let temVisivel = false;
+
+        itens.forEach(function(item) {
+            // Pega o texto do Nome e da Mensagem
+            let nome = item.querySelector('.nome-usuario').textContent.toLowerCase();
+            let msg = item.querySelector('.texto-mensagem').textContent.toLowerCase();
+
+            // Verifica se o termo digitado está em algum deles
+            if (nome.includes(termo) || msg.includes(termo)) {
+                item.style.display = ''; // Mostra
+                temVisivel = true;
+            } else {
+                item.style.display = 'none'; // Esconde
+            }
+        });
+
+        // Controle da mensagem de "Nenhum resultado encontrado"
+        let msgSemResultados = document.getElementById('semResultadosBusca');
+        let msgVaziaOriginal = document.getElementById('semConversasMsg');
+
+        if (!temVisivel && itens.length > 0) {
+            msgSemResultados.classList.remove('d-none');
+        } else {
+            msgSemResultados.classList.add('d-none');
+        }
+
+        // Esconde a mensagem original de "inbox vazio" se estiver buscando
+        if (msgVaziaOriginal) {
+             if (termo.length > 0) msgVaziaOriginal.style.display = 'none';
+             else if (itens.length === 0) msgVaziaOriginal.style.display = '';
+        }
+    });
+    </script>

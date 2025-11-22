@@ -22,18 +22,34 @@ namespace Atria.Controllers
             return View(await _context.Comunidades.ToListAsync());
         }
 
+        // --- MÉTODO DETAILS CORRIGIDO (SEM WARNINGS) ---
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
+
             var comunidade = await _context.Comunidades
-                .Include(c => c.Postagens)
+                // O sinal '!' (exclamação) remove o aviso CS8620
+                .Include(c => c.Postagens!)
+                    .ThenInclude(p => p.Usuario)
+                .Include(c => c.Postagens!)
+                    .ThenInclude(p => p.Comentarios)
                 .Include(c => c.GruposEstudo)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (comunidade == null) return NotFound();
+
+            // Ordenação feita em memória
+            if (comunidade.Postagens != null)
+            {
+                comunidade.Postagens = comunidade.Postagens
+                    .OrderByDescending(p => p.DataPostagem)
+                    .ToList();
+            }
+
             return View(comunidade);
         }
+        // --------------------------------
 
         public IActionResult Create()
         {

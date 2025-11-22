@@ -27,26 +27,36 @@
             <li class="nav-item">
                 <a class="nav-link" href="/Home"><i class="bi bi-house-door-fill"></i> Início</a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" href="/Materiais"><i class="bi bi-book-fill"></i> Materiais</a>
+                <a class="nav-link" asp-controller="Search" asp-action="Index">
+                    <i class="bi bi-search"></i> <span>Pesquisar</span>
+                </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Comunidades"><i class="bi bi-people-fill"></i> Comunidades</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Chat" asp-action="Index">
                     <i class="bi bi-chat-dots-fill"></i> <span>Minhas Conversas</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Comunidades"><i class="bi bi-people-fill"></i> Comunidades</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/Postagens"><i class="bi bi-chat-left-text-fill"></i> Postagens</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Materiais"><i class="bi bi-book-fill"></i> Materiais</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/ListasLeitura"><i class="bi bi-list-task"></i> Listas</a>
             </li>
+
             @if (User.Identity?.IsAuthenticated ?? false)
-  {
-            <li class="nav-item">
+    {
+            <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-10">
                 <a class="nav-link position-relative" href="#" id="notificacoes-link">
                     <i class="bi bi-bell-fill"></i> Notificações
                     <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
@@ -55,7 +65,7 @@
                     </span>
                 </a>
             </li>
-      }
+    }
         </ul>
 
         <div class="sidebar-user">
