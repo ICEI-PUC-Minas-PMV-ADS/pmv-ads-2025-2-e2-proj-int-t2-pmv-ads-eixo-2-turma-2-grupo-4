@@ -359,7 +359,62 @@ namespace Atria.Data
                     .HasConstraintName("FK_USUARIOGRUPO_GRUPO")
                     .OnDelete(DeleteBehavior.Cascade);
             });
-   // N:M Mensagem
+
+             // NOVO: CurtidaComentario mapping
+  builder.Entity<CurtidaComentario>(b =>
+            {
+       b.ToTable("TB_CURTIDA_COMENTARIO");
+  b.HasKey(c => c.Id).HasName("PK_TB_CURTIDA_COMENTARIO");
+    b.Property(c => c.Id).HasColumnName("ID_CURTIDA");
+        b.Property(c => c.FKComentario).HasColumnName("FK_COMENTARIO");
+           b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
+      b.Property(c => c.DataCurtida).HasColumnName("DATA_CURTIDA");
+       b.Property(c => c.Tipo).HasColumnName("TIPO").HasMaxLength(10);
+
+              b.HasOne(c => c.Comentario)
+     .WithMany(com => com.Curtidas)
+   .HasForeignKey(c => c.FKComentario)
+      .HasConstraintName("FK_CURTIDA_COMENTARIO")
+      .OnDelete(DeleteBehavior.Cascade);
+
+       b.HasOne(c => c.Usuario)
+         .WithMany()
+  .HasForeignKey(c => c.FKUsuario)
+.HasConstraintName("FK_CURTIDA_USUARIO")
+.OnDelete(DeleteBehavior.Cascade);
+
+     // Regra: Um usuário só pode curtir um comentário uma vez
+   b.HasIndex(c => new { c.FKUsuario, c.FKComentario }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_COMENTARIO");
+            });
+
+            // NOVO: CurtidaComentarioAvaliacao mapping
+     builder.Entity<CurtidaComentarioAvaliacao>(b =>
+            {
+        b.ToTable("TB_CURTIDA_COMENTARIO_AVALIACAO");
+             b.HasKey(c => c.Id).HasName("PK_TB_CURTIDA_COMENTARIO_AVALIACAO");
+         b.Property(c => c.Id).HasColumnName("ID_CURTIDA");
+          b.Property(c => c.FKComentarioAvaliacao).HasColumnName("FK_COMENTARIO_AVALIACAO");
+  b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
+            b.Property(c => c.DataCurtida).HasColumnName("DATA_CURTIDA");
+        b.Property(c => c.Tipo).HasColumnName("TIPO").HasMaxLength(10);
+
+          b.HasOne(c => c.ComentarioAvaliacao)
+       .WithMany(com => com.Curtidas)
+              .HasForeignKey(c => c.FKComentarioAvaliacao)
+      .HasConstraintName("FK_CURTIDA_COMENTARIO_AVALIACAO")
+       .OnDelete(DeleteBehavior.Cascade);
+
+     b.HasOne(c => c.Usuario)
+     .WithMany()
+              .HasForeignKey(c => c.FKUsuario)
+  .HasConstraintName("FK_CURTIDA_AVALIACAO_USUARIO")
+       .OnDelete(DeleteBehavior.Cascade);
+
+       // Regra: Um usuário só pode curtir um comentário de avaliação uma vez
+                b.HasIndex(c => new { c.FKUsuario, c.FKComentarioAvaliacao }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_COMENTARIO_AVALIACAO");
+    });
+
+            // N:M Mensagem
    builder.Entity<Mensagem>(b =>
    {
        b.ToTable("TB_MENSAGEM");
