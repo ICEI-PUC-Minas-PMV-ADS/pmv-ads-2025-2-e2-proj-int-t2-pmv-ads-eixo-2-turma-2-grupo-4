@@ -24,16 +24,18 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Build with dotnet
+        working-directory: src/atria
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        working-directory: src/atria
+        run: dotnet publish -c Release -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: src/atria/publish
 
   deploy:
     runs-on: windows-latest
@@ -54,12 +56,11 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1EF251922DBD4904874C3EF3F2E135A0 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0DFB8A5D66ED449F841F6532101BBC9F }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9D8D3BA9C5D2451790478C2DA8198574 }}
-
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Atria'
           slot-name: 'Production'
-          package: .
-          
+          package: ./.net-app
