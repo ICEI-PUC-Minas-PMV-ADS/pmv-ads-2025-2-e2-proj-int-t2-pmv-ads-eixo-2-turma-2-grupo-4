@@ -1,243 +1,236 @@
 ﻿@model IEnumerable<Atria.Models.Material>
-@{
-  ViewData["Title"] = "Materiais";
+    @{
+    ViewData["Title"] = "Materiais";
     var ordenacao = ViewBag.Ordenacao as string ?? "";
-  var tipoFiltro = ViewBag.TipoFiltro as string ?? "";
-}
+    var tipoFiltro = ViewBag.TipoFiltro as string ?? "";
+    }
 
-<div class="page-container" style="max-width: 1400px;">
-    <div class="page-card">
-      <div class="page-card-header d-flex justify-content-between align-items-center flex-wrap gap-3">
-   <h1><i class="bi bi-book-fill me-2"></i>@ViewData["Title"]</h1>
-       @if (User.Identity?.IsAuthenticated ?? false)
-    {
-  <a class="btn btn-primary" href="/Materiais/Create">
-        <i class="bi bi-plus-circle me-2"></i>Novo Material
-       </a>
-  }
-        </div>
-    <div class="page-card-body">
-
-   @if (ViewBag.ErrorMessage != null)
+    <div class="page-container" style="max-width: 1400px;">
+        <div class="page-card">
+            <div class="page-card-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h1><i class="bi bi-book-fill me-2"></i>@ViewData["Title"]</h1>
+                @if (User.Identity?.IsAuthenticated ?? false)
             {
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <i class="bi bi-exclamation-triangle me-2"></i>
-      <strong>Erro!</strong> @ViewBag.ErrorMessage
-         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-         </div>
+                <a class="btn btn-primary" href="/Materiais/Create">
+                    <i class="bi bi-plus-circle me-2"></i>Novo Material
+                </a>
             }
-
-@if (TempData["SuccessMessage"] != null)
-            {
-         <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle me-2"></i>
-        @TempData["SuccessMessage"]
-         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
- }
+            <div class="page-card-body">
 
-          <!-- Barra de Filtros e Ordenação -->
-            <div class="filters-toolbar bg-light p-3 rounded mb-4">
-          <div class="row g-3 align-items-center">
- <!-- Filtro por Tipo -->
-      <div class="col-md-4">
-         <label class="form-label fw-bold mb-2">
-           <i class="bi bi-filter me-1"></i>Filtrar por Tipo
-        </label>
-   <div class="btn-group w-100" role="group">
-         <a href="/Materiais" 
-     class="btn @(string.IsNullOrEmpty(tipoFiltro) ? "btn-primary" : "btn-outline-primary")">
-  Todos
-     </a>
-  <a href="/Materiais?tipo=Livro" 
-    class="btn @(tipoFiltro == "Livro" ? "btn-primary" : "btn-outline-primary")">
-   <i class="bi bi-book me-1"></i>Livros
-         </a>
-         <a href="/Materiais?tipo=Artigo" 
- class="btn @(tipoFiltro == "Artigo" ? "btn-primary" : "btn-outline-primary")">
-           <i class="bi bi-file-text me-1"></i>Artigos
-        </a>
-   </div>
-      </div>
-
-    <!-- Ordenação -->
-        <div class="col-md-4">
-     <label class="form-label fw-bold mb-2">
-   <i class="bi bi-sort-down me-1"></i>Ordenar por
-</label>
-          <select class="form-select" id="ordenacaoSelect" onchange="aplicarOrdenacao()">
-         <option value="recentes" selected="@(ordenacao == "recentes" || string.IsNullOrEmpty(ordenacao))">
-     Mais Recentes
-   </option>
-    <option value="titulo" selected="@(ordenacao == "titulo")">
-        Título (A-Z)
-    </option>
-         <option value="tipo" selected="@(ordenacao == "tipo")">
-     Tipo
-</option>
-   </select>
-    </div>
-
-   <!-- Busca Rápida -->
-       <div class="col-md-4">
-       <label class="form-label fw-bold mb-2">
- <i class="bi bi-search me-1"></i>Busca Rápida
-            </label>
-       <input type="text" 
-         class="form-control" 
-       id="buscaRapida" 
-    placeholder="Digite para buscar..." 
-  onkeyup="filtrarMateriais()">
-     </div>
- </div>
-</div>
-
-<!-- Contador de Resultados -->
-       <div class="mb-3">
-    <small class="text-muted">
-         <span id="totalResultados">@Model.Count()</span> 
-  material@(Model.Count() != 1 ? "iais" : "") encontrado@(Model.Count() != 1 ? "s" : "")
- </small>
-     </div>
-
-            <!-- LISTA DE MATERIAIS -->
-       <div class="materiais-grid row g-4">
-     @if (Model.Any())
-    {
-    foreach (var material in Model)
-         {
-            var mediaAvaliacoes = material.Avaliacoes != null && material.Avaliacoes.Any()
-         ? material.Avaliacoes.Average(a => a.Nota)
-  : 0;
-    var totalAvaliacoes = material.Avaliacoes?.Count ?? 0;
-
-     <div class="col-md-6 col-lg-4">
-       <div class="card material-card h-100 shadow-sm position-relative" data-url="/Materiais/Details/@material.Id">
-            
-         <!-- Badge de Tipo (Discreto) -->
- @if (!string.IsNullOrEmpty(material.Tipo))
-     {
-  <div class="material-tipo-badge position-absolute top-0 end-0 m-2">
-     <span class="badge">
-       @material.Tipo
-   </span>
-    </div>
-       }
-
-      <div class="card-body d-flex flex-column p-3">
-     <!-- Título (Maior destaque) -->
-     <h6 class="card-title material-titulo fw-bold mb-2 text-dark lh-sm">
-  @material.Titulo
-     </h6>
-
-       <!-- Descrição (Compacta) -->
-     @if (!string.IsNullOrEmpty(material.Descricao))
-  {
-    <p class="card-text material-descricao text-secondary mb-2 small" style="line-height: 1.4; max-height: 3.5em; overflow: hidden;">
-@(material.Descricao.Length > 100 
-        ? material.Descricao.Substring(0, 100) + "..." 
-     : material.Descricao)
-      </p>
-     }
-
-   <!-- Meta Info (Linha única - Estilo Reddit) -->
- <div class="d-flex align-items-center gap-2 text-muted small mb-2 flex-wrap">
- <span title="Autor">
-   <i class="bi bi-person"></i> @(material.Criador?.Nome ?? "Anônimo")
-        </span>
-       <span>•</span>
- <span title="Data">
-     @material.DataCriacao.ToString("dd/MM/yyyy")
-  </span>
-    @if (!string.IsNullOrEmpty(material.Tipo))
-        {
-      <span>•</span>
-       <span class="badge bg-light text-dark border" style="font-size: 0.7rem;">@material.Tipo</span>
-        }
-      </div>
-
-       <!-- Avaliações (Compacta - Estilo Reddit) -->
- <div class="material-rating">
-    @if (totalAvaliacoes > 0)
-     {
-    <div class="d-flex align-items-center gap-2">
-  <div class="stars text-warning" style="font-size: 0.9rem;">
-     @for (int i = 1; i <= 5; i++)
-    {
-   <i class="bi @(i <= Math.Round(mediaAvaliacoes) ? "bi-star-fill" : "bi-star")"></i>
-   }
-    </div>
- <span class="fw-bold small">@mediaAvaliacoes.ToString("F1")</span>
-      <span class="text-muted small">(@totalAvaliacoes)</span>
-   </div>
-        }
-  else
-       {
-     <div class="text-muted small">
- <i class="bi bi-star me-1"></i>Sem avaliações
-      </div>
-    }
-      </div>
-  </div>
-</div>
-       </div>
-   }
- }
-          else
-  {
-     <div class="col-12">
-        <div class="alert alert-info d-flex align-items-center" role="alert">
-      <i class="bi bi-info-circle me-2 fs-4"></i>
- <div>
-     Nenhum material encontrado. Seja o primeiro a contribuir!
-  </div>
-      </div>
-       </div>
-     }
-  </div>
-
-  </div>
-</div>
-
-<script>
-    function aplicarOrdenacao() {
-        const ordenacao = document.getElementById('ordenacaoSelect').value;
-        const tipoAtual = new URLSearchParams(window.location.search).get('tipo') || '';
-        const url = tipoAtual 
-       ? `/Materiais?tipo=${tipoAtual}&ordenacao=${ordenacao}`
-   : `/Materiais?ordenacao=${ordenacao}`;
-  window.location.href = url;
-    }
-
-    function filtrarMateriais() {
-        const searchText = document.getElementById('buscaRapida').value toLowerCase();
-        const cards = document.querySelectorAll('.material-card');
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-    const titulo = card.querySelector('.material-titulo')?.textContent toLowerCase() || '';
-      const descricao = card.querySelector('.material-descricao')?.textContent toLowerCase() || '';
-     const col = card.closest('.col-md-6, .col-lg-4');
-
-    if (titulo.includes(searchText) || descricao.includes(searchText)) {
-     col.style.display = '';
-visibleCount++;
-      } else {
-       col.style.display = 'none';
+                @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Erro!</strong> @ViewBag.ErrorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             }
-});
 
-        document.getElementById('totalResultados').textContent = visibleCount;
- }
+                @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
 
-    // Ativar navegação ao clicar nos cards
-    document.addEventListener('DOMContentLoaded', function() {
-     document.querySelectorAll('.material-card').forEach(card => {
-   const url = card.getAttribute('data-url');
-    
-       card.addEventListener('click', function() {
-      window.location.href = url;
-   });
-    });
-    });
-</script>
+                <div class="filters-toolbar bg-light p-3 rounded mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold mb-2">
+                                <i class="bi bi-filter me-1"></i>Filtrar por Tipo
+                            </label>
+                            <div class="btn-group w-100" role="group">
+                                <a href="/Materiais"
+                                   class="btn @(string.IsNullOrEmpty(tipoFiltro) ? "btn-primary" : "btn-outline-primary")">
+                                    Todos
+                                </a>
+                                <a href="/Materiais?tipo=Livro"
+                                   class="btn @(tipoFiltro == "Livro" ? "btn-primary" : "btn-outline-primary")">
+                                    <i class="bi bi-book me-1"></i>Livros
+                                </a>
+                                <a href="/Materiais?tipo=Artigo"
+                                   class="btn @(tipoFiltro == "Artigo" ? "btn-primary" : "btn-outline-primary")">
+                                    <i class="bi bi-file-text me-1"></i>Artigos
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold mb-2">
+                                <i class="bi bi-sort-down me-1"></i>Ordenar por
+                            </label>
+                            <select class="form-select" id="ordenacaoSelect" onchange="aplicarOrdenacao()">
+                                <option value="recentes" selected="@(ordenacao == "recentes" || string.IsNullOrEmpty(ordenacao))">
+                                    Mais Recentes
+                                </option>
+                                <option value="titulo" selected="@(ordenacao == "titulo")">
+                                    Título (A-Z)
+                                </option>
+                                <option value="tipo" selected="@(ordenacao == "tipo")">
+                                    Tipo
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold mb-2">
+                                <i class="bi bi-search me-1"></i>Busca Rápida
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="buscaRapida"
+                                   placeholder="Digite para buscar..."
+                                   onkeyup="filtrarMateriais()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted">
+                        <span id="totalResultados">@Model.Count()</span>
+                        material@(Model.Count() != 1 ? "iais" : "") encontrado@(Model.Count() != 1 ? "s" : "")
+                    </small>
+                </div>
+
+                <div class="materiais-grid row g-4">
+                    @if (Model.Any())
+                {
+                    foreach (var material in Model)
+                    {
+                        var mediaAvaliacoes = material.Avaliacoes != null && material.Avaliacoes.Any()
+                            ? material.Avaliacoes.Average(a => a.Nota)
+                            : 0;
+                        var totalAvaliacoes = material.Avaliacoes?.Count ?? 0;
+
+                    <div class="col-md-6 col-lg-4">
+                        <a href="@Url.Action("Details", "Materiais", new { id = material.Id })" class="text-decoration-none">
+                            <div class="card material-card h-100 shadow-sm position-relative">
+
+                                @if (!string.IsNullOrEmpty(material.Tipo))
+                                    {
+                                <div class="material-tipo-badge position-absolute top-0 end-0 m-2">
+                                    <span class="badge">
+                                        @material.Tipo
+                                    </span>
+                                </div>
+                                    }
+
+                                <div class="card-body d-flex flex-column p-3">
+                                    <h6 class="card-title material-titulo fw-bold mb-2 text-dark lh-sm">
+                                        @material.Titulo
+                                    </h6>
+
+                                    @if (!string.IsNullOrEmpty(material.Descricao))
+                                        {
+                                    <p class="card-text material-descricao text-secondary mb-2 small" style="line-height: 1.4; max-height: 3.5em; overflow: hidden;">
+                                        @(material.Descricao.Length > 100
+                                                    ? material.Descricao.Substring(0, 100) + "..."
+                                                    : material.Descricao)
+                                    </p>
+                                        }
+
+                                    <div class="d-flex align-items-center gap-2 text-muted small mb-2 flex-wrap">
+                                        <span title="Autor">
+                                            <i class="bi bi-person"></i> @(material.Criador?.Nome ?? "Anônimo")
+                                        </span>
+                                        <span>•</span>
+                                        <span title="Data">
+                                            @material.DataCriacao.ToString("dd/MM/yyyy")
+                                        </span>
+                                        @if (!string.IsNullOrEmpty(material.Tipo))
+                                            {
+                                        <span>•</span>
+                                        <span class="badge bg-light text-dark border" style="font-size: 0.7rem;">@material.Tipo</span>
+                                            }
+                                    </div>
+
+                                    <div class="material-rating">
+                                        @if (totalAvaliacoes > 0)
+                                            {
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="stars text-warning" style="font-size: 0.9rem;">
+                                                @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                <i class="bi @(i <= Math.Round(mediaAvaliacoes) ? "bi-star-fill" : "bi-star")"></i>
+                                                        }
+                                            </div>
+                                            <span class="fw-bold small">@mediaAvaliacoes.ToString("F1")</span>
+                                            <span class="text-muted small">(@totalAvaliacoes)</span>
+                                        </div>
+                                            }
+                                            else
+                                            {
+                                        <div class="text-muted small">
+                                            <i class="bi bi-star me-1"></i>Sem avaliações
+                                        </div>
+                                            }
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <div class="alert alert-info d-flex align-items-center" role="alert">
+                            <i class="bi bi-info-circle me-2 fs-4"></i>
+                            <div>
+                                Nenhum material encontrado. Seja o primeiro a contribuir!
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+
+            </div>
+        </div>
+
+        <style>
+            .material-card {
+                transition: transform 0.2s, box-shadow 0.2s;
+                cursor: pointer;
+            }
+
+                .material-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                }
+        </style>
+
+        <script>
+            function aplicarOrdenacao() {
+                const ordenacao = document.getElementById('ordenacaoSelect').value;
+                const tipoAtual = new URLSearchParams(window.location.search).get('tipo') || '';
+                const url = tipoAtual
+                    ? `/Materiais?tipo=${tipoAtual}&ordenacao=${ordenacao}`
+                    : `/Materiais?ordenacao=${ordenacao}`;
+                window.location.href = url;
+            }
+
+            function filtrarMateriais() {
+                const searchText = document.getElementById('buscaRapida').value toLowerCase();
+                const cards = document.querySelectorAll('.material-card');
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const titulo = card.querySelector('.material-titulo')?.textContent toLowerCase() || '';
+                    const descricao = card.querySelector('.material-descricao')?.textContent toLowerCase() || '';
+                    const col = card.closest('.col-md-6, .col-lg-4');
+
+                    if (titulo.includes(searchText) || descricao.includes(searchText)) {
+                        col.style.display = '';
+                        visibleCount++;
+                    } else {
+                        col.style.display = 'none';
+                    }
+                });
+
+                document.getElementById('totalResultados').textContent = visibleCount;
+            }
+        </script>
+    </div>
