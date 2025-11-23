@@ -1,298 +1,298 @@
 @model IEnumerable<Atria.Models.Postagem>
-@{
+    @{
     ViewData["Title"] = "Postagens";
-}
+    }
 
-<div class="page-container" style="max-width: 1200px;">
-    <div class="page-card">
-        <div class="page-card-header d-flex justify-content-between align-items-center">
-      <h1><i class="bi bi-chat-left-text-fill me-2"></i>@ViewData["Title"]</h1>
-            @if (User.Identity?.IsAuthenticated ?? false)
+    <div class="page-container" style="max-width: 1200px;">
+        <div class="page-card">
+            <div class="page-card-header d-flex justify-content-between align-items-center">
+                <h1><i class="bi bi-chat-left-text-fill me-2"></i>@ViewData["Title"]</h1>
+                @if (User.Identity?.IsAuthenticated ?? false)
             {
-       <a class="btn btn-light" href="/Postagens/Create">
-                  <i class="bi bi-plus-circle me-1"></i>Nova Postagem
-       </a>
+                <a class="btn btn-light" href="/Postagens/Create">
+                    <i class="bi bi-plus-circle me-1"></i>Nova Postagem
+                </a>
             }
-        </div>
-     <div class="page-card-body">
+            </div>
+            <div class="page-card-body">
 
-       @if (ViewBag.ErrorMessage != null)
+                @if (ViewBag.ErrorMessage != null)
      {
- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <i class="bi bi-exclamation-triangle me-2"></i>
-     <strong>Erro!</strong> @ViewBag.ErrorMessage
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Erro!</strong> @ViewBag.ErrorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
         }
 
-       @if (TempData["SuccessMessage"] != null)
+                @if (TempData["SuccessMessage"] != null)
             {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <i class="bi bi-check-circle me-2"></i>
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
    }
 
-      <!-- FILTROS -->
-            <div class="postagens-filters mb-4 p-3 bg-light rounded shadow-sm">
-            <div class="row g-3">
-            <div class="col-md-4">
- <div class="input-group">
-     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-           <input type="text" class="form-control" id="searchInput" placeholder="Buscar postagens...">
-              </div>
-          </div>
-      <div class="col-md-3">
-   <select class="form-select" id="filterComunidade">
-       <option value="">Todas as comunidades</option>
- <option value="geral">Fórum Geral</option>
-       @if (ViewBag.Comunidades != null)
+                <!-- FILTROS -->
+                <div class="postagens-filters mb-4 p-3 bg-light rounded shadow-sm">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Buscar postagens...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filterComunidade">
+                                <option value="">Todas as comunidades</option>
+                                <option value="geral">Fórum Geral</option>
+                                @if (ViewBag.Comunidades != null)
    {
     foreach (var comunidade in (IEnumerable<Atria.Models.Comunidade>)ViewBag.Comunidades)
   {
-   <option value="@comunidade.Id">@comunidade.Nome</option>
+                                <option value="@comunidade.Id">@comunidade.Nome</option>
     }
        }
-  </select>
-       </div>
- <div class="col-md-3">
-   <select class="form-select" id="filterOrdenacao">
-       <option value="recente">Mais Recentes</option>
-    <option value="antigo">Mais Antigas</option>
-      <option value="populares">Mais Populares</option>
-  <option value="comentadas">Mais Comentadas</option>
-     </select>
-    </div>
-           <div class="col-md-2">
-       <button class="btn btn-outline-secondary w-100" id="clearFilters">
-                   <i class="bi bi-x-circle me-1"></i>Limpar
-         </button>
-           </div>
-       </div>
-        </div>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filterOrdenacao">
+                                <option value="recente">Mais Recentes</option>
+                                <option value="antigo">Mais Antigas</option>
+                                <option value="populares">Mais Populares</option>
+                                <option value="comentadas">Mais Comentadas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary w-100" id="clearFilters">
+                                <i class="bi bi-x-circle me-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-         <!-- LISTA DE POSTAGENS -->
-    <div class="postagens-list">
- @if (Model.Any())
+                <!-- LISTA DE POSTAGENS -->
+                <div class="postagens-list">
+                    @if (Model.Any())
       {
 foreach (var p in Model)
       {
-   <div class="postagem-card mb-3 border rounded bg-white position-relative"
-    data-comunidade="@(p.FKComunidade?.ToString() ?? "geral")"
-  data-data="@p.DataPostagem.Ticks"
-  data-postagem-id="@p.Id"
-     data-url="/Postagens/Details/@p.Id">
-  
- <!-- Conteúdo (Estilo Reddit - Compacto) -->
-    <div class="p-3">
-   <!-- Meta Info (Linha única) -->
-   <div class="d-flex align-items-center gap-2 text-muted small mb-2">
-    <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
-  <span class="fw-medium text-dark">@(p.Usuario?.Nome ?? "Usuário")</span>
-   <span>•</span>
- <span>@p.DataPostagem.ToString("dd/MM/yyyy HH:mm")</span>
-     @if (p.FKComunidade.HasValue)
+                    <div class="postagem-card mb-3 border rounded bg-white position-relative"
+                         data-comunidade="@(p.FKComunidade?.ToString() ?? "geral")"
+                         data-data="@p.DataPostagem.Ticks"
+                         data-postagem-id="@p.Id"
+                         data-url="/Postagens/Details/@p.Id?returnUrl=%2FPostagens">
+
+                        <!-- Conteúdo (Estilo Reddit - Compacto) -->
+                        <div class="p-3">
+                            <!-- Meta Info (Linha única) -->
+                            <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                                <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+                                <span class="fw-medium text-dark">@(p.Usuario?.Nome ?? "Usuário")</span>
+                                <span>•</span>
+                                <span>@p.DataPostagem.ToString("dd/MM/yyyy HH:mm")</span>
+                                @if (p.FKComunidade.HasValue)
       {
-  <span>•</span>
-    <span class="text-primary">
-      <i class="bi bi-people-fill"></i> @(p.Comunidade?.Nome ?? "Comunidade")
-  </span>
+                                <span>•</span>
+                                <span class="text-primary">
+                                    <i class="bi bi-people-fill"></i> @(p.Comunidade?.Nome ?? "Comunidade")
+                                </span>
    }
   else if (p.NoForumGeral)
     {
-<span>•</span>
-  <span class="badge bg-info text-white" style="font-size: 0.7rem;">
-     Fórum Geral
-  </span>
+                                <span>•</span>
+                                <span class="badge bg-info text-white" style="font-size: 0.7rem;">
+                                    Fórum Geral
+                                </span>
      }
-  </div>
-  
-   <!-- Título (Grande destaque) -->
-   @if (!string.IsNullOrEmpty(p.Titulo))
+                            </div>
+
+                            <!-- Título (Grande destaque) -->
+                            @if (!string.IsNullOrEmpty(p.Titulo))
       {
-   <h6 class="postagem-titulo fw-bold mb-2 text-dark lh-sm">@p.Titulo</h6>
+                            <h6 class="postagem-titulo fw-bold mb-2 text-dark lh-sm">@p.Titulo</h6>
     }
-    
-    <!-- Conteúdo (Compacto) -->
-     <p class="postagem-preview mb-3 text-secondary small" style="line-height: 1.4; max-height: 4em; overflow: hidden;">
-       @if (!string.IsNullOrEmpty(p.Conteudo))
+
+                            <!-- Conteúdo (Compacto) -->
+                            <p class="postagem-preview mb-3 text-secondary small" style="line-height: 1.4; max-height: 4em; overflow: hidden;">
+                                @if (!string.IsNullOrEmpty(p.Conteudo))
    {
-@(p.Conteudo.Length > 200 ? p.Conteudo.Substring(0, 200) + "..." : p.Conteudo)
+                                @(p.Conteudo.Length > 200 ? p.Conteudo.Substring(0, 200) + "..." : p.Conteudo)
  }
     else
      {
-    <em class="text-muted">Sem conteúdo</em>
+                                <em class="text-muted">Sem conteúdo</em>
   }
-      </p>
- 
-   <!-- Stats (Estilo Reddit - Horizontal) -->
-  <div class="postagens-stats d-flex gap-3">
-     <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Visualizações">
-    <i class="bi bi-eye"></i>
-<span class="visualizacoes-count fw-semibold" data-id="@p.Id">0</span>
-   </span>
-   <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Comentários">
- <i class="bi bi-chat-dots"></i>
-  <span class="comentarios-count fw-semibold" data-id="@p.Id">0</span>
-   </span>
-<span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Curtidas">
-   <i class="bi bi-heart"></i>
- <span class="curtidas-count fw-semibold" data-id="@p.Id">0</span>
-     </span>
-    </div>
-    </div>
-  </div>
+                            </p>
+
+                            <!-- Stats (Estilo Reddit - Horizontal) -->
+                            <div class="postagens-stats d-flex gap-3">
+                                <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Visualizações">
+                                    <i class="bi bi-eye"></i>
+                                    <span class="visualizacoes-count fw-semibold" data-id="@p.Id">0</span>
+                                </span>
+                                <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Comentários">
+                                    <i class="bi bi-chat-dots"></i>
+                                    <span class="comentarios-count fw-semibold" data-id="@p.Id">0</span>
+                                </span>
+                                <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Curtidas">
+                                    <i class="bi bi-heart"></i>
+                                    <span class="curtidas-count fw-semibold" data-id="@p.Id">0</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 }
   }
   else
    {
- <div class="alert alert-info d-flex align-items-center" role="alert">
-    <i class="bi bi-info-circle me-2 fs-4"></i>
-    <div>
-   Nenhuma postagem encontrada. Seja o primeiro a compartilhar algo!
- </div>
-     </div>
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle me-2 fs-4"></i>
+                        <div>
+                            Nenhuma postagem encontrada. Seja o primeiro a compartilhar algo!
+                        </div>
+                    </div>
  }
-     </div>
+                </div>
 
-      </div>
+            </div>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-<script>
-    // ===== UTILITÁRIOS LOCALSTORAGE =====
-    class PostagensStorage {
-        static getComentarios(postagemId) {
-        const key = `comentarios_${postagemId}`;
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : [];
-        }
+    @section Scripts {
+        <script>
+            // ===== UTILITÁRIOS LOCALSTORAGE =====
+            class PostagensStorage {
+                static getComentarios(postagemId) {
+                    const key = `comentarios_${postagemId}`;
+                    const data = localStorage.getItem(key);
+                    return data ? JSON.parse(data) : [];
+                }
 
-        static getVisualizacoes(postagemId) {
-        const key = `visualizacoes_${postagemId}`;
-         return parseInt(localStorage.getItem(key) || '0');
-        }
+                static getVisualizacoes(postagemId) {
+                    const key = `visualizacoes_${postagemId}`;
+                    return parseInt(localStorage.getItem(key) || '0');
+                }
 
-      static getCurtidas() {
-const data = localStorage.getItem('curtidas');
-       return data ? JSON.parse(data) : {};
-        }
-    }
-
-    // ===== ATUALIZAR CONTADORES =====
-    function atualizarContadores() {
-        document.querySelectorAll('.postagem-card').forEach(card => {
-     const postagemId = card.dataset.postagemId;
-            
-         // Visualizações
-      const vizSpan = card.querySelector('.visualizacoes-count');
-            if (vizSpan) {
-       vizSpan.textContent = PostagensStorage.getVisualizacoes(postagemId);
-      }
-            
-  // Comentários
-      const comSpan = card.querySelector('.comentarios-count');
-            if (comSpan) {
-  const comentarios = PostagensStorage.getComentarios(postagemId);
-              comSpan.textContent = comentarios.length;
-              card.dataset.comentarios = comentarios.length;
-    }
-   
-            // Curtidas
-      const curtSpan = card.querySelector('.curtidas-count');
-     if (curtSpan) {
-       const curtidas = PostagensStorage.getCurtidas();
-    const count = Object.values(curtidas).filter(Boolean).length;
-  curtSpan.textContent = count;
-    card.dataset.curtidas = count;
+                static getCurtidas() {
+                    const data = localStorage.getItem('curtidas');
+                    return data ? JSON.parse(data) : {};
+                }
             }
-            
-            // Popularidade (viz + com * 2 + curtidas * 3)
-            const popularidade = 
-PostagensStorage.getVisualizacoes(postagemId) +
-         (PostagensStorage.getComentarios(postagemId).length * 2) +
-      (PostagensStorage.getCurtidas()[postagemId] ? 3 : 0);
-  card.dataset.popularidade = popularidade;
-  });
-  }
 
-    // ===== FILTROS E ORDENAÇÃO =====
-    document.addEventListener('DOMContentLoaded', function () {
-      const searchInput = document.getElementById('searchInput');
-        const filterComunidade = document.getElementById('filterComunidade');
-        const filterOrdenacao = document.getElementById('filterOrdenacao');
-        const clearFilters = document.getElementById('clearFilters');
-        const postagens = document.querySelectorAll('.postagem-card');
+            // ===== ATUALIZAR CONTADORES =====
+            function atualizarContadores() {
+                document.querySelectorAll('.postagem-card').forEach(card => {
+                    const postagemId = card.dataset.postagemId;
 
-        // Atualizar contadores ao carregar
-  atualizarContadores();
+                    // Visualizações
+                    const vizSpan = card.querySelector('.visualizacoes-count');
+                    if (vizSpan) {
+                        vizSpan.textContent = PostagensStorage.getVisualizacoes(postagemId);
+                    }
 
-        function aplicarFiltros() {
-        const searchTerm = searchInput.value.toLowerCase();
-            const comunidadeSelecionada = filterComunidade.value;
+                    // Comentários
+                    const comSpan = card.querySelector('.comentarios-count');
+                    if (comSpan) {
+                        const comentarios = PostagensStorage.getComentarios(postagemId);
+                        comSpan.textContent = comentarios.length;
+                        card.dataset.comentarios = comentarios.length;
+                    }
 
-       postagens.forEach(postagem => {
-      const texto = postagem.textContent.toLowerCase();
-      const comunidade = postagem.dataset.comunidade;
+                    // Curtidas
+                    const curtSpan = card.querySelector('.curtidas-count');
+                    if (curtSpan) {
+                        const curtidas = PostagensStorage.getCurtidas();
+                        const count = Object.values(curtidas).filter(Boolean).length;
+                        curtSpan.textContent = count;
+                        card.dataset.curtidas = count;
+                    }
 
-      const matchSearch = texto.includes(searchTerm);
-      
-   let matchComunidade = true;
-      if (comunidadeSelecionada === 'geral') {
-        matchComunidade = comunidade === 'geral';
-     } else if (comunidadeSelecionada) {
-      matchComunidade = comunidade === comunidadeSelecionada;
-         }
-         
-     postagem.style.display = (matchSearch && matchComunidade) ? 'block' : 'none';
-       });
-        }
+                    // Popularidade (viz + com * 2 + curtidas * 3)
+                    const popularidade =
+                        PostagensStorage.getVisualizacoes(postagemId) +
+                        (PostagensStorage.getComentarios(postagemId).length * 2) +
+                        (PostagensStorage.getCurtidas()[postagemId] ? 3 : 0);
+                    card.dataset.popularidade = popularidade;
+                });
+            }
 
-     function ordenarPostagens() {
-     const ordem = filterOrdenacao.value;
-            const container = document.querySelector('.postagens-list');
-            const postagensArray = Array.from(postagens);
+            // ===== FILTROS E ORDENAÇÃO =====
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById('searchInput');
+                const filterComunidade = document.getElementById('filterComunidade');
+                const filterOrdenacao = document.getElementById('filterOrdenacao');
+                const clearFilters = document.getElementById('clearFilters');
+                const postagens = document.querySelectorAll('.postagem-card');
 
-            postagensArray.sort((a, b) => {
-   const dataA = parseInt(a.dataset.data);
-      const dataB = parseInt(b.dataset.data);
+                // Atualizar contadores ao carregar
+                atualizarContadores();
 
-        if (ordem === 'recente') return dataB - dataA;
-     if (ordem === 'antigo') return dataA - dataB;
-      if (ordem === 'populares') {
-  return parseInt(b.dataset.popularidade || 0) - parseInt(a.dataset.popularidade || 0);
-       }
-   if (ordem === 'comentadas') {
-     return parseInt(b.dataset.comentarios || 0) - parseInt(a.dataset.comentarios || 0);
-       }
- return 0;
+                function aplicarFiltros() {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const comunidadeSelecionada = filterComunidade.value;
+
+                    postagens.forEach(postagem => {
+                        const texto = postagem.textContent.toLowerCase();
+                        const comunidade = postagem.dataset.comunidade;
+
+                        const matchSearch = texto.includes(searchTerm);
+
+                        let matchComunidade = true;
+                        if (comunidadeSelecionada === 'geral') {
+                            matchComunidade = comunidade === 'geral';
+                        } else if (comunidadeSelecionada) {
+                            matchComunidade = comunidade === comunidadeSelecionada;
+                        }
+
+                        postagem.style.display = (matchSearch && matchComunidade) ? 'block' : 'none';
+                    });
+                }
+
+                function ordenarPostagens() {
+                    const ordem = filterOrdenacao.value;
+                    const container = document.querySelector('.postagens-list');
+                    const postagensArray = Array.from(postagens);
+
+                    postagensArray.sort((a, b) => {
+                        const dataA = parseInt(a.dataset.data);
+                        const dataB = parseInt(b.dataset.data);
+
+                        if (ordem === 'recente') return dataB - dataA;
+                        if (ordem === 'antigo') return dataA - dataB;
+                        if (ordem === 'populares') {
+                            return parseInt(b.dataset.popularidade || 0) - parseInt(a.dataset.popularidade || 0);
+                        }
+                        if (ordem === 'comentadas') {
+                            return parseInt(b.dataset.comentarios || 0) - parseInt(a.dataset.comentarios || 0);
+                        }
+                        return 0;
+                    });
+
+                    postagensArray.forEach(postagem => container.appendChild(postagem));
+                }
+
+                searchInput.addEventListener('input', aplicarFiltros);
+                filterComunidade.addEventListener('change', aplicarFiltros);
+                filterOrdenacao.addEventListener('change', ordenarPostagens);
+
+                clearFilters.addEventListener('click', function () {
+                    searchInput.value = '';
+                    filterComunidade.value = '';
+                    filterOrdenacao.value = 'recente';
+                    aplicarFiltros();
+                    ordenarPostagens();
+                });
+
+                // Ativar navegação ao clicar nos cards
+                document.querySelectorAll('.postagem-card').forEach(card => {
+                    const url = card.getAttribute('data-url');
+
+                    card.addEventListener('click', function () {
+                        window.location.href = url;
+                    });
+                });
             });
-
-    postagensArray.forEach(postagem => container.appendChild(postagem));
-        }
-
-        searchInput.addEventListener('input', aplicarFiltros);
-        filterComunidade.addEventListener('change', aplicarFiltros);
-        filterOrdenacao.addEventListener('change', ordenarPostagens);
-
-        clearFilters.addEventListener('click', function () {
-      searchInput.value = '';
-    filterComunidade.value = '';
-    filterOrdenacao.value = 'recente';
-            aplicarFiltros();
-        ordenarPostagens();
-        });
-        
-    // Ativar navegação ao clicar nos cards
-    document.querySelectorAll('.postagem-card').forEach(card => {
-      const url = card.getAttribute('data-url');
-    
-       card.addEventListener('click', function() {
-    window.location.href = url;
-      });
-        });
-    });
-</script>
-}
+        </script>
+    }

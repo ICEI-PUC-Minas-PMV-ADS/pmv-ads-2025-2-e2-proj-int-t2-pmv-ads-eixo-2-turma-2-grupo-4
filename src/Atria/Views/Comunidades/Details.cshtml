@@ -80,14 +80,14 @@
                                             }
                                 </div>
 
-                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" asp-route-returnUrl="@($"/Comunidades/Details/{Model.Id}")" class="text-decoration-none">
                                     <h5 class="card-title text-primary fw-bold mb-2">@item.Titulo</h5>
                                     <p class="card-text text-secondary text-truncate">@item.Conteudo</p>
                                 </a>
                             </div>
                             <div class="card-footer bg-white border-top-0 pt-0 d-flex gap-3">
                                 <span class="text-muted small"><i class="bi bi-chat-dots me-1"></i> @(item.Comentarios?.Count ?? 0) comentários</span>
-                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" class="text-muted small text-decoration-none">
+                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" asp-route-returnUrl="@($"/Comunidades/Details/{Model.Id}")" class="text-muted small text-decoration-none">
                                     <i class="bi bi-eye me-1"></i> Ver detalhes
                                 </a>
                             </div>
@@ -179,8 +179,16 @@
     .animate-fade {
         animation: fadeIn 0.3s ease-in-out;
     }
+
     @@keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
