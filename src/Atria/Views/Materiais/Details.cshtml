@@ -12,16 +12,16 @@
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
+  <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
+  </div>
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+   <i class="bi bi-exclamation-triangle-fill me-2"></i>
         @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
@@ -30,25 +30,25 @@
 <div class="page-container" style="max-width: 1200px;">
     <div class="page-card">
         <div class="page-card-header d-flex justify-content-between align-items-center">
-     <div>
-    <h1><i class="bi bi-book me-2"></i>@Model.Titulo</h1>
-              @if (!string.IsNullOrEmpty(Model.Tipo))
- {
-          <span class="badge bg-primary">@Model.Tipo</span>
-           }
+          <div>
+             <h1><i class="bi bi-book me-2"></i>@Model.Titulo</h1>
+    @if (!string.IsNullOrEmpty(Model.Tipo))
+  {
+        <span class="badge bg-primary">@Model.Tipo</span>
+        }
  @if (!string.IsNullOrEmpty(Model.Status))
-      {
-<span class="badge @(Model.Status == "Aprovado" ? "bg-success" : Model.Status == "Pendente" ? "bg-warning" : "bg-secondary")">
-         @Model.Status
-            </span>
-  }
+  {
+       <span class="badge @(Model.Status == "Aprovado" ? "bg-success" : Model.Status == "Pendente" ? "bg-warning" : "bg-secondary")">
+@Model.Status
+           </span>
+     }
             </div>
-        </div>
-   
+  </div>
+
         <div class="page-card-body">
-    <div class="row">
-     <!-- Coluna Principal - Informações do Material -->
-       <div class="col-md-8">
+            <div class="row">
+             <!-- Coluna Principal - Informações do Material -->
+     <div class="col-md-8">
         <!-- Informações Básicas -->
   <div class="mb-4">
       <h5 class="text-primary mb-3">
@@ -91,57 +91,107 @@
                 </div>
 
           <!-- Seção de Avaliações -->
-     <div class="mt-5">
-                <h5 class="text-primary mb-4">
-          <i class="bi bi-star-fill me-2"></i>Avaliações
-          </h5>
+  <div class="mt-5">
+       <h5 class="text-primary mb-4">
+    <i class="bi bi-star-fill me-2"></i>Avaliações
+ </h5>
 
-               @if (totalAvaliacoes > 0)
-          {
-          <!-- Lista de Avaliações -->
-    <div class="avaliacoes-lista">
-     @foreach (var avaliacao in (Model.Avaliacoes ?? new List<Atria.Models.Avaliacao>()).OrderByDescending(a => a.Id))
-     {
-   <div class="card mb-3 @(avaliacao.TipoAvaliacao == "Professor" ? "border-warning" : "")">
-    <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-  <div>
+  @if (totalAvaliacoes > 0)
+      {
+        <!-- Lista de Avaliações -->
+   <div class="avaliacoes-lista">
+           @foreach (var avaliacao in (Model.Avaliacoes ?? new List<Atria.Models.Avaliacao>()).OrderByDescending(a => a.Id))
+   {
+         <div class="card mb-4 @(avaliacao.TipoAvaliacao == "Professor" ? "border-warning" : "")">
+           <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+           <div>
         <strong class="d-flex align-items-center gap-2">
-                 <i class="bi bi-person-circle"></i>
-              @(avaliacao.Usuario?.Nome ?? "Anônimo")
-      @if (avaliacao.TipoAvaliacao == "Professor")
-{
-         <span class="badge bg-warning text-dark">
+         <i class="bi bi-person-circle"></i>
+   @(avaliacao.Usuario?.Nome ?? "Anônimo")
+    @if (avaliacao.TipoAvaliacao == "Professor")
+              {
+      <span class="badge bg-warning text-dark">
      <i class="bi bi-mortarboard-fill me-1"></i>Especialista
-            </span>
-       }
-        </strong>
-     </div>
-   <div class="text-warning">
-        @for (int i = 1; i <= 5; i++)
-         {
-        <i class="bi @(i <= avaliacao.Nota ? "bi-star-fill" : "bi-star")"></i>
-      }
+    </span>
+             }
+      </strong>
   </div>
-         </div>
+        <div class="text-warning">
+     @for (int i = 1; i <= 5; i++)
+    {
+               <i class="bi @(i <= avaliacao.Nota ? "bi-star-fill" : "bi-star")"></i>
+       }
+   </div>
+                </div>
 
-  @if (!string.IsNullOrEmpty(avaliacao.Resenha))
-        {
-  <p class="mb-0 mt-2" style="white-space: pre-wrap;">@avaliacao.Resenha</p>
-    }
-       </div>
-            </div>
+     @if (!string.IsNullOrEmpty(avaliacao.Resenha))
+                 {
+             <p class="mb-3 mt-2" style="white-space: pre-wrap;">@avaliacao.Resenha</p>
         }
-    </div>
-}
-else
-{
-    <p class="text-muted fst-italic">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
-}
 
-    <!-- Formulário de Avaliação -->
-              @if (User.Identity?.IsAuthenticated ?? false)
-         {
+           <!-- SEÇÃO DE COMENTÁRIOS DA AVALIAÇÃO (ESTILO REDDIT) -->
+         <div class="avaliacao-comentarios-section mt-3 pt-3 border-top">
+                  <h6 class="text-muted mb-3">
+          <i class="bi bi-chat-dots me-2"></i>
+    Comentários (@(avaliacao.Comentarios?.Count ?? 0))
+        </h6>
+
+  @if (User.Identity?.IsAuthenticated ?? false)
+             {
+         <!-- Formulário para novo comentário na avaliação -->
+   <div class="comentario-avaliacao-form mb-3">
+ <button class="btn btn-sm btn-outline-primary" onclick="toggleAvaliacaoReplyForm(@avaliacao.Id)">
+       <i class="bi bi-chat me-1"></i>Adicionar comentário
+     </button>
+
+              <div id="avaliacao-reply-form-@avaliacao.Id" class="reply-form mt-2 p-3 bg-light rounded border" style="display: none;">
+       <form asp-controller="ComentarioAvaliacao" asp-action="Create" method="post">
+          <input type="hidden" name="FKAvaliacao" value="@avaliacao.Id" />
+      <div class="mb-2">
+             <textarea class="form-control" name="Conteudo" rows="2"
+           placeholder="Digite seu comentário..." maxlength="500" required></textarea>
+      </div>
+       <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">
+          <i class="bi bi-send me-1"></i>Enviar
+               </button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="toggleAvaliacaoReplyForm(@avaliacao.Id)">
+            Cancelar
+           </button>
+     </div>
+  </form>
+       </div>
+           </div>
+           }
+
+              <!-- Lista de comentários (estilo Reddit) -->
+       @if (avaliacao.Comentarios != null && avaliacao.Comentarios.Any())
+       {
+        <div class="comentarios-avaliacao-lista">
+              @{
+            var comentariosPrincipais = avaliacao.Comentarios.Where(c => !c.FKComentarioPai.HasValue).OrderByDescending(c => c.DataComentario);
+    }
+          @foreach (var comentario in comentariosPrincipais)
+        {
+    @await Html.PartialAsync("_ComentarioAvaliacaoThread", comentario)
+            }
+ </div>
+       }
+    </div>
+ </div>
+        </div>
+    }
+             </div>
+         }
+             else
+           {
+        <p class="text-muted fst-italic">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
+ }
+
+ <!-- Formulário de Avaliação -->
+ @if (User.Identity?.IsAuthenticated ?? false)
+     {
             <div class="card border-primary mt-4">
       <div class="card-header bg-primary text-white">
         <h6 class="mb-0">
@@ -187,9 +237,9 @@ else
        </div>
   </div>
 
-      <!-- Coluna Lateral - Estatísticas e Ações -->
-    <div class="col-md-4">
-             <!-- Card de Avaliações Gerais -->
+ <!-- Coluna Lateral - Estatísticas e Ações -->
+       <div class="col-md-4">
+         <!-- Card de Avaliações Gerais -->
          <div class="card mb-3">
        <div class="card-header bg-light">
      <h6 class="mb-0">
@@ -323,3 +373,21 @@ box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     }
     }
 </style>
+
+<script>
+    // Toggle para formulários de resposta em avaliações
+    function toggleAvaliacaoReplyForm(avaliacaoId) {
+        const form = document.getElementById(`avaliacao-reply-form-${avaliacaoId}`);
+  if (form) {
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+
+    // Toggle para formulários de resposta em comentários de avaliação
+    function toggleComentarioAvaliacaoReplyForm(comentarioId) {
+      const form = document.getElementById(`comentario-avaliacao-reply-form-${comentarioId}`);
+        if (form) {
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+  }
+</script>

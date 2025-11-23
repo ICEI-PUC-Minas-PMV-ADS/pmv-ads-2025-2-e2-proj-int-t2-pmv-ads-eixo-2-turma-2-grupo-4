@@ -25,5 +25,21 @@ namespace Atria.Models
         [Column("FK_AVALIACAO")]
         public int FKAvaliacao { get; set; } = 0;
         public Avaliacao? Avaliacao { get; set; }
+
+        // NOVO: Suporte para comentários aninhados em avaliações (estilo Reddit)
+        [Column("FK_COMENTARIO_PAI")]
+ public int? FKComentarioPai { get; set; }
+        
+        [ForeignKey("FKComentarioPai")]
+        public ComentarioAvaliacao? ComentarioPai { get; set; }
+        
+        public ICollection<ComentarioAvaliacao> Respostas { get; set; } = new List<ComentarioAvaliacao>();
+
+        // NOVO: Sistema de curtidas
+  public ICollection<CurtidaComentarioAvaliacao> Curtidas { get; set; } = new List<CurtidaComentarioAvaliacao>();
+
+        // Propriedade calculada para total de curtidas
+   [NotMapped]
+   public int TotalCurtidas => Curtidas?.Count ?? 0;
     }
 }

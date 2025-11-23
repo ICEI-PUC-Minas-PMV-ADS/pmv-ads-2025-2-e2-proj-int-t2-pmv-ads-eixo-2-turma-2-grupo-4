@@ -1,0 +1,150 @@
+@model Atria.Models.Comentario
+
+@{
+    var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+    var isOwner = userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId) && Model.FKUsuario == userId;
+    var nivelIndentacao = ViewData["NivelIndentacao"] as int? ?? 0;
+    var maxNivel = 5;
+    
+    // NOVO: Cores cíclicas por nível (repete após nível 5)
+    var cores = new[] { "#0d6efd", "#198754", "#20c997", "#ffc107", "#fd7e14", "#6c757d" };
+    var corBorda = cores[nivelIndentacao % cores.Length];
+}
+
+<div class="comentario-thread mb-3" style="margin-left: @(nivelIndentacao * 20)px;">
+    <div class="comentario-card p-3 border rounded bg-white" style="border-left: 3px solid @corBorda !important;">
+     <div class="d-flex align-items-start">
+      <div class="comentario-avatar me-3">
+     <i class="bi bi-person-circle text-secondary" style="font-size: 2rem;"></i>
+   </div>
+      <div class="flex-grow-1">
+ <div class="d-flex justify-content-between align-items-start mb-2">
+        <div>
+       <div class="comentario-user-name fw-semibold text-dark">
+    @(Model.Usuario?.Nome ?? "Usuário")
+  </div>
+  <div class="comentario-date text-muted small">
+       <i class="bi bi-clock me-1"></i>
+       @Model.DataComentario.ToString("dd/MM/yyyy HH:mm")
+    </div>
+  </div>
+ @if (User.Identity?.IsAuthenticated ?? false)
+ {
+    <div class="dropdown">
+   <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+       <i class="bi bi-three-dots-vertical"></i>
+     </button>
+   <ul class="dropdown-menu dropdown-menu-end">
+  @if (isOwner)
+  {
+      <li>
+  <a class="dropdown-item text-danger" href="/Comentario/Delete/@Model.Id">
+    <i class="bi bi-trash me-2"></i>Excluir
+      </a>
+   </li>
+      }
+ </ul>
+      </div>
+          }
+      </div>
+      <div class="comentario-content mt-2 mb-2">
+      <p class="mb-0 text-dark" style="white-space: pre-wrap;">@Model.Conteudo</p>
+       </div>
+
+      @* NOVO: Sistema de curtidas *@
+   <div class="comentario-likes d-flex align-items-center gap-3 mt-2 mb-2">
+      <button class="btn btn-sm btn-outline-primary curtir-btn" 
+    data-comentario-id="@Model.Id"
+        data-curtido="false">
+   <i class="bi bi-hand-thumbs-up"></i>
+  <span class="curtidas-count">@Model.TotalCurtidas</span>
+   </button>
+</div>
+
+      @if (User.Identity?.IsAuthenticated ?? false && nivelIndentacao < maxNivel)
+   {
+       <div class="comentario-actions mt-2">
+  <button class="btn btn-sm btn-link text-decoration-none p-0" onclick="toggleReplyForm(@Model.Id)">
+    <i class="bi bi-reply me-1"></i>Responder
+</button>
+    </div>
+
+          <div id="reply-form-@Model.Id" class="reply-form mt-3 p-3 bg-light rounded border" style="display: none;">
+   <form asp-controller="Comentario" asp-action="Create" method="post">
+         <input type="hidden" name="FKPostagem" value="@Model.FKPostagem" />
+         <input type="hidden" name="FKComentarioPai" value="@Model.Id" />
+     <div class="mb-2">
+ <textarea class="form-control" name="Conteudo" rows="2"
+   placeholder="Digite sua resposta..." maxlength="1000" required></textarea>
+  </div>
+ <div class="d-flex gap-2">
+  <button type="submit" class="btn btn-sm btn-primary">
+    <i class="bi bi-send me-1"></i>Enviar
+</button>
+           <button type="button" class="btn btn-sm btn-secondary" onclick="toggleReplyForm(@Model.Id)">
+        Cancelar
+         </button>
+</div>
+  </form>
+   </div>
+   }
+    else if (nivelIndentacao >= maxNivel)
+  {
+   <div class="text-muted small mt-2">
+        <i class="bi bi-info-circle me-1"></i>Nível máximo de respostas atingido
+      </div>
+  }
+            </div>
+  </div>
+  </div>
+
+    @if (Model.Respostas != null && Model.Respostas.Any())
+  {
+        <div class="comentario-respostas mt-2">
+@foreach (var resposta in Model.Respostas.OrderBy(r => r.DataComentario))
+ {
+ ViewData["NivelIndentacao"] = nivelIndentacao + 1;
+    @await Html.PartialAsync("_ComentarioThread", resposta)
+      }
+ </div>
+    }
+</div>
+
+<style>
+    .comentario-thread {
+transition: all 0.2s ease;
+    }
+
+    .comentario-card {
+     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .comentario-card:hover {
+      transform: translateX(2px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .reply-form {
+ animation: slideDown 0.3s ease;
+    }
+
+    @@keyframes slideDown {
+   from {
+    opacity: 0;
+    transform: translateY(-10px);
+        }
+        to {
+         opacity: 1;
+  transform: translateY(0);
+      }
+    }
+
+    .comentario-actions .btn-link {
+        color: #6c757d;
+ font-size: 0.875rem;
+    }
+
+   .comentario-actions .btn-link:hover {
+        color: #0d6efd;
+    }
+</style>

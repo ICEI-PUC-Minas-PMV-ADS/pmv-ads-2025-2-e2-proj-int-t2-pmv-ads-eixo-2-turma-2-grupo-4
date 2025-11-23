@@ -20,10 +20,13 @@ namespace Atria.Controllers
         public async Task<IActionResult> Index()
         {
             var comentarios = await _context.Comentarios
-                .Include(c => c.Usuario)
-                .Include(c => c.Postagem)
-                .ToListAsync();
-            return View(comentarios);
+         .Include(c => c.Usuario)
+       .Include(c => c.Postagem)
+     .Include(c => c.Curtidas)
+              .OrderByDescending(c => c.DataComentario)
+       .ToListAsync();
+
+       return View(comentarios);
         }
 
         [AllowAnonymous]
@@ -33,6 +36,8 @@ namespace Atria.Controllers
             var comentario = await _context.Comentarios
                 .Include(c => c.Usuario)
                 .Include(c => c.Postagem)
+                .Include(c => c.Curtidas)
+                .AsSplitQuery() // NOVO: Otimização
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (comentario == null) return NotFound();
             return View(comentario);
@@ -47,10 +52,13 @@ namespace Atria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Conteudo,FKPostagem")] Comentario comentario)
+        public async Task<IActionResult> Create([Bind("Conteudo,FKPostagem,FKComentarioPai")] Comentario comentario)
         {
             ModelState.Remove("Usuario");
             ModelState.Remove("Postagem");
+            ModelState.Remove("ComentarioPai");
+            ModelState.Remove("Respostas");
+            ModelState.Remove("Curtidas"); // NOVO: Remover validação de curtidas
 
             if (!ModelState.IsValid)
             {
@@ -77,32 +85,26 @@ namespace Atria.Controllers
                 comentario.DataComentario = DateTime.UtcNow;
 
                 _context.Add(comentario);
-
-                // Atualiza visibilidade da postagem relacionada
-                var postagem = await _context.Postagens.FindAsync(comentario.FKPostagem);
-                if (postagem != null)
-                {
-                    postagem.SetVisibleOnGeral();
-                    _context.Update(postagem);
-                }
-
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Comentário adicionado com sucesso!";
-                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
-            }
+                TempData["SuccessMessage"] = comentario.FKComentarioPai.HasValue 
+  ? "Resposta adicionada com sucesso!" 
+        : "Comentário adicionado com sucesso!";
+    
+      return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+   }
             catch (Exception ex)
-            {
+ {
                 TempData["ErrorMessage"] = $"Erro ao salvar comentário: {ex.Message}";
-                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
-            }
+            return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+          }
         }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null) return NotFound();
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario == null) return NotFound();
+      public async Task<IActionResult> Edit(int? id)
+      {
+      if (id == null) return NotFound();
+    var comentario = await _context.Comentarios.FindAsync(id);
+     if (comentario == null) return NotFound();
             return View(comentario);
         }
 
@@ -111,47 +113,83 @@ namespace Atria.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Conteudo,FKPostagem")] Comentario comentario)
         {
             if (id != comentario.Id) return NotFound();
-            if (ModelState.IsValid)
+         if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(comentario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!_context.Comentarios.Any(e => e.Id == comentario.Id)) return NotFound();
-                    else throw;
-                }
-                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+      try
+          {
+         _context.Update(comentario);
+     await _context.SaveChangesAsync();
+     }
+     catch (DbUpdateConcurrencyException)
+  {
+        if (!_context.Comentarios.Any(e => e.Id == comentario.Id)) return NotFound();
+   else throw;
+     }
+   return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
             }
             return View(comentario);
-        }
+   }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null) return NotFound();
+     if (id == null) return NotFound();
             var comentario = await _context.Comentarios
-                .Include(c => c.Usuario)
-                .Include(c => c.Postagem)
-                .FirstOrDefaultAsync(c => c.Id == id);
-            if (comentario == null) return NotFound();
-            return View(comentario);
+    .Include(c => c.Usuario)
+     .Include(c => c.Postagem)
+       .FirstOrDefaultAsync(c => c.Id == id);
+ if (comentario == null) return NotFound();
+      return View(comentario);
+   }
+
+    [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+  {
+     var comentario = await _context.Comentarios
+         .Include(c => c.Respostas) // Incluir respostas diretas
+     .ThenInclude(r => r.Respostas) // Incluir respostas das respostas (nível 2)
+            .Include(c => c.Curtidas) // NOVO: Incluir curtidas para deletar em cascata
+     .FirstOrDefaultAsync(c => c.Id == id);
+        
+      if (comentario != null)
+        {
+  var postagemId = comentario.FKPostagem;
+      
+   // NOVO: Método recursivo para remover todos os comentários aninhados
+      await RemoverComentarioRecursivamente(comentario);
+  
+            // NOVO: Salvar todas as mudanças de uma vez
+   await _context.SaveChangesAsync();
+
+     TempData["SuccessMessage"] = "Comentário excluído com sucesso!";
+        return RedirectToAction("Details", "Postagens", new { id = postagemId });
+  }
+     return RedirectToAction("Index");
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // NOVO: Método auxiliar para remover recursivamente
+ private async Task RemoverComentarioRecursivamente(Comentario comentario)
         {
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario != null)
-            {
-                var postagemId = comentario.FKPostagem;
-                _context.Comentarios.Remove(comentario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Postagens", new { id = postagemId });
-            }
-            return RedirectToAction("Index");
+  // Carregar todas as respostas aninhadas
+       var respostas = await _context.Comentarios
+   .Where(c => c.FKComentarioPai == comentario.Id)
+         .Include(c => c.Curtidas)
+      .ToListAsync();
+
+        // Remover recursivamente cada resposta
+   foreach (var resposta in respostas)
+   {
+    await RemoverComentarioRecursivamente(resposta);
+      }
+
+   // Remover curtidas do comentário atual
+       if (comentario.Curtidas != null && comentario.Curtidas.Any())
+      {
+    _context.CurtidasComentario.RemoveRange(comentario.Curtidas);
+      }
+
+   // Remover o comentário atual
+  _context.Comentarios.Remove(comentario);
         }
     }
 }

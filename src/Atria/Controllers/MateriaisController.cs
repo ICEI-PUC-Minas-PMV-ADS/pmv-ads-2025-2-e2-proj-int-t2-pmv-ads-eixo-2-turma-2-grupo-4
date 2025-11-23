@@ -19,34 +19,44 @@ namespace Atria.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string? tipo, string? ordenacao)
         {
-            // Buscar materiais com relacionamentos
-            var query = _context.Materiais
-                .Include(m => m.Criador)
-                .Include(m => m.Avaliacoes)
-                .AsQueryable();
-
-            // Filtrar por tipo se especificado
-            if (!string.IsNullOrEmpty(tipo))
+            try
             {
-                query = query.Where(m => m.Tipo == tipo);
+                // Buscar materiais com relacionamentos
+                var query = _context.Materiais
+                    .Include(m => m.Criador)
+                    .Include(m => m.Avaliacoes)
+                    .AsQueryable();
+
+                // Filtrar por tipo se especificado
+                if (!string.IsNullOrEmpty(tipo))
+                {
+                    query = query.Where(m => m.Tipo == tipo);
+                }
+
+                // Aplicar ordenação
+                query = ordenacao switch
+                {
+                    "titulo" => query.OrderBy(m => m.Titulo),
+                    "tipo" => query.OrderBy(m => m.Tipo).ThenBy(m => m.Titulo),
+                    "recentes" => query.OrderByDescending(m => m.DataCriacao),
+                    _ => query.OrderByDescending(m => m.DataCriacao) // Padrão: mais recentes
+                };
+
+                var materiais = await query.ToListAsync();
+
+                // Passar parâmetros para a view via ViewBag
+                ViewBag.TipoFiltro = tipo;
+                ViewBag.Ordenacao = ordenacao;
+
+                return View(materiais);
             }
-
-            // Aplicar ordenação
-            query = ordenacao switch
+            catch (Exception ex)
             {
-                "titulo" => query.OrderBy(m => m.Titulo),
-                "tipo" => query.OrderBy(m => m.Tipo).ThenBy(m => m.Titulo),
-                "recentes" => query.OrderByDescending(m => m.DataCriacao),
-                _ => query.OrderByDescending(m => m.DataCriacao) // Padrão: mais recentes
-            };
-
-            var materiais = await query.ToListAsync();
-
-            // Passar parâmetros para a view via ViewBag
-            ViewBag.TipoFiltro = tipo;
-            ViewBag.Ordenacao = ordenacao;
-
-            return View(materiais);
+                ViewBag.ErrorMessage = "Erro ao carregar materiais: " + ex.Message;
+                ViewBag.TipoFiltro = tipo;
+                ViewBag.Ordenacao = ordenacao;
+                return View(new List<Material>());
+            }
         }
 
         [AllowAnonymous]
@@ -140,20 +150,40 @@ namespace Atria.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descricao,Tipo,Status")] Material material)
         {
             if (id != material.Id) return NotFound();
+          
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(material);
+                    var materialOriginal = await _context.Materiais.FindAsync(id);
+                    if (materialOriginal == null) return NotFound();
+
+                    // Preservar campos que não devem ser editados
+                    materialOriginal.Titulo = material.Titulo;
+                    materialOriginal.Descricao = material.Descricao;
+                    materialOriginal.Tipo = material.Tipo;
+                    materialOriginal.Status = material.Status;
+
+                    _context.Update(materialOriginal);
                     await _context.SaveChangesAsync();
+                     
+                    TempData["SuccessMessage"] = "Material atualizado com sucesso!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.Materiais.Any(e => e.Id == material.Id)) return NotFound();
-                    else throw;
+                    if (!_context.Materiais.Any(e => e.Id == material.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Erro de concorrência. O material foi modificado por outro usuário.";
+                        throw;
+                    }
                 }
-                return RedirectToAction(nameof(Index));
             }
+ 
             return View(material);
         }
 

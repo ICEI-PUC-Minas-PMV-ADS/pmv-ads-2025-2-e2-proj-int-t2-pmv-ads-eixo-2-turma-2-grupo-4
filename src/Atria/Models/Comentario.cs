@@ -25,5 +25,21 @@ namespace Atria.Models
         [Column("FK_POSTAGEM")] 
         public int FKPostagem { get; set; } = 0;
         public Postagem? Postagem { get; set; }
+
+     // Suporte para comentários aninhados (estilo Reddit)
+        [Column("FK_COMENTARIO_PAI")]
+ public int? FKComentarioPai { get; set; }
+        
+        [ForeignKey("FKComentarioPai")]
+        public Comentario? ComentarioPai { get; set; }
+ 
+        public ICollection<Comentario> Respostas { get; set; } = new List<Comentario>();
+
+   // NOVO: Sistema de curtidas
+    public ICollection<CurtidaComentario> Curtidas { get; set; } = new List<CurtidaComentario>();
+
+        // Propriedade calculada para total de curtidas
+        [NotMapped]
+        public int TotalCurtidas => Curtidas?.Count ?? 0;
     }
 }

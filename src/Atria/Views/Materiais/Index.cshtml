@@ -18,7 +18,25 @@
         </div>
     <div class="page-card-body">
 
-      <!-- Barra de Filtros e Ordenação -->
+   @if (ViewBag.ErrorMessage != null)
+            {
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      <strong>Erro!</strong> @ViewBag.ErrorMessage
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+            }
+
+@if (TempData["SuccessMessage"] != null)
+            {
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        @TempData["SuccessMessage"]
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+ }
+
+          <!-- Barra de Filtros e Ordenação -->
             <div class="filters-toolbar bg-light p-3 rounded mb-4">
           <div class="row g-3 align-items-center">
  <!-- Filtro por Tipo -->
@@ -178,53 +196,48 @@
      }
   </div>
 
+  </div>
+</div>
+
 <script>
     function aplicarOrdenacao() {
         const ordenacao = document.getElementById('ordenacaoSelect').value;
-     const tipoAtual = new URLSearchParams(window.location.search).get('tipo') || '';
+        const tipoAtual = new URLSearchParams(window.location.search).get('tipo') || '';
         const url = tipoAtual 
-   ? `/Materiais?tipo=${tipoAtual}&ordenacao=${ordenacao}`
-    : `/Materiais?ordenacao=${ordenacao}`;
-   window.location.href = url;
+       ? `/Materiais?tipo=${tipoAtual}&ordenacao=${ordenacao}`
+   : `/Materiais?ordenacao=${ordenacao}`;
+  window.location.href = url;
     }
 
     function filtrarMateriais() {
- const searchText = document.getElementById('buscaRapida').value.toLowerCase();
-    const cards = document.querySelectorAll('.material-card'); // ✅ CORRIGIDO
-  let visibleCount = 0;
+        const searchText = document.getElementById('buscaRapida').value toLowerCase();
+        const cards = document.querySelectorAll('.material-card');
+        let visibleCount = 0;
 
- cards.forEach(card => {
- const titulo = card.querySelector('.material-titulo')?.textContent.toLowerCase() || '';
-  const criador = card.querySelector('.material-autor')?.textContent.toLowerCase() || '';
-   const col = card.closest('.col-md-6, .col-lg-4'); // Parent column
+        cards.forEach(card => {
+    const titulo = card.querySelector('.material-titulo')?.textContent toLowerCase() || '';
+      const descricao = card.querySelector('.material-descricao')?.textContent toLowerCase() || '';
+     const col = card.closest('.col-md-6, .col-lg-4');
 
-     if (titulo.includes(searchText) || criador.includes(searchText)) {
-      col.style.display = '';
-       visibleCount++;
- } else {
-     col.style.display = 'none';
-  }
-      });
+    if (titulo.includes(searchText) || descricao.includes(searchText)) {
+     col.style.display = '';
+visibleCount++;
+      } else {
+       col.style.display = 'none';
+            }
+});
 
-   document.getElementById('totalResultados').textContent = visibleCount;
-    }
+        document.getElementById('totalResultados').textContent = visibleCount;
+ }
 
-    // ✅ SOLUÇÃO LIMPA E SIMPLES
+    // Ativar navegação ao clicar nos cards
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Ativando cards clicáveis...');
- 
-        document.querySelectorAll('.material-card').forEach(card => {
- const url = card.getAttribute('data-url');
-          
-     console.log('📦 Card URL:', url);
-      
-       // Click no card → navega para Details
-  card.addEventListener('click', function() {
-     console.log('✅ Navegando:', url);
-   window.location.href = url;
-            });
-      });
- 
-        console.log('✅ Cards ativados:', document.querySelectorAll('.material-card').length);
+     document.querySelectorAll('.material-card').forEach(card => {
+   const url = card.getAttribute('data-url');
+    
+       card.addEventListener('click', function() {
+      window.location.href = url;
+   });
+    });
     });
 </script>

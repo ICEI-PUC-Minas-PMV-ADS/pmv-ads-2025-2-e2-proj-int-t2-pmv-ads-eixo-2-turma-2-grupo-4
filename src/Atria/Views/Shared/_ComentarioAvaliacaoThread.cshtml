@@ -1,0 +1,153 @@
+@model Atria.Models.ComentarioAvaliacao
+
+@{
+    var userIdClaim = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+    var isOwner = userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId) && Model.FKUsuario == userId;
+    var nivelIndentacao = ViewData["NivelIndentacao"] as int? ?? 0;
+    var maxNivel = 5;
+}
+
+<div class="comentario-avaliacao-thread mb-2" style="margin-left: @(nivelIndentacao * 15)px;">
+    <div class="comentario-avaliacao-card p-2 border-start border-2 ps-3 bg-light">
+        <div class="d-flex align-items-start">
+          <div class="flex-grow-1">
+           <div class="d-flex justify-content-between align-items-start mb-1">
+     <div>
+     <span class="comentario-user-name fw-semibold text-dark small">
+  @(Model.Usuario?.Nome ?? "Usuário")
+    </span>
+           <span class="text-muted mx-2">•</span>
+        <span class="comentario-date text-muted small">
+    @{
+  var timeSpan = DateTime.Now - Model.DataComentario;
+      var timeString = timeSpan.TotalMinutes < 60 
+        ? $"{(int)timeSpan.TotalMinutes}m atrás"
+   : timeSpan.TotalHours < 24 
+      ? $"{(int)timeSpan.TotalHours}h atrás"
+ : $"{(int)timeSpan.TotalDays}d atrás";
+       }
+ @timeString
+        </span>
+  </div>
+        @if (isOwner)
+         {
+   <form asp-controller="ComentarioAvaliacao" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+    <button type="submit" class="btn btn-sm btn-link text-danger p-0" onclick="return confirm('Deseja excluir este comentário?')">
+           <i class="bi bi-trash"></i>
+       </button>
+    </form>
+    }
+       </div>
+
+   <div class="comentario-content mt-1 mb-2">
+   <p class="mb-0 text-dark small" style="white-space: pre-wrap;">@Model.Conteudo</p>
+     </div>
+
+       @if (User.Identity?.IsAuthenticated ?? false && nivelIndentacao < maxNivel)
+     {
+     <div class="comentario-actions">
+      <button class="btn btn-link text-decoration-none p-0 small" onclick="toggleComentarioAvaliacaoReplyForm(@Model.Id)">
+   <i class="bi bi-reply me-1"></i>Responder
+    </button>
+  </div>
+
+       <div id="comentario-avaliacao-reply-form-@Model.Id" class="reply-form mt-2 p-2 bg-white rounded border" style="display: none;">
+       <form asp-controller="ComentarioAvaliacao" asp-action="Create" method="post">
+ <input type="hidden" name="FKAvaliacao" value="@Model.FKAvaliacao" />
+         <input type="hidden" name="FKComentarioPai" value="@Model.Id" />
+   <div class="mb-2">
+ <textarea class="form-control form-control-sm" name="Conteudo" rows="2"
+    placeholder="Digite sua resposta..." maxlength="500" required></textarea>
+  </div>
+              <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">
+      <i class="bi bi-send me-1"></i>Enviar
+  </button>
+     <button type="button" class="btn btn-sm btn-secondary" onclick="toggleComentarioAvaliacaoReplyForm(@Model.Id)">
+       Cancelar
+     </button>
+   </div>
+        </form>
+   </div>
+  }
+       else if (nivelIndentacao >= maxNivel)
+         {
+      <div class="text-muted small">
+   <i class="bi bi-info-circle me-1"></i>Nível máximo de respostas atingido
+  </div>
+       }
+    </div>
+        </div>
+  </div>
+
+    @if (Model.Respostas != null && Model.Respostas.Any())
+    {
+  <div class="comentario-avaliacao-respostas mt-1">
+ @foreach (var resposta in Model.Respostas.OrderBy(r => r.DataComentario))
+      {
+     ViewData["NivelIndentacao"] = nivelIndentacao + 1;
+      @await Html.PartialAsync("_ComentarioAvaliacaoThread", resposta)
+     }
+ </div>
+    }
+</div>
+
+<style>
+    .comentario-avaliacao-thread {
+        transition: all 0.2s ease;
+    }
+
+.comentario-avaliacao-card {
+        transition: all 0.2s ease;
+      border-left-color: #dee2e6 !important;
+    }
+
+    .comentario-avaliacao-card:hover {
+        background-color: #f8f9fa !important;
+     border-left-color: #0d6efd !important;
+    }
+
+    .reply-form {
+        animation: slideDown 0.2s ease;
+    }
+
+    @@keyframes slideDown {
+    from {
+  opacity: 0;
+            transform: translateY(-5px);
+        }
+  to {
+            opacity: 1;
+    transform: translateY(0);
+        }
+    }
+
+    .comentario-actions .btn-link {
+    color: #6c757d;
+        font-size: 0.8rem;
+    }
+
+    .comentario-actions .btn-link:hover {
+      color: #0d6efd;
+    }
+
+  .comentario-avaliacao-thread[style*="margin-left: 0px"] .comentario-avaliacao-card {
+border-left-color: #0d6efd !important;
+  }
+
+    .comentario-avaliacao-thread[style*="margin-left: 15px"] .comentario-avaliacao-card {
+      border-left-color: #198754 !important;
+    }
+
+    .comentario-avaliacao-thread[style*="margin-left: 30px"] .comentario-avaliacao-card {
+        border-left-color: #ffc107 !important;
+    }
+
+    .comentario-avaliacao-thread[style*="margin-left: 45px"] .comentario-avaliacao-card {
+  border-left-color: #dc3545 !important;
+    }
+
+    .comentario-avaliacao-thread[style*="margin-left: 60px"] .comentario-avaliacao-card {
+   border-left-color: #6f42c1 !important;
+    }
+</style>

@@ -25,6 +25,15 @@
 </div>
         }
 
+       @if (TempData["SuccessMessage"] != null)
+            {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle me-2"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+   }
+
       <!-- FILTROS -->
             <div class="postagens-filters mb-4 p-3 bg-light rounded shadow-sm">
             <div class="row g-3">
@@ -93,7 +102,7 @@ foreach (var p in Model)
   else if (p.NoForumGeral)
     {
 <span>•</span>
-        <span class="badge bg-info text-white" style="font-size: 0.7rem;">
+  <span class="badge bg-info text-white" style="font-size: 0.7rem;">
      Fórum Geral
   </span>
      }
@@ -105,7 +114,7 @@ foreach (var p in Model)
    <h6 class="postagem-titulo fw-bold mb-2 text-dark lh-sm">@p.Titulo</h6>
     }
     
-        <!-- Conteúdo (Compacto) -->
+    <!-- Conteúdo (Compacto) -->
      <p class="postagem-preview mb-3 text-secondary small" style="line-height: 1.4; max-height: 4em; overflow: hidden;">
        @if (!string.IsNullOrEmpty(p.Conteudo))
    {
@@ -124,7 +133,7 @@ foreach (var p in Model)
 <span class="visualizacoes-count fw-semibold" data-id="@p.Id">0</span>
    </span>
    <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Comentários">
-      <i class="bi bi-chat-dots"></i>
+ <i class="bi bi-chat-dots"></i>
   <span class="comentarios-count fw-semibold" data-id="@p.Id">0</span>
    </span>
 <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Curtidas">
@@ -138,7 +147,7 @@ foreach (var p in Model)
   }
   else
    {
-     <div class="alert alert-info d-flex align-items-center" role="alert">
+ <div class="alert alert-info d-flex align-items-center" role="alert">
     <i class="bi bi-info-circle me-2 fs-4"></i>
     <div>
    Nenhuma postagem encontrada. Seja o primeiro a compartilhar algo!
@@ -156,116 +165,112 @@ foreach (var p in Model)
     // ===== UTILITÁRIOS LOCALSTORAGE =====
     class PostagensStorage {
         static getComentarios(postagemId) {
-         const key = `comentarios_${postagemId}`;
+        const key = `comentarios_${postagemId}`;
             const data = localStorage.getItem(key);
             return data ? JSON.parse(data) : [];
         }
 
-    static getVisualizacoes(postagemId) {
-            const key = `visualizacoes_${postagemId}`;
+        static getVisualizacoes(postagemId) {
+        const key = `visualizacoes_${postagemId}`;
          return parseInt(localStorage.getItem(key) || '0');
         }
 
-        static getCurtidas() {
-  const data = localStorage.getItem('curtidas');
-            return data ? JSON.parse(data) : {};
-  }
+      static getCurtidas() {
+const data = localStorage.getItem('curtidas');
+       return data ? JSON.parse(data) : {};
+        }
     }
 
     // ===== ATUALIZAR CONTADORES =====
     function atualizarContadores() {
-  document.querySelectorAll('.postagem-card').forEach(card => {
-            const postagemId = card.dataset.postagemId;
+        document.querySelectorAll('.postagem-card').forEach(card => {
+     const postagemId = card.dataset.postagemId;
             
-    // Visualizações
-     const vizSpan = card.querySelector('.visualizacoes-count');
-        if (vizSpan) {
+         // Visualizações
+      const vizSpan = card.querySelector('.visualizacoes-count');
+            if (vizSpan) {
        vizSpan.textContent = PostagensStorage.getVisualizacoes(postagemId);
-       }
-         
-          // Comentários
-       const comSpan = card.querySelector('.comentarios-count');
+      }
+            
+  // Comentários
+      const comSpan = card.querySelector('.comentarios-count');
             if (comSpan) {
-                const comentarios = PostagensStorage.getComentarios(postagemId);
-           comSpan.textContent = comentarios.length;
-   // Adicionar data attribute para ordenação
-                card.dataset.comentarios = comentarios.length;
-     }
-     
-     // Curtidas
-   const curtSpan = card.querySelector('.curtidas-count');
- if (curtSpan) {
-    const curtidas = PostagensStorage.getCurtidas();
-        const count = Object.values(curtidas).filter(Boolean).length;
-       curtSpan.textContent = count;
- card.dataset.curtidas = count;
-            }
- 
-            // Popularidade (viz + com + curtidas)
-         const popularidade = 
-      PostagensStorage.getVisualizacoes(postagemId) +
-   (PostagensStorage.getComentarios(postagemId).length * 2) +
-       (PostagensStorage.getCurtidas()[postagemId] ? 3 : 0);
-       card.dataset.popularidade = popularidade;
-   });
+  const comentarios = PostagensStorage.getComentarios(postagemId);
+              comSpan.textContent = comentarios.length;
+              card.dataset.comentarios = comentarios.length;
     }
+   
+            // Curtidas
+      const curtSpan = card.querySelector('.curtidas-count');
+     if (curtSpan) {
+       const curtidas = PostagensStorage.getCurtidas();
+    const count = Object.values(curtidas).filter(Boolean).length;
+  curtSpan.textContent = count;
+    card.dataset.curtidas = count;
+            }
+            
+            // Popularidade (viz + com * 2 + curtidas * 3)
+            const popularidade = 
+PostagensStorage.getVisualizacoes(postagemId) +
+         (PostagensStorage.getComentarios(postagemId).length * 2) +
+      (PostagensStorage.getCurtidas()[postagemId] ? 3 : 0);
+  card.dataset.popularidade = popularidade;
+  });
+  }
 
     // ===== FILTROS E ORDENAÇÃO =====
-  document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchInput');
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.getElementById('searchInput');
         const filterComunidade = document.getElementById('filterComunidade');
         const filterOrdenacao = document.getElementById('filterOrdenacao');
-      const clearFilters = document.getElementById('clearFilters');
+        const clearFilters = document.getElementById('clearFilters');
         const postagens = document.querySelectorAll('.postagem-card');
 
         // Atualizar contadores ao carregar
-        atualizarContadores();
+  atualizarContadores();
 
         function aplicarFiltros() {
-       const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase();
             const comunidadeSelecionada = filterComunidade.value;
 
-     postagens.forEach(postagem => {
-     const texto = postagem.textContent.toLowerCase();
-  const comunidade = postagem.dataset.comunidade;
+       postagens.forEach(postagem => {
+      const texto = postagem.textContent.toLowerCase();
+      const comunidade = postagem.dataset.comunidade;
 
       const matchSearch = texto.includes(searchTerm);
-              
-         // ? CORRIGIDO: Filtro de comunidade
-      let matchComunidade = true;
-         if (comunidadeSelecionada === 'geral') {
-      // Fórum Geral (sem comunidade)
-         matchComunidade = comunidade === 'geral';
-  } else if (comunidadeSelecionada) {
-    // Comunidade específica (comparar IDs)
-         matchComunidade = comunidade === comunidadeSelecionada;
-  }
-     
-  postagem.style.display = (matchSearch && matchComunidade) ? 'block' : 'none';
-  });
+      
+   let matchComunidade = true;
+      if (comunidadeSelecionada === 'geral') {
+        matchComunidade = comunidade === 'geral';
+     } else if (comunidadeSelecionada) {
+      matchComunidade = comunidade === comunidadeSelecionada;
+         }
+         
+     postagem.style.display = (matchSearch && matchComunidade) ? 'block' : 'none';
+       });
         }
 
-  function ordenarPostagens() {
-            const ordem = filterOrdenacao.value;
-   const container = document.querySelector('.postagens-list');
+     function ordenarPostagens() {
+     const ordem = filterOrdenacao.value;
+            const container = document.querySelector('.postagens-list');
             const postagensArray = Array.from(postagens);
 
-         postagensArray.sort((a, b) => {
+            postagensArray.sort((a, b) => {
    const dataA = parseInt(a.dataset.data);
       const dataB = parseInt(b.dataset.data);
 
-                if (ordem === 'recente') return dataB - dataA;
-       if (ordem === 'antigo') return dataA - dataB;
-              if (ordem === 'populares') {
-      return parseInt(b.dataset.popularidade || 0) - parseInt(a.dataset.popularidade || 0);
+        if (ordem === 'recente') return dataB - dataA;
+     if (ordem === 'antigo') return dataA - dataB;
+      if (ordem === 'populares') {
+  return parseInt(b.dataset.popularidade || 0) - parseInt(a.dataset.popularidade || 0);
        }
-         if (ordem === 'comentadas') {
-              return parseInt(b.dataset.comentarios || 0) - parseInt(a.dataset.comentarios || 0);
-         }
-         return 0;
+   if (ordem === 'comentadas') {
+     return parseInt(b.dataset.comentarios || 0) - parseInt(a.dataset.comentarios || 0);
+       }
+ return 0;
             });
 
-     postagensArray.forEach(postagem => container.appendChild(postagem));
+    postagensArray.forEach(postagem => container.appendChild(postagem));
         }
 
         searchInput.addEventListener('input', aplicarFiltros);
@@ -273,31 +278,21 @@ foreach (var p in Model)
         filterOrdenacao.addEventListener('change', ordenarPostagens);
 
         clearFilters.addEventListener('click', function () {
-     searchInput.value = '';
- filterComunidade.value = '';
+      searchInput.value = '';
+    filterComunidade.value = '';
     filterOrdenacao.value = 'recente';
- aplicarFiltros();
-    ordenarPostagens();
+            aplicarFiltros();
+        ordenarPostagens();
         });
-      
- // ? SOLUÇÃO LIMPA E SIMPLES  
-    console.log('?? Ativando cards clicáveis em postagens...');
-   
-   document.querySelectorAll('.postagem-card').forEach(card => {
-        const url = card.getAttribute('data-url');
+        
+    // Ativar navegação ao clicar nos cards
+    document.querySelectorAll('.postagem-card').forEach(card => {
+      const url = card.getAttribute('data-url');
     
- console.log('?? Postagem URL:', url);
-       
-    // Click no card ? navega para Details
-   card.addEventListener('click', function() {
-     console.log('? Navegando:', url);
-          window.location.href = url;
+       card.addEventListener('click', function() {
+    window.location.href = url;
       });
+        });
     });
-     
-     console.log('? Cards ativados:', document.querySelectorAll('.postagem-card').length);
-
-    console.log('?? Sistema de estatísticas carregado!');
-  });
 </script>
 }
