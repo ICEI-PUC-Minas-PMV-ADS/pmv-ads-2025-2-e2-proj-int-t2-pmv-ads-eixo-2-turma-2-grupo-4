@@ -3,37 +3,180 @@
     ViewData["Title"] = "Comunidades";
     }
 
-    <div class="page-container">
+    <div class="page-container" style="max-width: 1200px;">
         <div class="page-card">
-            <div class="page-card-header">
-                <h1>@ViewData["Title"]</h1>
+
+            <div class="page-card-header d-flex justify-content-between align-items-center">
+                <h1><i class="bi bi-people-fill me-2"></i>@ViewData["Title"]</h1>
+                <a class="btn btn-light" href="/Comunidades/Create">
+                    <i class="bi bi-plus-circle me-1"></i>Nova Comunidade
+                </a>
             </div>
+
             <div class="page-card-body">
 
-                <p><a class="btn btn-primary" href="/Comunidades/Create">Nova Comunidade</a></p>
-
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead><tr><th>Nome</th><th>Descrição</th><th>Data</th><th></th></tr></thead>
-                        <tbody>
-                            @foreach(var c in Model){
-                            <tr>
-                                <td>@c.Nome</td>
-                                <td>@c.Descricao</td>
-                                <td>@c.DataCriacao.ToString("yyyy-MM-dd")</td>
-                                <td>
-                                    <div class="text-nowrap">
-                                        <a class="btn btn-sm btn-info" href="/Comunidades/Details/@c.Id">Detalhes</a>
-                                        <a class="btn btn-sm btn-warning" href="/Comunidades/Edit/@c.Id">Editar</a>
-                                        <a class="btn btn-sm btn-danger" href="/Comunidades/Delete/@c.Id">Excluir</a>
-                                    </div>
-                                </td>
-                            </tr>
-                }
-                        </tbody>
-                    </table>
+                <div class="postagens-filters mb-4 p-3 bg-light rounded shadow-sm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control border-start-0" id="searchComunidade" placeholder="Buscar comunidades...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" id="ordenarComunidades">
+                                <option value="recente">Mais Recentes</option>
+                                <option value="antiga">Mais Antigas</option>
+                                <option value="nome">Ordem Alfabética</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary w-100" onclick="limparFiltros()">
+                                <i class="bi bi-x-circle me-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
+                @if (!Model.Any())
+            {
+                <div class="alert alert-info d-flex align-items-center p-4" role="alert">
+                    <i class="bi bi-info-circle-fill fs-3 me-3"></i>
+                    <div>
+                        <h5>Nenhuma comunidade encontrada</h5>
+                        <p class="mb-0">Seja o primeiro a criar um novo espaço!</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row g-4" id="listaComunidades">
+                    @foreach (var item in Model)
+                    {
+                    <div class="col-md-6 col-lg-4 comunidade-item" data-nome="@item.Nome.ToLower()" data-data="@item.DataCriacao.Ticks">
+                        <a href="/Comunidades/Details/@item.Id" class="text-decoration-none text-dark">
+                            <div class="card h-100 border rounded shadow-sm position-relative hover-effect">
+
+                                <div class="card-img-top" style="height: 6px; background: linear-gradient(90deg, #0d6efd, #0dcaf0);"></div>
+
+                                <div class="card-body d-flex flex-column p-4">
+                                    <div class="d-flex align-items-start justify-content-between mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-light rounded-circle p-3 me-3 text-primary">
+                                                <i class="bi bi-people-fill fs-4"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="card-title fw-bold mb-1 text-dark">@item.Nome</h5>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-calendar3 me-1"></i> @item.DataCriacao.ToString("dd/MM/yyyy")
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="card-text text-secondary flex-grow-1" style="font-size: 0.95rem; line-height: 1.5;">
+                                        @if (!string.IsNullOrEmpty(item.Descricao))
+                                            {
+                                        @if(item.Descricao.Length > 120)
+                                                {
+                                        @item.Descricao.Substring(0, 120)<text>...</text>
+                                                }
+                                                else
+                                                {
+                                        @item.Descricao
+                                                }
+                                            }
+                                            else
+                                            {
+                                        <em class="text-muted">Sem descrição definida.</em>
+                                            }
+                                    </p>
+                                </div>
+
+                                <div class="card-footer bg-white border-top-0 p-3 pt-0">
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-eye me-1"></i> Ver Detalhes
+                                        </span>
+                                        <object>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-link text-muted" type="button" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                                    <li><a class="dropdown-item" href="/Comunidades/Edit/@item.Id"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="/Comunidades/Delete/@item.Id"><i class="bi bi-trash me-2"></i>Excluir</a></li>
+                                                </ul>
+                                            </div>
+                                        </object>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                </div>
+            }
             </div>
         </div>
     </div>
+
+    @section Scripts {
+        <script>
+            // 1. Lógica de Pesquisa (Já estava funcionando)
+            document.getElementById('searchComunidade').addEventListener('input', function () {
+                let termo = this.value.toLowerCase();
+                filtrarEOrdenar(); // Chama a função centralizadora
+            });
+
+            // 2. Lógica de Ordenação (NOVO)
+            document.getElementById('ordenarComunidades').addEventListener('change', function () {
+                filtrarEOrdenar(); // Reordena sempre que mudar a opção
+            });
+
+            // Função Central para filtrar e ordenar ao mesmo tempo
+            function filtrarEOrdenar() {
+                const container = document.getElementById('listaComunidades');
+                const items = Array.from(document.getElementsByClassName('comunidade-item'));
+                const termo = document.getElementById('searchComunidade').value.toLowerCase();
+                const criterio = document.getElementById('ordenarComunidades').value;
+
+                // Passo A: Filtrar (Mostrar/Ocultar)
+                items.forEach(item => {
+                    const nome = item.getAttribute('data-nome');
+                    const match = nome.includes(termo);
+                    item.style.display = match ? 'block' : 'none';
+                });
+
+                // Passo B: Ordenar os elementos visíveis e invisíveis no DOM
+                items.sort((a, b) => {
+                    const dataA = parseInt(a.getAttribute('data-data'));
+                    const dataB = parseInt(b.getAttribute('data-data'));
+                    const nomeA = a.getAttribute('data-nome');
+                    const nomeB = b.getAttribute('data-nome');
+
+                    switch (criterio) {
+                        case 'recente':
+                            return dataB - dataA; // Do maior para o menor (Decrescente)
+                        case 'antiga':
+                            return dataA - dataB; // Do menor para o maior (Crescente)
+                        case 'nome':
+                            return nomeA.localeCompare(nomeB); // Alfabética
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Reorganiza os elementos na tela
+                items.forEach(item => container.appendChild(item));
+            }
+
+            // 3. Botão Limpar
+            function limparFiltros() {
+                document.getElementById('searchComunidade').value = '';
+                document.getElementById('ordenarComunidades').value = 'recente';
+                filtrarEOrdenar(); // Reseta tudo
+            }
+        </script>
+    }

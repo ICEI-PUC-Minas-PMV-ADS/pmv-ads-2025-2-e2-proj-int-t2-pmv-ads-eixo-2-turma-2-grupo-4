@@ -27,5 +27,6 @@ namespace Atria.Models
 
         public ICollection<UsuarioGrupo> Usuarios { get; set; } = new List<UsuarioGrupo>();
         public ICollection<Postagem>? Postagens { get; set; } = new List<Postagem>();
+        public virtual ICollection<Mensagem> Mensagens { get; set; } = new List<Mensagem>();
     }
 }

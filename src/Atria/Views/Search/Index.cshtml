@@ -1,0 +1,190 @@
+@model Atria.Models.SearchResultsViewModel
+@{
+    ViewData["Title"] = "Pesquisa Geral";
+}
+
+<div class="page-container">
+    <div class="page-card shadow-lg" style="min-height: 85vh;">
+        
+        <div class="p-4 bg-light border-bottom">
+            <form asp-action="Index" method="get">
+                <div class="input-group input-group-lg shadow-sm">
+                    <span class="input-group-text bg-white border-0 text-primary ps-4">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="q" class="form-control border-0 py-3" 
+                           placeholder="Busque por pessoas, comunidades ou conteúdo..." 
+                           value="@Model.Termo" autocomplete="off">
+                    <button class="btn btn-primary fw-bold px-5" type="submit">Pesquisar</button>
+                </div>
+            </form>
+
+            <ul class="nav nav-pills mt-4 gap-2" id="searchTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-tudo">Tudo</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-pessoas">
+                        Pessoas <span class="badge bg-light text-dark ms-1">@Model.Usuarios.Count</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-comunidades">
+                        Comunidades <span class="badge bg-light text-dark ms-1">@Model.Comunidades.Count</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill fw-bold" data-bs-toggle="pill" data-bs-target="#tab-posts">
+                        Postagens <span class="badge bg-light text-dark ms-1">@Model.Postagens.Count</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="page-card-body p-4">
+            
+            @if (!Model.TemResultados && !string.IsNullOrWhiteSpace(Model.Termo))
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-emoji-frown fs-1 mb-3 d-block"></i>
+                    <h4>Nada encontrado</h4>
+                    <p>Tente buscar com outras palavras.</p>
+                </div>
+            }
+            else if (string.IsNullOrWhiteSpace(Model.Termo))
+            {
+                <div class="text-center py-5 text-muted opacity-75">
+                    <i class="bi bi-search fs-1 mb-3 d-block"></i>
+                    <h4>Central de Busca</h4>
+                    <p>Digite acima para explorar a plataforma.</p>
+                </div>
+            }
+            else
+            {
+                <div class="tab-content" id="searchTabsContent">
+                    
+                    <div class="tab-pane fade show active" id="tab-tudo">
+                        @if(Model.Usuarios.Any()) {
+                            <h5 class="text-secondary fw-bold mb-3 mt-2"><i class="bi bi-person"></i> Pessoas</h5>
+                            <div class="row g-3 mb-4">
+                                @foreach(var u in Model.Usuarios.Take(4)) {
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center p-3 border rounded bg-white hover-effect">
+                                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 text-primary fw-bold flex-shrink-0" style="width: 50px; height: 50px;">
+                                                @(u.Nome?.Substring(0, 1).ToUpper() ?? "U")
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h6 class="mb-0 text-truncate text-dark fw-bold">@u.Nome</h6>
+                                                <small class="text-muted text-truncate d-block">@u.AreaEstudo</small>
+                                            </div>
+                                            <a asp-controller="Profile" asp-action="Visualizar" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary rounded-pill ms-2">Ver</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @if(Model.Comunidades.Any()) {
+                            <h5 class="text-secondary fw-bold mb-3"><i class="bi bi-people"></i> Comunidades</h5>
+                            <div class="list-group mb-4">
+                                @foreach(var c in Model.Comunidades.Take(3)) {
+                                    <a asp-controller="Comunidades" asp-action="Details" asp-route-id="@c.Id" class="list-group-item list-group-item-action p-3 border rounded mb-2">
+                                        <h6 class="mb-1 fw-bold text-primary">@c.Nome</h6>
+                                        <p class="mb-0 small text-secondary">@c.Descricao</p>
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-pessoas">
+                        <div class="row g-3">
+                            @foreach(var u in Model.Usuarios) {
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center p-3 border rounded bg-white">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 fw-bold flex-shrink-0" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                            @(u.Nome?.Substring(0, 1).ToUpper() ?? "U")
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-0 text-dark fw-bold">@u.Nome</h5>
+                                            <span class="badge bg-light text-dark border">@u.TipoUsuario</span>
+                                            <small class="text-muted d-block mt-1">@(u.AreaEstudo ?? "Sem área definida")</small>
+                                        </div>
+                                        <a asp-controller="Profile" asp-action="Visualizar" asp-route-id="@u.Id" class="btn btn-primary rounded-pill px-4">Perfil</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-comunidades">
+                        <div class="row g-3">
+                            @foreach(var c in Model.Comunidades) {
+                                <div class="col-12">
+                                    <div class="p-3 border rounded bg-white">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="fw-bold text-primary mb-1">@c.Nome</h5>
+                                                <p class="text-secondary mb-0">@c.Descricao</p>
+                                            </div>
+                                            <a asp-controller="Comunidades" asp-action="Details" asp-route-id="@c.Id" class="btn btn-outline-primary btn-sm rounded-pill">Acessar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-posts">
+                        <div class="d-flex flex-column gap-3">
+                            @foreach(var p in Model.Postagens) {
+                                <div class="card border shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="fw-bold text-dark me-2">@p.Usuario?.Nome</div>
+                                            <small class="text-muted">• @p.DataPostagem.ToLocalTime().ToString("dd/MM/yyyy")</small>
+                                        </div>
+                                        <a asp-controller="Postagens" asp-action="Details" asp-route-id="@p.Id" class="text-decoration-none">
+                                            <h5 class="card-title fw-bold text-dark">@p.Titulo</h5>
+                                            <p class="card-text text-secondary">@p.Conteudo</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Abas estilo "Pill" moderno */
+    .nav-pills .nav-link {
+        color: #6c757d;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        transition: all 0.2s ease;
+    }
+    .nav-pills .nav-link.active {
+        background-color: #0d6efd; /* Azul primário */
+        color: white;
+        border-color: #0d6efd;
+        box-shadow: 0 4px 6px rgba(13, 110, 253, 0.3);
+    }
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: #e9ecef;
+    }
+    
+    /* Hover sutil nos cards */
+    .hover-effect {
+        transition: transform 0.2s;
+    }
+    .hover-effect:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        border-color: #0d6efd !important;
+    }
+</style>

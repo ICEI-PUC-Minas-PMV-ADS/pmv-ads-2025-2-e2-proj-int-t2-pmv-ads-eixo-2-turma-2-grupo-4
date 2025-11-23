@@ -1,0 +1,90 @@
+@model Atria.Models.ChatPrivadoViewModel
+@{
+    ViewData["Title"] = "Chat com " + Model.UsuarioDestino.Nome;
+
+    // Pega ID do logado para alinhar balões
+    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+    int currentUserId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
+}
+
+<div class="page-container">
+
+    <div class="card border-0 shadow-sm mb-3 bg-white">
+        <div class="card-body p-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm"
+                     style="width: 45px; height: 45px; font-size: 1.2rem;">
+                    @(Model.UsuarioDestino.Nome.Substring(0,1).ToUpper())
+                </div>
+                <div>
+                    <h5 class="fw-bold m-0 text-dark">@Model.UsuarioDestino.Nome</h5>
+                    <small class="text-muted"><i class="bi bi-circle-fill text-success" style="font-size: 8px;"></i> Disponível</small>
+                </div>
+            </div>
+
+            <a asp-controller="Profile" asp-action="Visualizar" asp-route-id="@Model.UsuarioDestino.Id" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-person-badge"></i> Ver Perfil
+            </a>
+        </div>
+    </div>
+
+    <div class="card border shadow-sm" style="height: 70vh; display: flex; flex-direction: column;">
+
+        <div class="card-body bg-light p-4" id="chat-direct-scroll" style="flex-grow: 1; overflow-y: auto; scroll-behavior: smooth;">
+            @if (Model.Mensagens != null && Model.Mensagens.Any())
+            {
+            @foreach (var msg in Model.Mensagens)
+                {
+                    bool souEu = msg.FKRemetente == currentUserId;
+
+            <div class="d-flex mb-3 @(souEu ? "justify-content-end" : "justify-content-start")">
+
+                <div style="max-width: 75%;">
+                    <div class="p-3 px-4 rounded-3 shadow-sm text-break"
+                         style="background-color: @(souEu ? "#6f42c1" : "#ffffff");
+                                        color: @(souEu ? "#fff" : "#212529");
+                                        border-bottom-right-radius: @(souEu ? "0" : "1rem");
+                                        border-bottom-left-radius: @(!souEu ? "0" : "1rem");">
+                        @msg.Conteudo
+                    </div>
+                    <div class="text-muted mt-1 @(souEu ? "text-end" : "text-start")" style="font-size: 0.7rem;">
+                        @msg.DataEnvio.ToLocalTime().ToString("HH:mm")
+                    </div>
+                </div>
+            </div>
+                }
+            }
+            else
+            {
+            <div class="text-center py-5 mt-5 opacity-50">
+                <div class="bg-white p-3 rounded-circle d-inline-block mb-3 shadow-sm">
+                    <i class="bi bi-chat-heart fs-1 text-danger"></i>
+                </div>
+                <p>Inicie uma conversa com <strong>@Model.UsuarioDestino.Nome</strong>!</p>
+            </div>
+            }
+        </div>
+
+        <div class="card-footer bg-white p-3 border-top">
+            <form asp-controller="Mensagens" asp-action="Enviar" method="post" class="d-flex gap-2" autocomplete="off">
+
+                <input type="hidden" name="destinatarioId" value="@Model.UsuarioDestino.Id" />
+
+                <input type="text" name="conteudo" class="form-control bg-light"
+                       placeholder="Escreva uma mensagem..." required autofocus />
+
+                <button type="submit" class="btn btn-primary px-4" style="background-color: #6f42c1; border-color: #6f42c1;">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Rolar para o fim
+    window.onload = function() {
+        var chat = document.getElementById("chat-direct-scroll");
+        if(chat) chat.scrollTop = chat.scrollHeight;
+    }
+</script>

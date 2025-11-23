@@ -1,34 +1,49 @@
 @model Atria.Models.GrupoEstudo
 @{
-    ViewData["Title"] = "Criar Grupo";
+    ViewData["Title"] = "Nova Sala de Estudos";
 }
 
-<div class="page-container">
+<div class="page-container" style="max-width: 800px;">
     <div class="page-card">
-        <div class="page-card-header">
-            <h1>@ViewData["Title"]</h1>
-        </div>
-        <div class="page-card-body">
-            <form asp-action="Create" method="post">
 
+        <div class="page-card-header d-flex align-items-center">
+            <a href="javascript:history.back()" class="btn btn-sm btn-outline-light me-3">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h1 class="m-0 fs-3"><i class="bi bi-hash me-2"></i>@ViewData["Title"]</h1>
+        </div>
+
+        <div class="page-card-body p-4">
+            <p class="text-muted mb-4">Crie um espaço focado para discutir tópicos específicos dentro da comunidade.</p>
+
+            <form asp-action="Create" method="post">
                 <input type="hidden" asp-for="FKComunidade" value="@ViewBag.ComunidadeId" />
 
                 <div class="mb-3">
-                    <label class="form-label">Nome</label>
-                    <input class="form-control" asp-for="Nome" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Descrição</label>
-                    <textarea class="form-control" asp-for="Descricao"></textarea>
+                    <label asp-for="Nome" class="form-label fw-bold">Nome da Sala</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-chat-quote"></i></span>
+                        <input asp-for="Nome" class="form-control" placeholder="Ex: Dúvidas de Front-end, Hackathon 2025..." />
+                    </div>
+                    <span asp-validation-for="Nome" class="text-danger font-size-sm"></span>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Criar</button>
-                <a class="btn btn-secondary" href="/Comunidades/Details/@ViewBag.ComunidadeId">Cancelar</a>
+                <div class="mb-4">
+                    <label asp-for="Descricao" class="form-label fw-bold">Objetivo do Grupo</label>
+                    <textarea asp-for="Descricao" class="form-control" rows="4" placeholder="Descreva o que será discutido aqui..."></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger font-size-sm"></span>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="javascript:history.back()" class="btn btn-light border">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">
+                        <i class="bi bi-plus-lg me-1"></i> Criar Sala
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
 @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-}
+    <partial name="_ValidationScriptsPartial" /> }

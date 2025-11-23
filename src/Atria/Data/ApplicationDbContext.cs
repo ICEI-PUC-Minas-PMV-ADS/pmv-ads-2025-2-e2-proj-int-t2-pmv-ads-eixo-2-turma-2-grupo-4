@@ -28,6 +28,7 @@ namespace Atria.Data
         public DbSet<UsuarioComunidade> UsuariosComunidade { get; set; }
         public DbSet<ListaTemMaterial> ListaTemMateriais { get; set; }
         public DbSet<UsuarioGrupo> UsuariosGrupo { get; set; }
+        public DbSet<Mensagem> Mensagens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -222,45 +223,44 @@ namespace Atria.Data
             .OnDelete(DeleteBehavior.Cascade);
 
                 // Relacionamento auto-referenciado para comentários aninhados
-                b.HasOne(c => c.ComentarioPai)
-       .WithMany(c => c.Respostas)
-      .HasForeignKey(c => c.FKComentarioPai)
-  .HasConstraintName("FK_COMENTARIO_COMENTARIO_PAI")
-            .OnDelete(DeleteBehavior.Restrict);
+        b.HasOne(c => c.ComentarioPai)
+           .WithMany(c => c.Respostas)
+            .HasForeignKey(c => c.FKComentarioPai)
+        .HasConstraintName("FK_COMENTARIO_COMENTARIO_PAI")
+          .OnDelete(DeleteBehavior.Restrict);
             });
             
-   // NOVO: ComentarioAvaliacao mapping
-      builder.Entity<ComentarioAvaliacao>(b =>
-   {
-      b.ToTable("TB_COMENTARIO_AVALIACAO");
-      b.HasKey(c => c.Id).HasName("PK_TB_COMENTARIO_AVALIACAO");
-                b.Property(c => c.Id).HasColumnName("ID_COMENTARIO_AVALIACAO");
-   b.Property(c => c.Conteudo).HasColumnName("CONTEUDO").HasMaxLength(500).IsRequired();
-     b.Property(c => c.DataComentario).HasColumnName("DATA_COMENTARIO");
-       b.Property(c => c.FKAvaliacao).HasColumnName("FK_AVALIACAO");
-        b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
-      b.Property(c => c.FKComentarioPai).HasColumnName("FK_COMENTARIO_PAI");
+   // ? NOVO: ComentarioAvaliacao mapping
+   builder.Entity<ComentarioAvaliacao>(b =>
+ {
+   b.ToTable("TB_COMENTARIO_AVALIACAO");
+   b.HasKey(c => c.Id).HasName("PK_TB_COMENTARIO_AVALIACAO");
+    b.Property(c => c.Id).HasColumnName("ID_COMENTARIO_AVALIACAO");
+    b.Property(c => c.Conteudo).HasColumnName("CONTEUDO").HasMaxLength(500).IsRequired();
+   b.Property(c => c.DataComentario).HasColumnName("DATA_COMENTARIO");
+          b.Property(c => c.FKAvaliacao).HasColumnName("FK_AVALIACAO");
+  b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
+        b.Property(c => c.FKComentarioPai).HasColumnName("FK_COMENTARIO_PAI");
 
-                b.HasOne(c => c.Avaliacao)
-        .WithMany(a => a.Comentarios)
-.HasForeignKey(c => c.FKAvaliacao)
-        .HasConstraintName("FK_COMENTARIO_AVALIACAO_AVALIACAO")
-        .OnDelete(DeleteBehavior.Cascade);
+      b.HasOne(c => c.Avaliacao)
+     .WithMany(a => a.Comentarios)
+        .HasForeignKey(c => c.FKAvaliacao)
+.HasConstraintName("FK_COMENTARIO_AVALIACAO_AVALIACAO")
+.OnDelete(DeleteBehavior.Cascade);
 
-      b.HasOne(c => c.Usuario)
-            .WithMany()
-    .HasForeignKey(c => c.FKUsuario)
-   .HasConstraintName("FK_COMENTARIO_AVALIACAO_USUARIO")
-       .OnDelete(DeleteBehavior.Cascade);
+  b.HasOne(c => c.Usuario)
+.WithMany()
+       .HasForeignKey(c => c.FKUsuario)
+ .HasConstraintName("FK_COMENTARIO_AVALIACAO_USUARIO")
+           .OnDelete(DeleteBehavior.Cascade);
 
-          // Relacionamento auto-referenciado para comentários de avaliação aninhados
-    b.HasOne(c => c.ComentarioPai)
-   .WithMany(c => c.Respostas)
-               .HasForeignKey(c => c.FKComentarioPai)
-         .HasConstraintName("FK_COMENTARIO_AVALIACAO_COMENTARIO_PAI")
-              .OnDelete(DeleteBehavior.Restrict);
-            });
-
+  // Relacionamento auto-referenciado para comentários de avaliação aninhados
+  b.HasOne(c => c.ComentarioPai)
+       .WithMany(c => c.Respostas)
+  .HasForeignKey(c => c.FKComentarioPai)
+  .HasConstraintName("FK_COMENTARIO_AVALIACAO_COMENTARIO_PAI")
+.OnDelete(DeleteBehavior.Restrict);
+ });
             builder.Entity<GrupoEstudo>(b =>
             {
                 b.ToTable("TB_GRUPO_ESTUDO");
@@ -339,80 +339,53 @@ namespace Atria.Data
             });
 
             // N:M UsuarioGrupo
-          builder.Entity<UsuarioGrupo>(b =>
-      {
-    b.ToTable("TB_USUARIO_GRUPO");
-          b.HasKey("FKUsuario", "FKGrupo").HasName("PK_TB_USUARIO_GRUPO");
-            b.Property(p => p.FKUsuario).HasColumnName("FK_USUARIO");
-   b.Property(p => p.FKGrupo).HasColumnName("FK_GRUPO");
+            builder.Entity<UsuarioGrupo>(b =>
+            {
+                b.ToTable("TB_USUARIO_GRUPO");
+                b.HasKey("FKUsuario", "FKGrupo").HasName("PK_TB_USUARIO_GRUPO");
+                b.Property(p => p.FKUsuario).HasColumnName("FK_USUARIO");
+                b.Property(p => p.FKGrupo).HasColumnName("FK_GRUPO");
                 b.Property(p => p.DataEntrada).HasColumnName("DATA_ENTRADA");
 
-  b.HasOne(p => p.Usuario)
-            .WithMany()
-    .HasForeignKey(p => p.FKUsuario)
-     .HasConstraintName("FK_USUARIOGRUPO_USUARIO")
-         .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(p => p.Usuario)
+                    .WithMany()
+                    .HasForeignKey(p => p.FKUsuario)
+                    .HasConstraintName("FK_USUARIOGRUPO_USUARIO")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            b.HasOne(p => p.GrupoEstudo)
-         .WithMany(g => g.Usuarios)
-.HasForeignKey(p => p.FKGrupo)
-        .HasConstraintName("FK_USUARIOGRUPO_GRUPO")
-       .OnDelete(DeleteBehavior.Cascade);
- });
-
-  // NOVO: CurtidaComentario mapping
-            builder.Entity<CurtidaComentario>(b =>
-            {
-      b.ToTable("TB_CURTIDA_COMENTARIO");
-          b.HasKey(c => c.Id).HasName("PK_TB_CURTIDA_COMENTARIO");
-   b.Property(c => c.Id).HasColumnName("ID_CURTIDA");
-  b.Property(c => c.FKComentario).HasColumnName("FK_COMENTARIO");
-       b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
-      b.Property(c => c.DataCurtida).HasColumnName("DATA_CURTIDA");
-  b.Property(c => c.Tipo).HasColumnName("TIPO").HasMaxLength(10);
-
-          b.HasOne(c => c.Comentario)
-            .WithMany(com => com.Curtidas)
-       .HasForeignKey(c => c.FKComentario)
-          .HasConstraintName("FK_CURTIDA_COMENTARIO")
-      .OnDelete(DeleteBehavior.Cascade);
-
-              b.HasOne(c => c.Usuario)
-    .WithMany()
-          .HasForeignKey(c => c.FKUsuario)
-      .HasConstraintName("FK_CURTIDA_USUARIO")
-      .OnDelete(DeleteBehavior.Cascade);
-
-       // Regra: Um usuário só pode curtir um comentário uma vez
-         b.HasIndex(c => new { c.FKUsuario, c.FKComentario }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_COMENTARIO");
+                b.HasOne(p => p.GrupoEstudo)
+                    .WithMany(g => g.Usuarios)
+                    .HasForeignKey(p => p.FKGrupo)
+                    .HasConstraintName("FK_USUARIOGRUPO_GRUPO")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
-
- // NOVO: CurtidaComentarioAvaliacao mapping
-      builder.Entity<CurtidaComentarioAvaliacao>(b =>
+   // N:M Mensagem
+   builder.Entity<Mensagem>(b =>
    {
-   b.ToTable("TB_CURTIDA_COMENTARIO_AVALIACAO");
-      b.HasKey(c => c.Id).HasName("PK_TB_CURTIDA_COMENTARIO_AVALIACAO");
-       b.Property(c => c.Id).HasColumnName("ID_CURTIDA");
-      b.Property(c => c.FKComentarioAvaliacao).HasColumnName("FK_COMENTARIO_AVALIACAO");
-      b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
-       b.Property(c => c.DataCurtida).HasColumnName("DATA_CURTIDA");
-    b.Property(c => c.Tipo).HasColumnName("TIPO").HasMaxLength(10);
+       b.ToTable("TB_MENSAGEM");
+       b.HasKey(m => m.Id).HasName("PK_TB_MENSAGEM");
 
-    b.HasOne(c => c.ComentarioAvaliacao)
-    .WithMany(com => com.Curtidas)
-   .HasForeignKey(c => c.FKComentarioAvaliacao)
-    .HasConstraintName("FK_CURTIDA_COMENTARIO_AVALIACAO")
-   .OnDelete(DeleteBehavior.Cascade);
+       // Configuração: Quem enviou
+       b.HasOne(m => m.Remetente)
+           .WithMany() // Usuário pode enviar muitas mensagens
+           .HasForeignKey(m => m.FKRemetente)
+           .HasConstraintName("FK_MENSAGEM_REMETENTE")
+           .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict para não quebrar o banco
 
-   b.HasOne(c => c.Usuario)
-      .WithMany()
-       .HasForeignKey(c => c.FKUsuario)
-       .HasConstraintName("FK_CURTIDA_AVALIACAO_USUARIO")
-.OnDelete(DeleteBehavior.Cascade);
+       // Configuração: Chat de Grupo
+       b.HasOne(m => m.GrupoEstudo)
+           .WithMany(g => g.Mensagens) // Já vamos adicionar essa lista no GrupoEstudo
+           .HasForeignKey(m => m.FKGrupo)
+           .HasConstraintName("FK_MENSAGEM_GRUPO")
+           .OnDelete(DeleteBehavior.Cascade); // Se apagar o grupo, apaga as mensagens dele
 
-      // Regra: Um usuário só pode curtir um comentário de avaliação uma vez
-     b.HasIndex(c => new { c.FKUsuario, c.FKComentarioAvaliacao }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_COMENTARIO_AVALIACAO");
-     });
-    }
+       // Configuração: Direct Message (DM)
+       b.HasOne(m => m.Destinatario)
+           .WithMany()
+           .HasForeignKey(m => m.FKDestinatario)
+           .HasConstraintName("FK_MENSAGEM_DESTINATARIO")
+           .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict também
+   });
+        }
     }
 }

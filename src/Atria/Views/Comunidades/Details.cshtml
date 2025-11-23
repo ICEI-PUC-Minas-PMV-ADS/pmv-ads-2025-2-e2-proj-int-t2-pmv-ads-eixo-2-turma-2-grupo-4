@@ -1,227 +1,186 @@
 ﻿@model Atria.Models.Comunidade
 @{
-    ViewData["Title"] = "Detalhes da Comunidade";
-
-    // Lógica C# para determinar a aba ativa
-    var activeTab = Context.Request.Query["tab"].FirstOrDefault() ?? "postagens";
-    var currentPath = Context.Request.Path;
-
-    // Assumindo que a lista de postagens está no Model.
-    // SE NÃO ESTIVER, ESTA LINHA PRECISA SER AJUSTADA (ex: usar ViewBag)
-    var postagensDaComunidade = Model.Postagens as IEnumerable<Atria.Models.Postagem>;
-    if (postagensDaComunidade == null)
-    {
-        // Cria uma lista vazia se a propriedade Postagens não existir ou for nula,
-        // para evitar erros no @foreach.
-        postagensDaComunidade = Enumerable.Empty<Atria.Models.Postagem>();
-    }
+    ViewData["Title"] = Model.Nome;
+    // Tenta pegar o ID do usuário logado para mostrar opções de edição/exclusão nos posts dele
+    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+    string currentUserId = userIdClaim?.Value ?? "";
 }
-
-<div class="page-container" style="margin-bottom: 0;">
-    <div class="page-card">
-        <div class="page-card-header">
-            <h1>@Model.Nome</h1>
-        </div>
-        <div class="page-card-body">
-            <p><strong>Descrição:</strong> @Model.Descricao</p>
-            <p><strong>Data:</strong> @Model.DataCriacao.ToString("yyyy-MM-dd")</p>
-            <hr />
-            <p><a class="btn btn-secondary" href="/Comunidades">Voltar</a></p>
-        </div>
-    </div>
-</div>
-
-<div class="nav-buttons-container">
-    <a href="@(currentPath)?tab=postagens"
-       class="nav-button @(activeTab == "postagens" ? "active" : "")">
-        Postagens
-    </a>
-
-    <a href="@(currentPath)?tab=grupos"
-       class="nav-button @(activeTab == "grupos" ? "active" : "")">
-        Grupos de Estudo
-    </a>
-</div>
-
 
 <div class="page-container">
 
-    @if (activeTab == "postagens")
-    {
-    <div id="postagens-content">
-        <div class="page-card">
-            <div class="page-card-header d-flex justify-content-between align-items-center">
-                <h1><i class="bi bi-chat-left-text-fill me-2"></i>Postagens da Comunidade</h1>
-                @if (User.Identity?.IsAuthenticated ?? false)
-                {
-                <a class="btn btn-light" href="/Postagens/Create?comunidadeId=@Model.Id">
-                    <i class="bi bi-plus-circle me-1"></i>Nova Postagem
-                </a>
-                }
-            </div>
-
-            <div class="page-card-body">
-
-                <div class="postagens-filters mb-4 p-3 bg-light rounded shadow-sm">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                                <input type="text" class="form-control" id="searchInput" placeholder="Buscar postagens..." disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" id="filterComunidade" disabled>
-                                <option value="@Model.Id" selected>@Model.Nome</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" id="filterOrdenacao" disabled>
-                                <option value="recente">Mais Recentes</option>
-                                <option value="antigo">Mais Antigas</option>
-                                <option value="populares">Mais Populares</option>
-                                <option value="comentadas">Mais Comentadas</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-outline-secondary w-100" id="clearFilters" disabled>
-                                <i class="bi bi-x-circle me-1"></i>Limpar
-                            </button>
-                        </div>
+    <div class="page-card mb-4">
+        <div class="page-card-body p-4">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h1 class="fw-bold text-dark mb-2">@Model.Nome</h1>
+                    <p class="text-secondary mb-3">@Model.Descricao</p>
+                    <div class="text-muted small">
+                        <i class="bi bi-calendar3 me-1"></i> Criada em @Model.DataCriacao.ToString("dd/MM/yyyy")
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-people-fill me-1"></i> @(Model.Postagens?.Count ?? 0) postagens
                     </div>
                 </div>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
 
-                <div class="postagens-list">
-                    @if (postagensDaComunidade.Any())
-                    {
-                        foreach (var p in postagensDaComunidade)
+    <div class="d-flex gap-2 mb-3">
+        <button class="btn btn-primary flex-grow-1 fw-bold" id="btn-tab-posts" onclick="switchTab('posts')">
+            <i class="bi bi-chat-square-text-fill me-2"></i>Postagens
+        </button>
+        <button class="btn btn-dark flex-grow-1 fw-bold opacity-75" id="btn-tab-grupos" onclick="switchTab('grupos')">
+            <i class="bi bi-grid-fill me-2"></i>Grupos de Estudo
+        </button>
+    </div>
+
+    <div id="tab-posts" class="animate-fade">
+        <div class="page-card bg-light border-0">
+
+            <div class="page-card-header d-flex justify-content-between align-items-center bg-dark text-white rounded-top">
+                <h4 class="m-0 fs-5"><i class="bi bi-chat-left-text me-2"></i>Postagens da Comunidade</h4>
+                <a asp-controller="Postagens" asp-action="Create" asp-route-comunidadeId="@Model.Id" class="btn btn-light text-dark fw-bold btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i>Nova Postagem
+                </a>
+            </div>
+
+            <div class="p-3">
+                @if (Model.Postagens != null && Model.Postagens.Any())
+                {
+                <div class="row g-3">
+                    @foreach (var item in Model.Postagens)
                         {
-                    <div class="postagem-card mb-3 border rounded shadow-sm bg-white"
-                         data-comunidade="@(p.FKComunidade?.ToString() ?? "geral")"
-                         data-data="@p.DataPostagem.Ticks"
-                         data-postagem-id="@p.Id">
-                        <div class="postagem-header p-3 border-bottom bg-light d-flex justify-content-between align-items-start">
-                            <div class="postagem-user-info d-flex align-items-start">
-                                <div class="postagem-avatar me-3">
-                                    <i class="bi bi-person-circle text-primary" style="font-size: 2.5rem;"></i>
-                                </div>
-                                <div>
-                                    <div class="postagem-user-name fw-bold text-dark">@(p.Usuario?.Nome ?? "Usuário")</div>
-                                    <div class="postagem-meta text-muted small">
-                                        <span class="postagem-date me-3">
-                                            <i class="bi bi-clock me-1"></i>@p.DataPostagem.ToString("dd/MM/yyyy HH:mm")
-                                        </span>
-                                        @* O nome da comunidade é omitido aqui, pois já estamos dentro dela *@
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                            @(item.Usuario?.Nome?.Substring(0,1).ToUpper() ?? "?")
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark">@item.Usuario?.Nome</div>
+                                            <small class="text-muted">@item.DataPostagem.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small>
+                                        </div>
                                     </div>
+
+                                    @if (currentUserId == item.FKUsuario.ToString())
+                                            {
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" asp-controller="Postagens" asp-action="Edit" asp-route-id="@item.Id">Editar</a></li>
+                                            <li><a class="dropdown-item text-danger" asp-controller="Postagens" asp-action="Delete" asp-route-id="@item.Id">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                            }
                                 </div>
-                            </div>
 
-                            @if (User.Identity?.IsAuthenticated ?? false)
-                                    {
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="/Postagens/Edit/@p.Id">
-                                            <i class="bi bi-pencil me-2"></i>Editar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="/Postagens/Delete/@p.Id">
-                                            <i class="bi bi-trash me-2"></i>Excluir
-                                        </a>
-                                    </li>
-                                </ul>
+                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                    <h5 class="card-title text-primary fw-bold mb-2">@item.Titulo</h5>
+                                    <p class="card-text text-secondary text-truncate">@item.Conteudo</p>
+                                </a>
                             </div>
-                                    }
-                        </div>
-
-                        <div class="postagem-content p-3">
-                            <p class="postagem-preview mb-2 text-dark">
-                                @(p.Conteudo.Length > 200 ? p.Conteudo.Substring(0, 200) + "..." : p.Conteudo)
-                            </p>
-                            @if (p.Conteudo.Length > 200)
-                                    {
-                            <a href="/Postagens/Details/@p.Id" class="postagem-read-more text-primary text-decoration-none fw-semibold">
-                                Ler mais <i class="bi bi-arrow-right"></i>
-                            </a>
-                                    }
-                        </div>
-
-                        <div class="postagem-footer p-3 border-top bg-light d-flex justify-content-between align-items-center">
-                            <div class="postagens-stats d-flex gap-3">
-                                <span class="postagem-stat text-muted" title="Visualizações">
-                                    <i class="bi bi-eye me-1"></i>
-                                    <span class="visualizacoes-count" data-id="@p.Id">0</span>
-                                </span>
-                                <span class="postagem-stat text-muted" title="Comentários">
-                                    <i class="bi bi-chat-dots me-1"></i>
-                                    <span class="comentarios-count" data-id="@p.Id">0</span>
-                                </span>
-                                <span class="postagem-stat text-muted" title="Curtidas">
-                                    <i class="bi bi-heart me-1"></i>
-                                    <span class="curtidas-count" data-id="@p.Id">0</span>
-                                </span>
+                            <div class="card-footer bg-white border-top-0 pt-0 d-flex gap-3">
+                                <span class="text-muted small"><i class="bi bi-chat-dots me-1"></i> @(item.Comentarios?.Count ?? 0) comentários</span>
+                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" class="text-muted small text-decoration-none">
+                                    <i class="bi bi-eye me-1"></i> Ver detalhes
+                                </a>
                             </div>
-                            <a href="/Postagens/Details/@p.Id" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye me-1"></i>Ver Discussão
-                            </a>
                         </div>
                     </div>
                         }
-                    }
-                    else
-                    {
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <i class="bi bi-info-circle me-2 fs-4"></i>
-                        <div>
-                            Nenhuma postagem encontrada nesta comunidade. Seja o primeiro a compartilhar algo!
-                        </div>
+                </div>
+                }
+                else
+                {
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                    <div>
+                        <strong>Nenhuma postagem encontrada.</strong>
+                        <br>Seja o primeiro a compartilhar conhecimento nesta comunidade!
                     </div>
-                    }
                 </div>
+                }
             </div>
         </div>
     </div>
-    }
 
-    @if (activeTab == "grupos")
-    {
-    <div id="grupos-content">
+    <div id="tab-grupos" class="animate-fade" style="display: none;">
         <div class="page-card">
-            <div class="page-card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1>Grupos de Estudo</h1>
-                    <a class="btn btn-primary" href="/GruposEstudo/Create?comunidadeId=@Model.Id">
-                        <i class="bi bi-plus-circle"></i> Criar Novo Grupo
-                    </a>
-                </div>
+            <div class="page-card-header d-flex justify-content-between align-items-center">
+                <h4 class="m-0 fs-5"><i class="bi bi-grid-fill me-2"></i>Grupos de Estudo</h4>
+                <a asp-controller="GruposEstudo" asp-action="Create" asp-route-comunidadeId="@Model.Id" class="btn btn-success btn-sm text-white fw-bold">
+                    <i class="bi bi-plus-lg me-1"></i>Novo Grupo
+                </a>
             </div>
 
-            <div class="page-card-body">
-                @if (Model.GruposEstudo == null || !Model.GruposEstudo.Any())
-                    {
-                <p class="text-muted">Ainda não há grupos de estudo nesta comunidade.</p>
-                    }
-                    else
-                    {
+            <div class="page-card-body p-3">
+                @if (Model.GruposEstudo != null && Model.GruposEstudo.Any())
+                {
                 <div class="list-group">
-                    @foreach(var grupo in Model.GruposEstudo)
-                            {
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">@grupo.Nome</h5>
-                            <small>Criado em @grupo.DataCriacao.ToString("dd/MM/yy")</small>
+                    @foreach (var grupo in Model.GruposEstudo)
+                        {
+                    <a href="/GruposEstudo/Details/@grupo.Id" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded p-3 me-3 text-muted">
+                                <i class="bi bi-hash fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 text-dark fw-bold">@grupo.Nome</h5>
+                                <p class="mb-0 text-muted small">@grupo.Descricao</p>
+                            </div>
                         </div>
-                        <p class="mb-1">@grupo.Descricao</p>
+                        <i class="bi bi-chevron-right text-secondary"></i>
                     </a>
-                            }
+                        }
                 </div>
-                    }
+                }
+                else
+                {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-collection fs-1"></i>
+                    <p class="mt-2">Nenhum grupo de estudo criado ainda.</p>
+                </div>
+                }
             </div>
         </div>
     </div>
-    }
+
 </div>
+
+<script>
+    function switchTab(tabName) {
+        // Esconde tudo
+        document.getElementById('tab-posts').style.display = 'none';
+        document.getElementById('tab-grupos').style.display = 'none';
+
+        // Reseta botões para estilo padrão (escuro/opaco)
+        document.getElementById('btn-tab-posts').className = 'btn btn-dark flex-grow-1 fw-bold opacity-75';
+        document.getElementById('btn-tab-grupos').className = 'btn btn-dark flex-grow-1 fw-bold opacity-75';
+
+        // Ativa a aba clicada (Estilo Azul/Primary)
+        if (tabName === 'posts') {
+            document.getElementById('tab-posts').style.display = 'block';
+            document.getElementById('btn-tab-posts').className = 'btn btn-primary flex-grow-1 fw-bold';
+        } else {
+            document.getElementById('tab-grupos').style.display = 'block';
+            document.getElementById('btn-tab-grupos').className = 'btn btn-primary flex-grow-1 fw-bold';
+        }
+    }
+</script>
+
+<style>
+    /* Animação suave ao trocar de aba */
+    .animate-fade {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

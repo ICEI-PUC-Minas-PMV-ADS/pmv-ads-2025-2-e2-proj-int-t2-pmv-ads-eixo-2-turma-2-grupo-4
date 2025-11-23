@@ -1,29 +1,28 @@
 message: Please cite this software using these metadata.
-title:
+title: Atria
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
+  - family-names:  Pereira Zanhe
+    given-names: Higor Henrique
+  - family-names: Evangelho Bento
+    given-names: Isabela
+  - family-names: Maia e Silva
+    given-names: Denys Makene
+  - family-names: Pires Padilha França
+    given-names: João Carlos
+  - family-names: Muniz dos Reis
+    given-names: Sendrick Paz
+  - family-names:Malaquias Borges
+    given-names:Thiago Luigi
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: da Costa
+    given-names: José Wilson
   - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
-keywords:
-  - 
-  - 
-repository-code: 
+  
+keywords: 
+  - Educação
+  - Conexão
+  - Aprendizagem
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e2-proj-int-t2-pmv-ads-eixo-2-turma-2-grupo-4
 version: 1.0.0
-date-released: 2023-10-31
+date-released: 2025-12-08

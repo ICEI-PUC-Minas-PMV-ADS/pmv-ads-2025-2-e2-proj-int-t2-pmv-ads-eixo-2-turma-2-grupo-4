@@ -1,34 +1,99 @@
-@model Atria.Models.Material
+@model Atria.Models.EditProfileViewModel
 @{
-    ViewData["Title"] = "Editar Material";
+    ViewData["Title"] = "Editar Perfil";
 }
 
 <div class="page-container">
     <div class="page-card">
-        <div class="page-card-header">
-            <h1>@ViewData["Title"]</h1>
+
+        <div class="page-card-header d-flex justify-content-between align-items-center">
+            <h1><i class="bi bi-pencil-square me-2"></i>@ViewData["Title"]</h1>
+            <a href="/Profile" class="btn btn-light text-dark fw-bold">
+                <i class="bi bi-arrow-left me-1"></i>Voltar
+            </a>
         </div>
-        <div class="page-card-body">
+
+        <div class="page-card-body p-4">
+
             <form asp-action="Edit" method="post">
-                <input type="hidden" asp-for="Id" />
-                <div class="mb-3">
-                    <label class="form-label">Título</label>
-                    <input class="form-control" asp-for="Titulo" />
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6 border-end-md">
+                        <h5 class="mb-3 text-primary"><i class="bi bi-person-vcard me-2"></i>Dados Pessoais</h5>
+
+                        <div class="mb-3">
+                            <label asp-for="Nome" class="form-label fw-bold">Nome Completo</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                <input asp-for="Nome" class="form-control" placeholder="Seu nome completo" />
+                            </div>
+                            <span asp-validation-for="Nome" class="text-danger font-size-sm"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-bold">E-mail</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                                <input asp-for="Email" class="form-control" type="email" placeholder="seu@email.com" />
+                            </div>
+                            <div class="form-text text-muted">Ao alterar o e-mail, seu login também será alterado.</div>
+                            <span asp-validation-for="Email" class="text-danger font-size-sm"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-muted">Tipo de Usuário</label>
+                            <input type="text" class="form-control bg-light" value="@Model.TipoUsuario" readonly />
+                            <input type="hidden" asp-for="TipoUsuario" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ps-md-4">
+                        <h5 class="mb-3 text-primary"><i class="bi bi-mortarboard me-2"></i>Informações Acadêmicas</h5>
+
+                        <div class="mb-3">
+                            <label asp-for="AreaEstudo" class="form-label fw-bold">Área de Estudo</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-compass"></i></span>
+                                <input asp-for="AreaEstudo" class="form-control" placeholder="Ex: Engenharia de Software" />
+                            </div>
+                            <span asp-validation-for="AreaEstudo" class="text-danger font-size-sm"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TrilhaConhecimento" class="form-label fw-bold">Trilha de Conhecimento</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-signpost-2"></i></span>
+                                <input asp-for="TrilhaConhecimento" class="form-control" placeholder="Ex: Back-end .NET" />
+                            </div>
+                            <span asp-validation-for="TrilhaConhecimento" class="text-danger font-size-sm"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Projetos" class="form-label fw-bold">Meus Projetos</label>
+                            <textarea asp-for="Projetos" class="form-control" rows="4" placeholder="Descreva brevemente os projetos que você participa ou já participou..."></textarea>
+                            <span asp-validation-for="Projetos" class="text-danger font-size-sm"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Descrição</label>
-                    <textarea class="form-control" asp-for="Descricao"></textarea>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="/Profile" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">
+                        <i class="bi bi-check-lg me-1"></i> Salvar Alterações
+                    </button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Tipo</label>
-                    <select asp-for="Tipo" class="form-select">
-                        <option value="Livro">Livro</option>
-                        <option value="Artigo">Artigo</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" type="submit">Salvar</button>
-                <a class="btn btn-secondary" href="/Materiais">Cancelar</a>
+
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

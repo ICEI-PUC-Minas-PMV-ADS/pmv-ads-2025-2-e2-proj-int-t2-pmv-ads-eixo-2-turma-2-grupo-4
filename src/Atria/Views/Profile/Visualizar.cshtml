@@ -1,0 +1,87 @@
+@model Atria.Models.ViewProfileViewModel
+@{
+    ViewData["Title"] = Model.Nome;
+    bool souEu = ViewBag.SouEu;
+}
+
+<div class="page-container">
+    <div class="page-card">
+
+        <div class="page-card-header d-flex justify-content-between align-items-center">
+            <h1><i class="bi bi-person-badge me-2"></i>Perfil de Usuário</h1>
+            <a href="javascript:history.back()" class="btn btn-light text-dark fw-bold">
+                <i class="bi bi-arrow-left me-1"></i>Voltar
+            </a>
+        </div>
+
+        <div class="page-card-body p-4">
+            <div class="row g-5">
+
+                <div class="col-md-4 text-center border-end">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm"
+                         style="width: 140px; height: 140px; font-size: 4rem; color: #6c757d;">
+                        @(Model.Nome.Substring(0,1).ToUpper())
+                    </div>
+
+                    <h2 class="fw-bold mb-1">@Model.Nome</h2>
+                    <span class="badge bg-info text-dark mb-3">@Model.TipoUsuario</span>
+
+                    <div class="text-muted small mb-4">
+                        Membro desde @Model.DataCadastro.ToString("MMM/yyyy")
+                    </div>
+
+                    @if (!souEu)
+                    {
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Chat" asp-action="Privado" asp-route-userId="@Model.Id" class="btn btn-primary">
+                            <i class="bi bi-chat-text-fill me-2"></i>Enviar Mensagem
+                        </a>
+
+                        <button class="btn btn-outline-secondary" disabled title="Funcionalidade em breve">
+                            <i class="bi bi-person-plus-fill me-2"></i>Seguir
+                        </button>
+                    </div>
+                    }
+                    else
+                    {
+                    <a asp-action="Edit" class="btn btn-secondary w-100">
+                        <i class="bi bi-pencil-square me-2"></i>Editar Meu Perfil
+                    </a>
+                    }
+                </div>
+
+                <div class="col-md-8">
+                    <h4 class="text-primary mb-4"><i class="bi bi-journal-bookmark me-2"></i>Informações</h4>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light h-100">
+                                <small class="text-muted d-block fw-bold text-uppercase">Área de Estudo</small>
+                                <span class="fs-5">@(Model.AreaEstudo ?? "Não informada")</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light h-100">
+                                <small class="text-muted d-block fw-bold text-uppercase">Trilha</small>
+                                <span class="fs-5">@(Model.TrilhaConhecimento ?? "Não informada")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-dark mb-3">Sobre / Projetos</h5>
+                    <div class="p-4 border rounded bg-white">
+                        @if (!string.IsNullOrEmpty(Model.Projetos))
+                        {
+                        <p style="white-space: pre-line">@Model.Projetos</p>
+                        }
+                        else
+                        {
+                        <em class="text-muted">Este usuário ainda não descreveu seus projetos.</em>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
