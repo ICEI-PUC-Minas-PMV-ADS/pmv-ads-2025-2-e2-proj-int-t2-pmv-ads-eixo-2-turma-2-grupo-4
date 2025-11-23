@@ -34,7 +34,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
+          name: publish
           path: src/atria/publish
 
   deploy:
@@ -48,8 +48,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: publish
+          path: publish
       
+      - name: Show downloaded files (diagnostic)
+        run: dir publish -Recurse
+        shell: powershell
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -63,4 +68,4 @@ jobs:
         with:
           app-name: 'Atria'
           slot-name: 'Production'
-          package: ./.net-app
+          package: ./publish
