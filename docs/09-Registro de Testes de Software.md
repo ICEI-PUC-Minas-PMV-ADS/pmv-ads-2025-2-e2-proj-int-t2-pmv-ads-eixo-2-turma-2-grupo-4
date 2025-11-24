@@ -112,14 +112,10 @@ https://github.com/user-attachments/assets/b4a72264-4310-4295-a927-163787a6ee42
 | **Caso de Teste** 	| **CT19 – Personalizar Perfil com Projetos** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-020 - O sistema deve permitir que o usuário personalize seu perfil, adicionando a informação de projetos aos quais participa. |
-|Registro de evidência | Campo Projetos adicionado ao modelo ApplicationUser (varchar 1000). ProfileController.Edit permite adicionar e editar projetos com GET/POST actions. Campo
 
 https://github.com/user-attachments/assets/49e56d55-c6ed-4828-b6c3-478928d11e77
 
- implementado como textarea com suporte a múltiplas linhas (white-space: pre-wrap na view). Validação MaxLength(1000) implementada no modelo e view. Views exibem projetos formatados corretamente preservando quebras de linha. Migration aplicada ao banco com sucesso. |
-<<<<<<< HEAD
 
-=======
->>>>>>> 5bf50b9a0020ee847e5817be7be08825fc8214bc
+|Registro de evidência | Campo Projetos adicionado ao modelo ApplicationUser (varchar 1000). ProfileController.Edit permite adicionar e editar projetos com GET/POST actions. Campo
 
 
