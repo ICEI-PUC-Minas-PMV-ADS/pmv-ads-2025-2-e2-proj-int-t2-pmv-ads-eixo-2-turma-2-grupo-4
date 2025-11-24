@@ -49,6 +49,8 @@ https://github.com/user-attachments/assets/60507792-d699-48db-8d4d-9d771615d5ab
 |	Requisito Associado 	| RF-010 / RF-017 - O sistema deve permitir que o usuário crie e compartilhe listas de leitura personalizadas. |
 |Registro de evidência | ListasLeituraController.Create cria listas vinculadas ao usuário (FKUsuario), suporta Nome e Descrição. Modelo ListaTemMaterial permite relacionamento many-to-many com materiais através de tabela de junção com campo Ordem. |
 
+https://github.com/user-attachments/assets/52d4f793-3cef-4cf0-932d-79852fd73575
+
 | **Caso de Teste** 	| **CT11 – Personalizar Perfil com Área de Estudo** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-011 - O sistema deve permitir que o usuário personalize seu perfil, adicionando a informação de área de estudo. |
