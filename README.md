@@ -28,13 +28,13 @@ Este projeto é uma plataforma digital colaborativa e gratuita, projetada para c
 ## Instruções de Instalação, Execução e Acesso
 
 **Acesso rápido (produção)**
-* URL da aplicação: https://seu-dominio.com/caminho
-* Status: online / instável / em manutenção (atualize conforme o caso)
-* Ambiente: produção / homologação
+* URL da aplicação: [http://higorzanhe-001-site1.stempurl.com/](url)
+* Status: online
+* Ambiente: produção
 
 **Usuário(s) de teste (se houver):**
-* Login: usuario_teste
-* Senha: senha_teste
+* Login: admin@local.test
+* Senha: Admin@123
 
 # Documentação
 
