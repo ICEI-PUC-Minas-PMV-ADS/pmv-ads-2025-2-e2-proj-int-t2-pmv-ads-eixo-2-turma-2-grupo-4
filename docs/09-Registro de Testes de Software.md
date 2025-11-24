@@ -7,6 +7,10 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 | **Caso de Teste** 	| **CT01 – Cadastrar Novo Usuário** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-001 - O sistema deve permitir que um novo usuário realize um cadastro pessoal na plataforma. |
+
+https://github.com/user-attachments/assets/cc295382-8750-4e4b-8182-61ca423b4043
+
+
 |Registro de evidência | AccountController.Register realiza cadastro com validação de campos (Nome, Email, Senha, TipoUsuario), atribui roles automaticamente (Professor/Comum), e redireciona para Home após sucesso. |
 
 | **Caso de Teste** 	| **CT02 – Efetuar Login** 	|
