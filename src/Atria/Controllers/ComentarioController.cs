@@ -87,17 +87,73 @@ namespace Atria.Controllers
                 _context.Add(comentario);
                 await _context.SaveChangesAsync();
 
+                // NOVO: Criar notificação
+                var postagem = await _context.Postagens
+                    .Include(p => p.Usuario)
+                    .FirstOrDefaultAsync(p => p.Id == comentario.FKPostagem);
+
+                if (postagem != null)
+                {
+                    var usuario = await _context.Users.FindAsync(userId);
+
+                    // Se for resposta a um comentário
+                    if (comentario.FKComentarioPai.HasValue)
+                    {
+                        var comentarioPai = await _context.Comentarios
+                            .Include(c => c.Usuario)
+                            .FirstOrDefaultAsync(c => c.Id == comentario.FKComentarioPai);
+
+                        if (comentarioPai != null && comentarioPai.FKUsuario != userId)
+                        {
+                            var notificacao = new Notificacao
+                            {
+                                FKUsuario = comentarioPai.FKUsuario,
+                                Titulo = "Nova resposta",
+                                Mensagem = $"{usuario?.Nome ?? "Alguém"} respondeu ao seu comentário",
+                                Tipo = "RESPOSTA",
+                                Link = $"/Postagens/Details/{postagem.Id}",
+                                Icone = "bi-reply-fill",
+                                Cor = "text-success",
+                                Lida = false,
+                                DataCriacao = DateTime.UtcNow
+                            };
+
+                            _context.Notificacoes.Add(notificacao);
+                        }
+                    }
+                    // Se for comentário direto na postagem
+                    else if (postagem.FKUsuario != userId)
+                    {
+                        var notificacao = new Notificacao
+                        {
+                            FKUsuario = postagem.FKUsuario,
+                            Titulo = "Novo comentário",
+                            Mensagem = $"{usuario?.Nome ?? "Alguém"} comentou em sua postagem \"{postagem.Titulo.Substring(0, Math.Min(50, postagem.Titulo.Length))}...\"",
+                            Tipo = "COMENTARIO",
+                            Link = $"/Postagens/Details/{postagem.Id}",
+                            Icone = "bi-chat-dots-fill",
+                            Cor = "text-primary",
+                            Lida = false,
+                            DataCriacao = DateTime.UtcNow
+                        };
+
+                        _context.Notificacoes.Add(notificacao);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
                 TempData["SuccessMessage"] = comentario.FKComentarioPai.HasValue 
-  ? "Resposta adicionada com sucesso!" 
-        : "Comentário adicionado com sucesso!";
+                    ? "Resposta adicionada com sucesso!" 
+                    : "Comentário adicionado com sucesso!";
     
-      return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
-   }
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
             catch (Exception ex)
- {
+            {
                 TempData["ErrorMessage"] = $"Erro ao salvar comentário: {ex.Message}";
-            return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
-          }
+                return RedirectToAction("Details", "Postagens", new { id = comentario.FKPostagem });
+            }
         }
 
       public async Task<IActionResult> Edit(int? id)

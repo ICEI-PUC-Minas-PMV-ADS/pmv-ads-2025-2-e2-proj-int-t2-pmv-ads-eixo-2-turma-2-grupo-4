@@ -85,10 +85,18 @@
                                     <p class="card-text text-secondary text-truncate">@item.Conteudo</p>
                                 </a>
                             </div>
-                            <div class="card-footer bg-white border-top-0 pt-0 d-flex gap-3">
-                                <span class="text-muted small"><i class="bi bi-chat-dots me-1"></i> @(item.Comentarios?.Count ?? 0) comentários</span>
-                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" asp-route-returnUrl="@($"/Comunidades/Details/{Model.Id}")" class="text-muted small text-decoration-none">
-                                    <i class="bi bi-eye me-1"></i> Ver detalhes
+                            <div class="card-footer bg-white border-top-0 pt-0 d-flex gap-3 flex-wrap">
+                                <span class="text-muted small d-flex align-items-center gap-1" style="cursor: default;" title="Comentários">
+                                    <i class="bi bi-chat-dots"></i> @(item.Comentarios?.Count ?? 0) comentário@((item.Comentarios?.Count ?? 0) != 1 ? "s" : "")
+                                </span>
+                                <span class="text-muted small d-flex align-items-center gap-1" style="cursor: default;" title="Visualizações">
+                                    <i class="bi bi-eye"></i> @(item.Visualizacoes?.Count ?? 0) visualizaç@((item.Visualizacoes?.Count ?? 0) != 1 ? "ões" : "ão")
+                                </span>
+                                <span class="text-muted small d-flex align-items-center gap-1" style="cursor: default;" title="Curtidas">
+                                    <i class="bi bi-heart"></i> @(item.Curtidas?.Count ?? 0) curtida@((item.Curtidas?.Count ?? 0) != 1 ? "s" : "")
+                                </span>
+                                <a asp-controller="Postagens" asp-action="Details" asp-route-id="@item.Id" asp-route-returnUrl="@($"/Comunidades/Details/{Model.Id}")" class="text-primary small text-decoration-none ms-auto">
+                                    <i class="bi bi-arrow-right-circle me-1"></i> Ver detalhes
                                 </a>
                             </div>
                         </div>
@@ -190,5 +198,17 @@
             opacity: 1;
             transform: translateY(0);
         }
+    }
+
+    /* Garantir que os ícones de stats não sejam clicáveis */
+    .card-footer span[style*="cursor: default"] {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* Hover apenas no card, não nos stats */
+    .card:hover {
+        box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1) !important;
+        transition: box-shadow 0.2s ease;
     }
 </style>

@@ -113,6 +113,17 @@
        <i class="bi bi-chat-dots me-1"></i>
     <span class="fw-semibold">@totalComentarios</span> comentário@(totalComentarios != 1 ? "s" : "")
          </span>
+         <span class="postagem-stat text-muted" title="Visualizações">
+             <i class="bi bi-eye me-1"></i>
+             <span class="fw-semibold" id="visualizacoes-count">@Model.TotalVisualizacoes</span> visualizaç@(Model.TotalVisualizacoes != 1 ? "ões" : "ão")
+         </span>
+         <button class="btn btn-sm btn-outline-danger curtir-postagem-btn" 
+                 data-postagem-id="@Model.Id"
+                 data-curtido="false"
+                 title="Curtir">
+             <i class="bi bi-heart me-1"></i>
+             <span class="curtidas-count">@Model.TotalCurtidas</span>
+         </button>
     </div>
          <div class="text-muted small">
             <i class="bi bi-info-circle me-1"></i>
@@ -302,48 +313,135 @@ transform: none;
 
   // NOVO: Sistema de curtidas com AJAX
     document.addEventListener('DOMContentLoaded', function() {
+        // Curtir comentários
         document.querySelectorAll('.curtir-btn').forEach(btn => {
-          btn.addEventListener('click', async function() {
-    const comentarioId = this.getAttribute('data-comentario-id');
-     const countSpan = this.querySelector('.curtidas-count');
-       const icon = this.querySelector('i');
-        
-    try {
-  const response = await fetch(`/CurtidaComentario/Toggle`, {
-       method: 'POST',
-     headers: {
-     'Content-Type': 'application/json'
-         },
-     body: JSON.stringify({ comentarioId: parseInt(comentarioId) })
-    });
+            const comentarioId = btn.getAttribute('data-comentario-id');
+            
+            // Verificar status inicial
+            fetch(`/CurtidaComentario/GetStatus?comentarioId=${comentarioId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const countSpan = btn.querySelector('.curtidas-count');
+                    const icon = btn.querySelector('i');
+                    
+                    // Atualizar contador
+                    countSpan.textContent = data.totalCurtidas;
+                    
+                    // Atualizar visual se já curtiu
+                    if (data.curtido) {
+                        btn.classList.remove('btn-outline-primary');
+                        btn.classList.add('btn-primary');
+                        icon.classList.remove('bi-hand-thumbs-up');
+                        icon.classList.add('bi-hand-thumbs-up-fill');
+                        btn.setAttribute('data-curtido', 'true');
+                    }
+                })
+                .catch(err => console.error('Erro ao verificar status da curtida:', err));
 
- if (response.ok) {
-     const data = await response.json();
+            // Evento de clique
+            btn.addEventListener('click', async function() {
+                const countSpan = this.querySelector('.curtidas-count');
+                const icon = this.querySelector('i');
+        
+                try {
+                    const response = await fetch(`/CurtidaComentario/Toggle`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ comentarioId: parseInt(comentarioId) })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
   
-            // Atualizar contador
-    countSpan.textContent = data.totalCurtidas;
+                        // Atualizar contador
+                        countSpan.textContent = data.totalCurtidas;
              
-      // Atualizar visual do botão
-  if (data.curtido) {
-    this.classList.remove('btn-outline-primary');
-            this.classList.add('btn-primary');
-     icon.classList.remove('bi-hand-thumbs-up');
-      icon.classList.add('bi-hand-thumbs-up-fill');
-       } else {
-    this.classList.remove('btn-primary');
-        this.classList.add('btn-outline-primary');
-     icon.classList.remove('bi-hand-thumbs-up-fill');
-          icon.classList.add('bi-hand-thumbs-up');
-    }
-  } else {
-      console.error('Erro na resposta:', response.status);
-    alert('Erro ao processar curtida. Tente novamente.');
-     }
-    } catch (error) {
-    console.error('Erro ao curtir:', error);
-            alert('Erro de conexão. Verifique sua internet.');
-      }
-});
+                        // Atualizar visual do botão
+                        if (data.curtido) {
+                            this.classList.remove('btn-outline-primary');
+                            this.classList.add('btn-primary');
+                            icon.classList.remove('bi-hand-thumbs-up');
+                            icon.classList.add('bi-hand-thumbs-up-fill');
+                        } else {
+                            this.classList.remove('btn-primary');
+                            this.classList.add('btn-outline-primary');
+                            icon.classList.remove('bi-hand-thumbs-up-fill');
+                            icon.classList.add('bi-hand-thumbs-up');
+                        }
+                    } else {
+                        console.error('Erro na resposta:', response.status);
+                        alert('Erro ao processar curtida. Tente novamente.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao curtir:', error);
+                    alert('Erro de conexão. Verifique sua internet.');
+                }
+            });
         });
+
+        // NOVO: Curtir postagem
+        const btnCurtirPostagem = document.querySelector('.curtir-postagem-btn');
+        if (btnCurtirPostagem) {
+            // Verificar status inicial
+            const postagemId = btnCurtirPostagem.getAttribute('data-postagem-id');
+            fetch(`/CurtidaPostagem/GetStatus?postagemId=${postagemId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.curtido) {
+                        btnCurtirPostagem.classList.remove('btn-outline-danger');
+                        btnCurtirPostagem.classList.add('btn-danger');
+                        btnCurtirPostagem.querySelector('i').classList.remove('bi-heart');
+                        btnCurtirPostagem.querySelector('i').classList.add('bi-heart-fill');
+                        btnCurtirPostagem.setAttribute('data-curtido', 'true');
+                    }
+                })
+                .catch(err => console.error('Erro ao verificar status:', err));
+
+            btnCurtirPostagem.addEventListener('click', async function() {
+                const postagemId = this.getAttribute('data-postagem-id');
+                const countSpan = this.querySelector('.curtidas-count');
+                const icon = this.querySelector('i');
+
+                try {
+                    const response = await fetch('/CurtidaPostagem/Toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ postagemId: parseInt(postagemId) })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        // Atualizar contador
+                        countSpan.textContent = data.totalCurtidas;
+
+                        // Atualizar visual do botão
+                        if (data.curtido) {
+                            this.classList.remove('btn-outline-danger');
+                            this.classList.add('btn-danger');
+                            icon.classList.remove('bi-heart');
+                            icon.classList.add('bi-heart-fill');
+                            this.setAttribute('data-curtido', 'true');
+                        } else {
+                            this.classList.remove('btn-danger');
+                            this.classList.add('btn-outline-danger');
+                            icon.classList.remove('bi-heart-fill');
+                            icon.classList.add('bi-heart');
+                            this.setAttribute('data-curtido', 'false');
+                        }
+                    } else {
+                        console.error('Erro na resposta:', response.status);
+                        alert('Erro ao processar curtida. Tente novamente.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao curtir postagem:', error);
+                    alert('Erro de conexão. Verifique sua internet.');
+                }
+            });
+        }
     });
 </script>

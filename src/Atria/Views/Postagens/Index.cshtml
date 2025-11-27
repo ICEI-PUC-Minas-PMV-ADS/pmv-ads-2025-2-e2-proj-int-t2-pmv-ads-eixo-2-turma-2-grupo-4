@@ -82,10 +82,13 @@ foreach (var p in Model)
                          data-comunidade="@(p.FKComunidade?.ToString() ?? "geral")"
                          data-data="@p.DataPostagem.Ticks"
                          data-postagem-id="@p.Id"
-                         data-url="/Postagens/Details/@p.Id?returnUrl=%2FPostagens">
+                         data-comentarios="@(p.Comentarios?.Count ?? 0)"
+                         data-visualizacoes="@(p.Visualizacoes?.Count ?? 0)"
+                         data-curtidas="@(p.Curtidas?.Count ?? 0)"
+                         data-popularidade="@((p.Visualizacoes?.Count ?? 0) + ((p.Comentarios?.Count ?? 0) * 2) + ((p.Curtidas?.Count ?? 0) * 3))">
 
                         <!-- Conteúdo (Estilo Reddit - Compacto) -->
-                        <div class="p-3">
+                        <div class="p-3 postagem-clickable" style="cursor: pointer;">
                             <!-- Meta Info (Linha única) -->
                             <div class="d-flex align-items-center gap-2 text-muted small mb-2">
                                 <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
@@ -126,19 +129,19 @@ foreach (var p in Model)
   }
                             </p>
 
-                            <!-- Stats (Estilo Reddit - Horizontal) -->
+                            <!-- Stats (Estilo Reddit - Horizontal) - Apenas visualização -->
                             <div class="postagens-stats d-flex gap-3">
-                                <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Visualizações">
-                                    <i class="bi bi-eye"></i>
-                                    <span class="visualizacoes-count fw-semibold" data-id="@p.Id">0</span>
-                                </span>
                                 <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Comentários">
                                     <i class="bi bi-chat-dots"></i>
-                                    <span class="comentarios-count fw-semibold" data-id="@p.Id">0</span>
+                                    <span class="comentarios-count fw-semibold">@(p.Comentarios?.Count ?? 0)</span>
+                                </span>
+                                <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Visualizações">
+                                    <i class="bi bi-eye"></i>
+                                    <span class="visualizacoes-count fw-semibold">@(p.Visualizacoes?.Count ?? 0)</span>
                                 </span>
                                 <span class="postagem-stat text-muted small d-flex align-items-center gap-1" title="Curtidas">
                                     <i class="bi bi-heart"></i>
-                                    <span class="curtidas-count fw-semibold" data-id="@p.Id">0</span>
+                                    <span class="curtidas-count fw-semibold">@(p.Curtidas?.Count ?? 0)</span>
                                 </span>
                             </div>
                         </div>
@@ -162,62 +165,6 @@ foreach (var p in Model)
 
     @section Scripts {
         <script>
-            // ===== UTILITÁRIOS LOCALSTORAGE =====
-            class PostagensStorage {
-                static getComentarios(postagemId) {
-                    const key = `comentarios_${postagemId}`;
-                    const data = localStorage.getItem(key);
-                    return data ? JSON.parse(data) : [];
-                }
-
-                static getVisualizacoes(postagemId) {
-                    const key = `visualizacoes_${postagemId}`;
-                    return parseInt(localStorage.getItem(key) || '0');
-                }
-
-                static getCurtidas() {
-                    const data = localStorage.getItem('curtidas');
-                    return data ? JSON.parse(data) : {};
-                }
-            }
-
-            // ===== ATUALIZAR CONTADORES =====
-            function atualizarContadores() {
-                document.querySelectorAll('.postagem-card').forEach(card => {
-                    const postagemId = card.dataset.postagemId;
-
-                    // Visualizações
-                    const vizSpan = card.querySelector('.visualizacoes-count');
-                    if (vizSpan) {
-                        vizSpan.textContent = PostagensStorage.getVisualizacoes(postagemId);
-                    }
-
-                    // Comentários
-                    const comSpan = card.querySelector('.comentarios-count');
-                    if (comSpan) {
-                        const comentarios = PostagensStorage.getComentarios(postagemId);
-                        comSpan.textContent = comentarios.length;
-                        card.dataset.comentarios = comentarios.length;
-                    }
-
-                    // Curtidas
-                    const curtSpan = card.querySelector('.curtidas-count');
-                    if (curtSpan) {
-                        const curtidas = PostagensStorage.getCurtidas();
-                        const count = Object.values(curtidas).filter(Boolean).length;
-                        curtSpan.textContent = count;
-                        card.dataset.curtidas = count;
-                    }
-
-                    // Popularidade (viz + com * 2 + curtidas * 3)
-                    const popularidade =
-                        PostagensStorage.getVisualizacoes(postagemId) +
-                        (PostagensStorage.getComentarios(postagemId).length * 2) +
-                        (PostagensStorage.getCurtidas()[postagemId] ? 3 : 0);
-                    card.dataset.popularidade = popularidade;
-                });
-            }
-
             // ===== FILTROS E ORDENAÇÃO =====
             document.addEventListener('DOMContentLoaded', function () {
                 const searchInput = document.getElementById('searchInput');
@@ -225,9 +172,6 @@ foreach (var p in Model)
                 const filterOrdenacao = document.getElementById('filterOrdenacao');
                 const clearFilters = document.getElementById('clearFilters');
                 const postagens = document.querySelectorAll('.postagem-card');
-
-                // Atualizar contadores ao carregar
-                atualizarContadores();
 
                 function aplicarFiltros() {
                     const searchTerm = searchInput.value.toLowerCase();
@@ -285,14 +229,41 @@ foreach (var p in Model)
                     ordenarPostagens();
                 });
 
-                // Ativar navegação ao clicar nos cards
-                document.querySelectorAll('.postagem-card').forEach(card => {
-                    const url = card.getAttribute('data-url');
-
-                    card.addEventListener('click', function () {
-                        window.location.href = url;
+                // Ativar navegação ao clicar apenas no conteúdo
+                document.querySelectorAll('.postagem-clickable').forEach(content => {
+                    content.addEventListener('click', function (e) {
+                        const card = this.closest('.postagem-card');
+                        const postagemId = card.getAttribute('data-postagem-id');
+                        window.location.href = `/Postagens/Details/${postagemId}?returnUrl=%2FPostagens`;
                     });
                 });
             });
         </script>
+
+        <style>
+            /* Remover hover effect dos ícones de stats */
+            .postagem-stat {
+                cursor: default !important;
+                pointer-events: none;
+            }
+
+            .postagem-stat i {
+                pointer-events: none;
+            }
+
+            /* Manter cursor pointer apenas no card clicável */
+            .postagem-clickable {
+                cursor: pointer;
+            }
+
+            .postagem-clickable:hover {
+                background-color: rgba(0, 0, 0, 0.02);
+                transition: background-color 0.2s ease;
+            }
+
+            /* Garantir que os stats não interfiram com o clique */
+            .postagens-stats {
+                pointer-events: none;
+            }
+        </style>
     }

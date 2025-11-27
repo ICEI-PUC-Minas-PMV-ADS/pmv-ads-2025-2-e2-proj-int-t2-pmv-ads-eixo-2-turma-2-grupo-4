@@ -34,6 +34,10 @@ namespace Atria.Controllers
                     .ThenInclude(p => p.Usuario)
                 .Include(c => c.Postagens!)
                     .ThenInclude(p => p.Comentarios)
+                .Include(c => c.Postagens!)
+                    .ThenInclude(p => p.Curtidas)
+                .Include(c => c.Postagens!)
+                    .ThenInclude(p => p.Visualizacoes)
                 .Include(c => c.GruposEstudo)
                 .FirstOrDefaultAsync(c => c.Id == id);
 

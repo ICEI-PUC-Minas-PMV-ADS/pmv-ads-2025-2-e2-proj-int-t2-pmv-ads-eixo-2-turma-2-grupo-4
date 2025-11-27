@@ -26,6 +26,8 @@ namespace Atria.Controllers
                 .Include(p => p.GrupoEstudo)
                 .Include(p => p.Comentarios!)             // <--- MUDANÇA AQUI
                 .ThenInclude(c => c.Usuario)          // <--- ADICIONE ISSO (Para ver quem comentou)
+                .Include(p => p.Curtidas)
+                .Include(p => p.Visualizacoes)
                 .Where(p => p.NoForumGeral == true || (p.FKComunidade == 0 && p.FKGrupo == 0))
                 .OrderByDescending(p => p.DataPostagem)
                 .ToListAsync();

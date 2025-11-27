@@ -27,6 +27,9 @@ namespace Atria.Controllers
                     .Include(p => p.Usuario)
                     .Include(p => p.Comunidade)
                     .Include(p => p.GrupoEstudo)
+                    .Include(p => p.Comentarios)
+                    .Include(p => p.Curtidas)
+                    .Include(p => p.Visualizacoes)
                     .Where(p => p.Titulo != null && p.Conteudo != null)
                     .OrderByDescending(p => p.DataPostagem)
                     .ToListAsync();
@@ -59,6 +62,9 @@ namespace Atria.Controllers
 
             try
             {
+                // Registrar visualização ANTES de carregar a postagem
+                await RegistrarVisualizacao(id.Value);
+
                 var postagem = await _context.Postagens
                     .Include(p => p.Usuario)
                     .Include(p => p.Comunidade)
@@ -66,8 +72,15 @@ namespace Atria.Controllers
                     .Include(p => p.Comentarios!)
                         .ThenInclude(c => c.Usuario)
                     .Include(p => p.Comentarios!)
+                        .ThenInclude(c => c.Curtidas)
+                    .Include(p => p.Comentarios!)
                         .ThenInclude(c => c.Respostas!)
                             .ThenInclude(r => r.Usuario)
+                    .Include(p => p.Comentarios!)
+                        .ThenInclude(c => c.Respostas!)
+                            .ThenInclude(r => r.Curtidas)
+                    .Include(p => p.Curtidas)
+                    .Include(p => p.Visualizacoes)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (postagem == null)
@@ -330,6 +343,65 @@ namespace Atria.Controllers
         private bool PostagemExists(int id)
         {
             return _context.Postagens.Any(e => e.Id == id);
+        }
+
+        // Método auxiliar para registrar visualização
+        private async Task RegistrarVisualizacao(int postagemId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int? userId = null;
+                if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out int parsedUserId))
+                {
+                    userId = parsedUserId;
+                }
+
+                var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+                // Verificar se já existe visualização do mesmo usuário nas últimas 24h
+                // OU do mesmo IP (apenas se não houver usuário logado) nas últimas 24h
+                IQueryable<VisualizacaoPostagem> query = _context.VisualizacoesPostagem
+                    .Where(v => v.FKPostagem == postagemId)
+                    .Where(v => v.DataVisualizacao > DateTime.UtcNow.AddHours(-24));
+
+                VisualizacaoPostagem? visualizacaoExistente = null;
+
+                if (userId.HasValue)
+                {
+                    // Se usuário está logado, verifica apenas por ID do usuário
+                    visualizacaoExistente = await query
+                        .Where(v => v.FKUsuario == userId)
+                        .FirstOrDefaultAsync();
+                }
+                else if (!string.IsNullOrEmpty(ipAddress))
+                {
+                    // Se usuário não está logado, verifica por IP
+                    visualizacaoExistente = await query
+                        .Where(v => v.FKUsuario == null && v.IpAddress == ipAddress)
+                        .FirstOrDefaultAsync();
+                }
+
+                if (visualizacaoExistente == null)
+                {
+                    var visualizacao = new VisualizacaoPostagem
+                    {
+                        FKPostagem = postagemId,
+                        FKUsuario = userId,
+                        IpAddress = ipAddress,
+                        DataVisualizacao = DateTime.UtcNow
+                    };
+
+                    _context.VisualizacoesPostagem.Add(visualizacao);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log do erro mas não interrompe a execução
+                var logger = HttpContext.RequestServices.GetService<ILogger<PostagensController>>();
+                logger?.LogWarning(ex, "Erro ao registrar visualização da postagem {PostagemId}", postagemId);
+            }
         }
     }
 }

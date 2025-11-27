@@ -23,6 +23,9 @@ namespace Atria.Data
         public DbSet<ComentarioAvaliacao> ComentariosAvaliacao { get; set; } // ? NOVO
         public DbSet<CurtidaComentario> CurtidasComentario { get; set; } // NOVO
         public DbSet<CurtidaComentarioAvaliacao> CurtidasComentarioAvaliacao { get; set; } // NOVO
+        public DbSet<CurtidaPostagem> CurtidasPostagem { get; set; } // NOVO
+        public DbSet<VisualizacaoPostagem> VisualizacoesPostagem { get; set; } // NOVO
+        public DbSet<Notificacao> Notificacoes { get; set; } // NOVO
 
         // Tabelas N:M representadas como entidades
         public DbSet<UsuarioComunidade> UsuariosComunidade { get; set; }
@@ -414,33 +417,82 @@ namespace Atria.Data
                 b.HasIndex(c => new { c.FKUsuario, c.FKComentarioAvaliacao }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_COMENTARIO_AVALIACAO");
     });
 
-            // N:M Mensagem
-   builder.Entity<Mensagem>(b =>
-   {
-       b.ToTable("TB_MENSAGEM");
-       b.HasKey(m => m.Id).HasName("PK_TB_MENSAGEM");
+            // NOVO: CurtidaPostagem mapping
+            builder.Entity<CurtidaPostagem>(b =>
+            {
+                b.ToTable("TB_CURTIDA_POSTAGEM");
+                b.HasKey(c => c.Id).HasName("PK_TB_CURTIDA_POSTAGEM");
+                b.Property(c => c.Id).HasColumnName("ID_CURTIDA");
+                b.Property(c => c.FKPostagem).HasColumnName("FK_POSTAGEM");
+                b.Property(c => c.FKUsuario).HasColumnName("FK_USUARIO");
+                b.Property(c => c.DataCurtida).HasColumnName("DATA_CURTIDA");
+                b.Property(c => c.Tipo).HasColumnName("TIPO").HasMaxLength(10);
 
-       // Configuração: Quem enviou
-       b.HasOne(m => m.Remetente)
-           .WithMany() // Usuário pode enviar muitas mensagens
-           .HasForeignKey(m => m.FKRemetente)
-           .HasConstraintName("FK_MENSAGEM_REMETENTE")
-           .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict para não quebrar o banco
+                b.HasOne(c => c.Postagem)
+                    .WithMany(p => p.Curtidas)
+                    .HasForeignKey(c => c.FKPostagem)
+                    .HasConstraintName("FK_CURTIDA_POSTAGEM")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-       // Configuração: Chat de Grupo
-       b.HasOne(m => m.GrupoEstudo)
-           .WithMany(g => g.Mensagens) // Já vamos adicionar essa lista no GrupoEstudo
-           .HasForeignKey(m => m.FKGrupo)
-           .HasConstraintName("FK_MENSAGEM_GRUPO")
-           .OnDelete(DeleteBehavior.Cascade); // Se apagar o grupo, apaga as mensagens dele
+                b.HasOne(c => c.Usuario)
+                    .WithMany()
+                    .HasForeignKey(c => c.FKUsuario)
+                    .HasConstraintName("FK_CURTIDA_POSTAGEM_USUARIO")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-       // Configuração: Direct Message (DM)
-       b.HasOne(m => m.Destinatario)
-           .WithMany()
-           .HasForeignKey(m => m.FKDestinatario)
-           .HasConstraintName("FK_MENSAGEM_DESTINATARIO")
-           .OnDelete(DeleteBehavior.Restrict); // IMPORTANTE: Restrict também
-   });
+                // Regra: Um usuário só pode curtir uma postagem uma vez
+                b.HasIndex(c => new { c.FKUsuario, c.FKPostagem }).IsUnique().HasDatabaseName("UX_CURTIDA_USUARIO_POSTAGEM");
+            });
+
+            // NOVO: VisualizacaoPostagem mapping
+            builder.Entity<VisualizacaoPostagem>(b =>
+            {
+                b.ToTable("TB_VISUALIZACAO_POSTAGEM");
+                b.HasKey(v => v.Id).HasName("PK_TB_VISUALIZACAO_POSTAGEM");
+                b.Property(v => v.Id).HasColumnName("ID_VISUALIZACAO");
+                b.Property(v => v.FKPostagem).HasColumnName("FK_POSTAGEM");
+                b.Property(v => v.FKUsuario).HasColumnName("FK_USUARIO");
+                b.Property(v => v.DataVisualizacao).HasColumnName("DATA_VISUALIZACAO");
+                b.Property(v => v.IpAddress).HasColumnName("IP_ADDRESS").HasMaxLength(45);
+
+                b.HasOne(v => v.Postagem)
+                    .WithMany(p => p.Visualizacoes)
+                    .HasForeignKey(v => v.FKPostagem)
+                    .HasConstraintName("FK_VISUALIZACAO_POSTAGEM")
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(v => v.Usuario)
+                    .WithMany()
+                    .HasForeignKey(v => v.FKUsuario)
+                    .HasConstraintName("FK_VISUALIZACAO_USUARIO")
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // NOVO: Notificacao mapping
+            builder.Entity<Notificacao>(b =>
+            {
+                b.ToTable("TB_NOTIFICACAO");
+                b.HasKey(n => n.Id).HasName("PK_TB_NOTIFICACAO");
+                b.Property(n => n.Id).HasColumnName("ID_NOTIFICACAO");
+                b.Property(n => n.FKUsuario).HasColumnName("FK_USUARIO");
+                b.Property(n => n.Titulo).HasColumnName("TITULO").HasMaxLength(200).IsRequired();
+                b.Property(n => n.Mensagem).HasColumnName("MENSAGEM").HasMaxLength(500).IsRequired();
+                b.Property(n => n.Tipo).HasColumnName("TIPO").HasMaxLength(50);
+                b.Property(n => n.Link).HasColumnName("LINK").HasMaxLength(500);
+                b.Property(n => n.Icone).HasColumnName("ICONE").HasMaxLength(50);
+                b.Property(n => n.Cor).HasColumnName("COR").HasMaxLength(50);
+                b.Property(n => n.Lida).HasColumnName("LIDA");
+                b.Property(n => n.DataCriacao).HasColumnName("DATA_CRIACAO");
+
+                b.HasOne(n => n.Usuario)
+                    .WithMany()
+                    .HasForeignKey(n => n.FKUsuario)
+                    .HasConstraintName("FK_NOTIFICACAO_USUARIO")
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasIndex(n => new { n.FKUsuario, n.Lida, n.DataCriacao })
+                    .HasDatabaseName("IX_NOTIFICACAO_USUARIO_LIDA_DATA");
+            });
         }
     }
 }

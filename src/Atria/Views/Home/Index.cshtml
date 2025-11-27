@@ -104,9 +104,14 @@
                                 <span class="fw-semibold">@qtdComentarios</span>
                             </button>
 
-                            <span class="text-muted small d-flex align-items-center gap-1 px-2">
+                            <span class="text-muted small d-flex align-items-center gap-1 px-2" style="cursor: default; pointer-events: none;" title="Visualizações">
+                                <i class="bi bi-eye"></i>
+                                <span class="fw-semibold">@(post.Visualizacoes?.Count ?? 0)</span>
+                            </span>
+
+                            <span class="text-muted small d-flex align-items-center gap-1 px-2" style="cursor: default; pointer-events: none;" title="Curtidas">
                                 <i class="bi bi-heart"></i>
-                                <span class="fw-semibold">-</span>
+                                <span class="fw-semibold">@(post.Curtidas?.Count ?? 0)</span>
                             </span>
                         </div>
 

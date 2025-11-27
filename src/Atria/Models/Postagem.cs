@@ -43,6 +43,22 @@ namespace Atria.Models
         // Coleção de comentários associados à postagem
         public ICollection<Comentario>? Comentarios { get; set; }
 
+        // NOVO: Sistema de curtidas
+        public ICollection<CurtidaPostagem> Curtidas { get; set; } = new List<CurtidaPostagem>();
+
+        // NOVO: Sistema de visualizações
+        public ICollection<VisualizacaoPostagem> Visualizacoes { get; set; } = new List<VisualizacaoPostagem>();
+
+        // Propriedades calculadas para contadores
+        [NotMapped]
+        public int TotalCurtidas => Curtidas?.Count ?? 0;
+
+        [NotMapped]
+        public int TotalVisualizacoes => Visualizacoes?.Count ?? 0;
+
+        [NotMapped]
+        public int TotalComentarios => Comentarios?.Count ?? 0;
+
         // Define se a postagem deve ser visível na aba geral.
         // Regras: se ambos FKComunidade e FKGrupo forem nulos, vazios (não aplicável a int) ou zero => verdadeiro.
         // Caso contrário => falso.
