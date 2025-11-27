@@ -1,5 +1,6 @@
 using Atria.Data;
 using Atria.Models;
+using Atria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace Atria.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly INotificacaoService _notificacaoService;
 
-        public ChatController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ChatController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, INotificacaoService notificacaoService)
         {
             _context = context;
             _userManager = userManager;
+            _notificacaoService = notificacaoService;
         }
 
         // GET: Chat/Privado?userId=5
@@ -57,14 +60,17 @@ namespace Atria.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            // CORREÇÃO 1: Verifica se o ID é nulo antes de converter
+            // Verifica se o ID é nulo antes de converter
             var userIdString = _userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userIdString)) return Challenge();
 
             var userId = int.Parse(userIdString);
 
+            // Buscar apenas mensagens privadas (onde FKDestinatario não é null e FKGrupo é null)
             var mensagens = await _context.Mensagens
-                .Where(m => (m.FKRemetente == userId || m.FKDestinatario == userId) && m.FKGrupo == null)
+                .Where(m => (m.FKRemetente == userId || m.FKDestinatario == userId) 
+                       && m.FKGrupo == null 
+                       && m.FKDestinatario != null)
                 .Include(m => m.Remetente)
                 .Include(m => m.Destinatario)
                 .OrderByDescending(m => m.DataEnvio)
@@ -72,21 +78,74 @@ namespace Atria.Controllers
 
             var conversas = mensagens
                 .GroupBy(m => m.FKRemetente == userId ? m.FKDestinatario : m.FKRemetente)
+                .Where(g => g.Key.HasValue) // Garantir que o outro usuário existe
                 .Select(g => {
                     var ultimaMsg = g.First();
                     var outroUsuario = ultimaMsg.FKRemetente == userId ? ultimaMsg.Destinatario : ultimaMsg.Remetente;
 
                     return new InboxItemViewModel
                     {
-                        // CORREÇÃO 2: Aceita que pode ser nulo ou usa null-forgiving (!) se tiver certeza
                         Usuario = outroUsuario,
                         UltimaMensagem = ultimaMsg.Conteudo,
                         DataUltimaMensagem = ultimaMsg.DataEnvio
                     };
                 })
+                .Where(c => c.Usuario != null) // Filtrar conversas sem usuário
+                .OrderByDescending(c => c.DataUltimaMensagem)
                 .ToList();
 
             return View(conversas);
         }
+
+        // POST: Chat/EnviarMensagem
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> EnviarMensagem([FromBody] EnviarMensagemRequest request)
+        {
+            var meuUser = await _userManager.GetUserAsync(User);
+            if (meuUser == null)
+            {
+                return Json(new { success = false, message = "Usuário não autenticado" });
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Conteudo))
+            {
+                return Json(new { success = false, message = "Mensagem vazia" });
+            }
+
+            try
+            {
+                var mensagem = new Mensagem
+                {
+                    Conteudo = request.Conteudo.Trim(),
+                    FKRemetente = meuUser.Id,
+                    FKDestinatario = request.UsuarioId,
+                    DataEnvio = DateTime.UtcNow
+                };
+
+                _context.Mensagens.Add(mensagem);
+                await _context.SaveChangesAsync();
+
+                // Criar notificação para o destinatário
+                await _notificacaoService.CriarNotificacaoMensagemPrivada(meuUser.Id, request.UsuarioId, mensagem.Id);
+
+                return Json(new { success = true, mensagem = new {
+                    mensagem.Id,
+                    mensagem.Conteudo,
+                    mensagem.DataEnvio,
+                    Remetente = new { meuUser.Id, meuUser.Nome }
+                }});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Erro ao enviar mensagem: {ex.Message}" });
+            }
+        }
+    }
+
+    public class EnviarMensagemRequest
+    {
+        public int UsuarioId { get; set; }
+        public string Conteudo { get; set; } = string.Empty;
     }
 }

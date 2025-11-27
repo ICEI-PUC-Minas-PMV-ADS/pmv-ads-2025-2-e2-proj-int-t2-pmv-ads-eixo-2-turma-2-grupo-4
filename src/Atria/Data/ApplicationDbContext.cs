@@ -32,7 +32,7 @@ namespace Atria.Data
         public DbSet<ListaTemMaterial> ListaTemMateriais { get; set; }
         public DbSet<UsuarioGrupo> UsuariosGrupo { get; set; }
         public DbSet<Mensagem> Mensagens { get; set; }
-
+        public DbSet<Seguidor> Seguidores { get; set; } // NOVO
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -492,6 +492,32 @@ namespace Atria.Data
 
                 b.HasIndex(n => new { n.FKUsuario, n.Lida, n.DataCriacao })
                     .HasDatabaseName("IX_NOTIFICACAO_USUARIO_LIDA_DATA");
+            });
+
+            // NOVO: Seguidor mapping (relacionamento N:M entre usuários)
+            builder.Entity<Seguidor>(b =>
+            {
+                b.ToTable("TB_SEGUIDOR");
+                b.HasKey("FKSeguidor", "FKSeguido").HasName("PK_TB_SEGUIDOR");
+                b.Property(s => s.FKSeguidor).HasColumnName("FK_SEGUIDOR");
+                b.Property(s => s.FKSeguido).HasColumnName("FK_SEGUIDO");
+                b.Property(s => s.DataInicio).HasColumnName("DATA_INICIO");
+
+                b.HasOne(s => s.UsuarioSeguidor)
+                    .WithMany(u => u.Seguindo)
+                    .HasForeignKey(s => s.FKSeguidor)
+                    .HasConstraintName("FK_SEGUIDOR_USUARIO_SEGUIDOR")
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                b.HasOne(s => s.UsuarioSeguido)
+                    .WithMany(u => u.Seguidores)
+                    .HasForeignKey(s => s.FKSeguido)
+                    .HasConstraintName("FK_SEGUIDOR_USUARIO_SEGUIDO")
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Índice para otimizar consultas de seguidores
+                b.HasIndex(s => s.FKSeguido).HasDatabaseName("IX_SEGUIDOR_SEGUIDO");
+                b.HasIndex(s => s.FKSeguidor).HasDatabaseName("IX_SEGUIDOR_SEGUIDOR");
             });
         }
     }

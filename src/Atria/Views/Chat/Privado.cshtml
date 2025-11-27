@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <a asp-controller="Profile" asp-action="Visualizar" asp-route-id="@Model.UsuarioDestino.Id" class="btn btn-sm btn-outline-secondary">
+            <a asp-controller="Profile" asp-action="Index" asp-route-id="@Model.UsuarioDestino.Id" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-person-badge"></i> Ver Perfil
             </a>
         </div>
@@ -66,11 +66,8 @@
         </div>
 
         <div class="card-footer bg-white p-3 border-top">
-            <form asp-controller="Mensagens" asp-action="Enviar" method="post" class="d-flex gap-2" autocomplete="off">
-
-                <input type="hidden" name="destinatarioId" value="@Model.UsuarioDestino.Id" />
-
-                <input type="text" name="conteudo" class="form-control bg-light"
+            <form id="form-enviar-mensagem" class="d-flex gap-2" autocomplete="off">
+                <input type="text" id="input-mensagem" class="form-control bg-light"
                        placeholder="Escreva uma mensagem..." required autofocus />
 
                 <button type="submit" class="btn btn-primary px-4" style="background-color: #6f42c1; border-color: #6f42c1;">
@@ -82,9 +79,80 @@
 </div>
 
 <script>
+    const usuarioId = @Model.UsuarioDestino.Id;
+    const currentUserId = @currentUserId;
+    
     // Rolar para o fim
-    window.onload = function() {
+    function scrollToBottom() {
         var chat = document.getElementById("chat-direct-scroll");
         if(chat) chat.scrollTop = chat.scrollHeight;
+    }
+
+    window.onload = scrollToBottom;
+
+    // Enviar mensagem via AJAX
+    document.getElementById('form-enviar-mensagem').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const input = document.getElementById('input-mensagem');
+        const conteudo = input.value.trim();
+        
+        if (!conteudo) return;
+        
+        try {
+            const response = await fetch('/Chat/EnviarMensagem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    usuarioId: usuarioId,
+                    conteudo: conteudo
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Adicionar mensagem na tela
+                const chatContainer = document.getElementById('chat-direct-scroll');
+                const novaMensagem = criarElementoMensagem(conteudo, true);
+                chatContainer.appendChild(novaMensagem);
+                
+                // Limpar input e rolar para o fim
+                input.value = '';
+                scrollToBottom();
+            } else {
+                alert(data.message || 'Erro ao enviar mensagem');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao enviar mensagem');
+        }
+    });
+    
+    function criarElementoMensagem(conteudo, souEu) {
+        const div = document.createElement('div');
+        div.className = `d-flex mb-3 ${souEu ? 'justify-content-end' : 'justify-content-start'}`;
+        
+        const now = new Date();
+        const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        
+        div.innerHTML = `
+            <div style="max-width: 75%;">
+                <div class="p-3 px-4 rounded-3 shadow-sm text-break"
+                     style="background-color: ${souEu ? '#6f42c1' : '#ffffff'};
+                            color: ${souEu ? '#fff' : '#212529'};
+                            border-bottom-right-radius: ${souEu ? '0' : '1rem'};
+                            border-bottom-left-radius: ${!souEu ? '0' : '1rem'};">
+                    ${conteudo}
+                </div>
+                <div class="text-muted mt-1 ${souEu ? 'text-end' : 'text-start'}" style="font-size: 0.7rem;">
+                    ${hora}
+                </div>
+            </div>
+        `;
+        
+        return div;
     }
 </script>

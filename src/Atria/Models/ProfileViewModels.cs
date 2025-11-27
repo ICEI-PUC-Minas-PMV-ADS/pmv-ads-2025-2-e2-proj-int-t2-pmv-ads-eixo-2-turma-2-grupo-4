@@ -41,5 +41,7 @@ namespace Atria.Models
         public string? Projetos { get; set; }
         public string? TipoUsuario { get; set; }
         public DateTime DataCadastro { get; set; }
+        public int NumeroSeguidores { get; set; }
+        public int NumeroSeguindo { get; set; }
     }
 }

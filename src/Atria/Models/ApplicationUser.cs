@@ -44,5 +44,16 @@ namespace Atria.Models
         [Column("PROJETOS")]
         [MaxLength(1000)]
         public string? Projetos { get; set; }
+
+        // Propriedades de navegação para seguidores (não mapeadas como colunas)
+        [NotMapped]
+        public int NumeroSeguidores => Seguidores?.Count ?? 0;
+
+        [NotMapped]
+        public int NumeroSeguindo => Seguindo?.Count ?? 0;
+
+        // Coleções de navegação (opcional - apenas se precisar carregar via EF)
+        public virtual ICollection<Seguidor>? Seguidores { get; set; } // Pessoas que seguem este usuário
+        public virtual ICollection<Seguidor>? Seguindo { get; set; } // Pessoas que este usuário segue
     }
 }

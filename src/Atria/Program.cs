@@ -1,5 +1,6 @@
 using Atria.Data;
 using Atria.Models;
+using Atria.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromHours(24);
     options.SlidingExpiration = true;
 });
+
+// Registrar serviço de notificações
+builder.Services.AddScoped<INotificacaoService, NotificacaoService>();
 
 builder.Services.AddControllersWithViews();
 

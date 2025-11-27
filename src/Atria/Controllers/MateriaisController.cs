@@ -1,5 +1,6 @@
 using Atria.Data;
 using Atria.Models;
+using Atria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ namespace Atria.Controllers
     public class MateriaisController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotificacaoService _notificacaoService;
 
-        public MateriaisController(ApplicationDbContext context)
+        public MateriaisController(ApplicationDbContext context, INotificacaoService notificacaoService)
         {
             _context = context;
+            _notificacaoService = notificacaoService;
         }
 
         [AllowAnonymous]
@@ -158,6 +161,9 @@ namespace Atria.Controllers
                     var materialOriginal = await _context.Materiais.FindAsync(id);
                     if (materialOriginal == null) return NotFound();
 
+                    // Capturar o status anterior para verificar mudanças
+                    var statusAnterior = materialOriginal.Status;
+
                     // Preservar campos que não devem ser editados
                     materialOriginal.Titulo = material.Titulo;
                     materialOriginal.Descricao = material.Descricao;
@@ -166,6 +172,13 @@ namespace Atria.Controllers
 
                     _context.Update(materialOriginal);
                     await _context.SaveChangesAsync();
+
+                    // Se o status mudou para Aprovado ou Rejeitado, criar notificação
+                    if (statusAnterior != material.Status && 
+                        (material.Status == "Aprovado" || material.Status == "Rejeitado"))
+                    {
+                        await _notificacaoService.CriarNotificacaoMaterialAvaliado(id, material.Status);
+                    }
                      
                     TempData["SuccessMessage"] = "Material atualizado com sucesso!";
                     return RedirectToAction(nameof(Index));

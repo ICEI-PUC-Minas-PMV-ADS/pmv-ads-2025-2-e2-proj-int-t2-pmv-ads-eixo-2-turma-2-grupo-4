@@ -7,3 +7,11 @@
 [Bb]in/
 /src/atria/data/Migrations/
 /src/Atria/Migrations
+/src/Atria/.vs
+
+/src/Atria/Properties
+/src/Atria/CORRECAO_CHAT_NOTIFICACOES.md
+/src/Atria/CORRECAO_ERRO_PERFIL.md
+/src/Atria/GUIA_USO_NOTIFICACOES_SEGUIDORES.md
+/src/Atria/IMPLEMENTACAO_NOTIFICACOES_SEGUIDORES.md
+/src/Atria/Atria.csproj.user

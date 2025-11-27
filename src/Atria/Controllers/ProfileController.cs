@@ -1,3 +1,4 @@
+using Atria.Data;
 using Atria.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,24 +12,45 @@ namespace Atria.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<ProfileController> _logger;
+        private readonly ApplicationDbContext _context;
 
         public ProfileController(
             UserManager<ApplicationUser> userManager,
-            ILogger<ProfileController> logger)
+            ILogger<ProfileController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _logger = logger;
+            _context = context;
         }
 
         // GET: Profile/Index (Meu Perfil)
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            ApplicationUser? user;
+            bool souEu = false;
+
+            if (id.HasValue)
             {
-                return NotFound();
+                // Visualizando perfil de outro usuário
+                user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id.Value);
+                if (user == null) return NotFound();
+
+                var meuUser = await _userManager.GetUserAsync(User);
+                souEu = meuUser != null && meuUser.Id == id.Value;
             }
+            else
+            {
+                // Visualizando meu próprio perfil
+                user = await _userManager.GetUserAsync(User);
+                if (user == null) return NotFound();
+                souEu = true;
+            }
+
+            // Contar seguidores e seguindo
+            var numeroSeguidores = await _context.Seguidores.CountAsync(s => s.FKSeguido == user.Id);
+            var numeroSeguindo = await _context.Seguidores.CountAsync(s => s.FKSeguidor == user.Id);
 
             var model = new ViewProfileViewModel
             {
@@ -39,8 +61,12 @@ namespace Atria.Controllers
                 TrilhaConhecimento = user.TrilhaConhecimento,
                 Projetos = user.Projetos,
                 TipoUsuario = user.TipoUsuario,
-                DataCadastro = user.DataCadastro
+                DataCadastro = user.DataCadastro,
+                NumeroSeguidores = numeroSeguidores,
+                NumeroSeguindo = numeroSeguindo
             };
+
+            ViewBag.SouEu = souEu;
 
             return View(model);
         }
@@ -64,34 +90,11 @@ namespace Atria.Controllers
             return View(usuarios);
         }
 
-        // GET: Profile/Visualizar/5
+        // GET: Profile/Visualizar/5 (Deprecated - redireciona para Index)
         [HttpGet]
-        public async Task<IActionResult> Visualizar(int id)
+        public IActionResult Visualizar(int id)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null) return NotFound();
-
-            var meuUser = await _userManager.GetUserAsync(User);
-            bool souEu = meuUser != null && meuUser.Id == id;
-
-            if (souEu) return RedirectToAction(nameof(Index));
-
-            var model = new ViewProfileViewModel
-            {
-                Id = user.Id,
-                Nome = user.Nome,
-                Email = user.Email ?? string.Empty,
-                AreaEstudo = user.AreaEstudo,
-                TrilhaConhecimento = user.TrilhaConhecimento,
-                Projetos = user.Projetos,
-                TipoUsuario = user.TipoUsuario,
-                DataCadastro = user.DataCadastro
-            };
-
-            ViewBag.SouEu = souEu;
-
-            return View(model);
+            return RedirectToAction(nameof(Index), new { id });
         }
 
         // GET: Profile/Edit
